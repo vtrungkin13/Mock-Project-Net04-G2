@@ -1,0 +1,6 @@
+@MockNet04G2.Api_HostAddress = http://localhost:5221
+
+GET {{MockNet04G2.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
