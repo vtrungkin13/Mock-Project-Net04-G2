@@ -22,7 +22,13 @@ namespace MockNet04G2.Core.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword("Admin@123");
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().HasData(
+                new User{ Id = 1 ,Name = "Admin", Email = "Admin@gmail.com", Password = hashedPassword, Phone = "0375769058", Dob = new DateTime(2002,01,11), Role = Common.Enums.RoleEnum.Admin }
+            );
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -41,5 +47,7 @@ namespace MockNet04G2.Core.Data
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
+
+
     }
 }

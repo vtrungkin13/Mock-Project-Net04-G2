@@ -12,7 +12,7 @@ namespace MockNet04G2.Core.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly MockDbContext _context;
-        private readonly DbSet<T> _entities;
+        protected readonly DbSet<T> _entities;
 
         public GenericRepository(MockDbContext context)
         {
