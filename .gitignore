@@ -45,6 +45,7 @@ packages/
 node_modules/
 
 # Ignore Secrets
+appsettings.json
 appsettings.Development.json
 
 # ASP.NET Scaffolding
@@ -77,29 +78,3 @@ coverage/
 # VS Code directories
 .vscode/
 .history/
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/apphost.exe
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.AssemblyInfo.cs
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.AssemblyInfoInputs.cache
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.csproj.AssemblyReference.cache
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.dll
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.pdb
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/MockNet04G2.Api.sourcelink.json
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/ref/MockNet04G2.Api.dll
-BE/MockNet04G2/MockNet04G2.Api/obj/Debug/net8.0/refint/MockNet04G2.Api.dll
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.AssemblyInfo.cs
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.AssemblyInfoInputs.cache
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.csproj.AssemblyReference.cache
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.csproj.CoreCompileInputs.cache
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.dll
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.pdb
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/MockNet04G2.Business.sourcelink.json
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/ref/MockNet04G2.Business.dll
-BE/MockNet04G2/MockNet04G2.Business/obj/Debug/net8.0/refint/MockNet04G2.Business.dll
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.AssemblyInfo.cs
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.AssemblyInfoInputs.cache
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.csproj.CoreCompileInputs.cache
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.dll
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.pdb
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/MockNet04G2.Core.sourcelink.json
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/ref/MockNet04G2.Core.dll
-BE/MockNet04G2/MockNet04G2.Core/obj/Debug/net8.0/refint/MockNet04G2.Core.dll
