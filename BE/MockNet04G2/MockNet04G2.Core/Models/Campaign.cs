@@ -39,6 +39,12 @@ namespace MockNet04G2.Core.Models
 
         public StatusEnum Status { get; set; }
 
+        [StringLength(255)]
+        public string OrganizationName { get; set; }
+
+        [StringLength(15)]
+        public string OrganizationPhone { get; set; }
+
         public string Code
         {
             get

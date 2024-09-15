@@ -9,5 +9,11 @@ namespace MockNet04G2.Core.Common.Messages
     public static class ErrorMessages
     {
         public const string UserNameOrPasswordWrong = "Tên đăng nhập hoặc mật khẩu sai";
+        public const string EmailAlreadyExists = "Email đã tồn tại!";
+        public const string PhonelAlreadyExists = "Số điện thoại đã tồn tại!";
+        public const string ConfirmPasswordDoesNotMatch = "Mật khẩu xác nhận không khớp";
+
+
+
     }
 }
