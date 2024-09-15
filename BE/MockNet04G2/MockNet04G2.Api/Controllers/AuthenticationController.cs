@@ -10,16 +10,25 @@ namespace MockNet04G2.Api.Controllers
     public class AuthenticationController : BaseController
     {
         private readonly LoginService _loginService;
+        private readonly RegisterService _registerService;
 
-        public AuthenticationController(LoginService loginService)
+        public AuthenticationController(LoginService loginService, RegisterService registerService)
         {
             _loginService = loginService;
+            _registerService = registerService;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
             var result = await _loginService.ExecuteAsync(request);
+            return HandleApiResponse(result);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAsync(RegisterRequest request)
+        {
+            var result = await _registerService.ExecuteAsync(request);
             return HandleApiResponse(result);
         }
     }

@@ -103,12 +103,16 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //service
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<RegisterService>();
+
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
+builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
+
 
 builder.Services.AddControllers();
 
