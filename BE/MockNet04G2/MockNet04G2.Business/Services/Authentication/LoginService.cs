@@ -52,6 +52,7 @@ namespace MockNet04G2.Business.Services.Authentication
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email ),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role == RoleEnum.Admin ? "Admin" : "User")
             };
 
             var descriptor = new SecurityTokenDescriptor

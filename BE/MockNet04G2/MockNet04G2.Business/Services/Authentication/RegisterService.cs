@@ -86,6 +86,7 @@ namespace MockNet04G2.Business.Services.Authentication
                 new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userId", newUser.Id.ToString()),
+                new Claim(ClaimTypes.Role, "User")
             };
 
             var descriptor = new SecurityTokenDescriptor
