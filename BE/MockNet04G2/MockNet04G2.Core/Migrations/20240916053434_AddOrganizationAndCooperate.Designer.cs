@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MockNet04G2.Core.Data;
 
@@ -11,9 +12,11 @@ using MockNet04G2.Core.Data;
 namespace MockNet04G2.Core.Migrations
 {
     [DbContext(typeof(MockDbContext))]
-    partial class MockDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916053434_AddOrganizationAndCooperate")]
+    partial class AddOrganizationAndCooperate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +56,16 @@ namespace MockNet04G2.Core.Migrations
 
                     b.Property<decimal>("Limitation")
                         .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("OrganizationPhone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -193,7 +206,7 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$luh8dwAggAjTxRptVAYxXu.kKEL9LQGjRFFcniziYEadfW6SsNqWq",
+                            Password = "$2a$11$Lx5fK6mmYKmYeMLLo.r6SODZwwNKzlR6v8AB9Jftri0Sq4GRcehHO",
                             Phone = "0375769058",
                             Role = 1
                         });

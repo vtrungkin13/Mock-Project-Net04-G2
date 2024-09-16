@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\Campaign\Requests\" />
     <Folder Include="DTOs\Users\Requests\" />
     <Folder Include="MappingProfiles\" />
-    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
