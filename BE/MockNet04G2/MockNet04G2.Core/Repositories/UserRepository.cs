@@ -32,5 +32,11 @@ namespace MockNet04G2.Core.Repositories
             var user = await _entities.SingleOrDefaultAsync(x => x.Email == email);
             return user;
         }
+
+        public async Task<List<User>> GetAllUserAsync()
+        {
+            var users = await _entities.ToListAsync();
+            return users;
+        }
     }
 }
