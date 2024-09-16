@@ -25,7 +25,9 @@
       <div class="d-flex">
         @if (!userRole) {
         <a class="btn btn-primary me-3" routerLink="/login">Đăng nhập</a>
-        <button class="btn btn-outline-primary" routerLink="/register">Đăng ký</button>
+        <button class="btn btn-outline-primary" routerLink="/register">
+          Đăng ký
+        </button>
         } @else {
         <div class="dropdown">
           <button
@@ -43,7 +45,7 @@
           >
             <li class="dropdown-item">Chỉnh sửa thông tin</li>
             <li class="dropdown-item">Đổi mật khẩu</li>
-            <li class="dropdown-item">Đăng xuất</li>
+            <li class="dropdown-item" (click)="logout()">Đăng xuất</li>
           </ul>
         </div>
         }

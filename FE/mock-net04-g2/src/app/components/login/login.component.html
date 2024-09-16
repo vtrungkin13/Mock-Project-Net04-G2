@@ -14,18 +14,20 @@
       >
         <h2 class="mb-3">Đăng nhập</h2>
         <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
+          <label for="emailOrPhone" class="form-label"
+            >Email hoặc số điện thoại</label
+          >
           <input
             type="email"
-            name="email"
-            id="email"
+            name="emailOrPhone"
+            id="emailOrPhone"
             class="form-control"
-            placeholder="Nhập email của bạn"
+            placeholder="Nhập email hoặc số điện thoại"
             required
             ngModel
-            #email="ngModel"
+            #emailOrPhone="ngModel"
           />
-          @if (email.invalid && loginForm.submitted) {
+          @if (emailOrPhone.invalid && loginForm.submitted) {
           <span class="text-danger">Bạn chưa nhập email!</span>
           }
         </div>
@@ -46,7 +48,7 @@
           }
         </div>
         @if (!isValidLoginData) {
-        <div class="text-danger mb-3">Email hoặc mật khẩu không chính xác!</div>
+        <div class="text-danger mb-3">{{ loginFailMessage }}</div>
         }
         <div class="d-flex justify-content-between mb-3">
           <div class="form-check">
