@@ -50,7 +50,6 @@ namespace MockNet04G2.Business.Services.Authentication
             var claim = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email ),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userId", user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role == RoleEnum.Admin ? "Admin" : "User")
             };
@@ -70,10 +69,12 @@ namespace MockNet04G2.Business.Services.Authentication
                 ExpireAt = descriptor.Expires.Value,
                 User = new UserDetailDto
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     Name = user.Name,
                     Phone = user.Phone,
-                    
+                    Dob = user.Dob,
+                    Role = user.Role
                 }
             };
 
