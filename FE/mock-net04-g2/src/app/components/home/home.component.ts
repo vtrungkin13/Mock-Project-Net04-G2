@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Campaign } from '../../models/Campaign';
 import { CampaignService } from '../../services/campaign-service/campaign.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,15 +13,18 @@ import { CampaignService } from '../../services/campaign-service/campaign.servic
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  campaigns!: Campaign[]
+  campaigns!: Campaign[];
 
-  constructor(private campaignService: CampaignService) {}
+  constructor(
+    private router: Router,
+    private campaignService: CampaignService
+  ) {}
 
   ngOnInit(): void {
     this.campaigns = this.campaignService.getAllCampaigns();
   }
 
-  redirectToCampaignDeital() {
-    console.log('Hello');
+  redirectToCampaignDeital(campaignId: number) {
+    this.router.navigateByUrl(`/campaign-detail/${campaignId}`);
   }
 }

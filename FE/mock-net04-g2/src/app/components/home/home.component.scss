@@ -22,12 +22,13 @@
       right: 0;
       bottom: 0;
       background: transparent;
+      border-radius: 8px;
       z-index: 1;
     }
 
     .campaign-item:hover::after {
       cursor: pointer;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     }
   }
 }
