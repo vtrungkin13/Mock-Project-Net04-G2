@@ -36,4 +36,11 @@ export const routes: Routes = [
         (module) => module.ChangePasswordComponent
       ),
   },
+  {
+    path: 'campaign-detail/:campaignId',
+    loadComponent: () =>
+      import('./components/campaigns/campaign-detail/campaign-detail.component').then(
+        (module) => module.CampaignDetailComponent
+      ),
+  },
 ];

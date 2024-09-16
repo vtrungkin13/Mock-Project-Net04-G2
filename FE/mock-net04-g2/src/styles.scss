@@ -88,3 +88,9 @@ $pink-shadow: rgba(253, 13, 181, 0.25);
 .bg-primary-light {
   background-color: #{$pink-50};
 }
+
+.dropdown-item:active {
+    color: white;
+    text-decoration: none;
+    background-color: #{$pink-500};
+}
