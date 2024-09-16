@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MockNet04G2.Business.DTOs.Authentication.Requests;
@@ -7,7 +8,6 @@ using MockNet04G2.Business.DTOs.Users.Responses;
 using MockNet04G2.Core.Common;
 using MockNet04G2.Core.Common.Enums;
 using MockNet04G2.Core.Common.Messages;
-using MockNet04G2.Core.Models;
 using MockNet04G2.Core.Repositories.Interfaces;
 using MockNet04G2.Core.UnitOfWork;
 using System;
@@ -65,12 +65,12 @@ namespace MockNet04G2.Business.Services.Authentication
                 return response;
             }
 
-            var newUser = new User
+            var newUser = new Core.Models.User
             {
                 Name = request.Name,
                 Email = request.Email,
                 Phone = request.Phone,
-                Dob = request.Dob,  
+                Dob = request.Dob,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Role = RoleEnum.User
             };
@@ -83,8 +83,7 @@ namespace MockNet04G2.Business.Services.Authentication
             var securityKey = Encoding.ASCII.GetBytes(_authOption.Value.Key);
             var claim = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),                
                 new Claim("userId", newUser.Id.ToString()),
                 new Claim(ClaimTypes.Role, "User")
             };

@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using MockNet04G2.Business.DTOs.Authentication.Requests;
 using MockNet04G2.Business.Services.Authentication;
 using MockNet04G2.Business.Services.Authentication.Validators;
+using MockNet04G2.Business.Services.User;
 using MockNet04G2.Core.Data;
 using MockNet04G2.Core.Repositories;
 using MockNet04G2.Core.Repositories.Interfaces;
@@ -104,6 +105,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //service
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RegisterService>();
+builder.Services.AddScoped<GetAllUserService>();
 
 
 // Repository

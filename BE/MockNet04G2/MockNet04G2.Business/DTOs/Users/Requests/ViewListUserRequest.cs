@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MockNet04G2.Business.DTOs.Users.Responses
+namespace MockNet04G2.Business.DTOs.Users.Requests
 {
-    public class UserDetailDto
+    public class ViewListUserRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public DateTime Dob {  get; set; }
+        public DateTime Dob { get; set; }
         public RoleEnum Role { get; set; }
     }
 }

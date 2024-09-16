@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Users\Requests\" />
-    <Folder Include="MappingProfiles\" />
     <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
