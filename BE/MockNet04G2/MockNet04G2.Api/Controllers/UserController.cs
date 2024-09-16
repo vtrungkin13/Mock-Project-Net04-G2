@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using MockNet04G2.Business.DTOs.Authentication.Responses;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Core.Common;
+using MockNet04G2.Core.Common.Enums;
 using MockNet04G2.Core.Repositories.Interfaces;
-
+using MockNet04G2.Core.Models;
+using MockNet04G2.Business.Services.Interfaces;
+using MockNet04G2.Business.Services;
 namespace MockNet04G2.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -13,10 +16,14 @@ namespace MockNet04G2.Api.Controllers
     public class UserController : BaseController
     {
         private readonly GetAllUserService _getAllUserService;
+        private readonly FindUserService _findUserService;
+        private readonly ChangeUserRoleService _changeUserRoleService;
 
-        public UserController(GetAllUserService getAllUserService)
+        public UserController(GetAllUserService getAllUserService, FindUserService findUserService, ChangeUserRoleService changeUserRoleService)
         {
             _getAllUserService = getAllUserService;
+            _findUserService = findUserService;
+            _changeUserRoleService = changeUserRoleService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -25,6 +32,21 @@ namespace MockNet04G2.Api.Controllers
         {
             var result = await _getAllUserService.ExecuteAsync();
             return Ok(result);
+        }
+
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetUserByName(string name)
+        {
+            var result = await _findUserService.ExecuteAsync(name);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}/role")]
+        public async Task<IActionResult> ChangeUserRole(int id, [FromBody] RoleEnum newRole)
+        {
+            var result = await _changeUserRoleService.ExecuteAsync(id, newRole);
+            return HandleApiResponse(result);
         }
     }
 }

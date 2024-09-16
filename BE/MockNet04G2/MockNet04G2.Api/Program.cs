@@ -107,6 +107,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<GetAllUserService>();
+builder.Services.AddScoped<FindUserService>();
+builder.Services.AddScoped<ChangeUserRoleService>();
 
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
