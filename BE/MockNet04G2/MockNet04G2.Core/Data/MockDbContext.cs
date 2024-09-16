@@ -16,6 +16,7 @@ namespace MockNet04G2.Core.Data
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Donate> Donates { get; set; }
 
+
         public MockDbContext() { }
 
         public MockDbContext(DbContextOptions options) : base(options) { }
