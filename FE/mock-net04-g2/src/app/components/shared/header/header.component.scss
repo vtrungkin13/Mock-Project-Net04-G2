@@ -1,0 +1,11 @@
+#header-wrapper {
+  nav {
+    height: 60px;
+    z-index: 100;
+    .dropdown-menu {
+        .dropdown-item:hover {
+            cursor: pointer;
+        }
+    }
+  }
+}

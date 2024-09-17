@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadComponent: () =>
+      import('./components/home/home.component').then(
+        (module) => module.HomeComponent
+      ),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./components/login/login.component').then(
@@ -27,6 +34,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/change-password/change-password.component').then(
         (module) => module.ChangePasswordComponent
+      ),
+  },
+  {
+    path: 'campaign-detail/:campaignId',
+    loadComponent: () =>
+      import('./components/campaigns/campaign-detail/campaign-detail.component').then(
+        (module) => module.CampaignDetailComponent
       ),
   },
 ];

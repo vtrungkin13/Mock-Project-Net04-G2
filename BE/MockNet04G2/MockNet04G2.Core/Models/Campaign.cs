@@ -51,5 +51,6 @@ namespace MockNet04G2.Core.Models
         public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<Donate> Donations { get; set; }
+        public virtual ICollection<Cooperate> Cooperations { get; set; }
     }
 }

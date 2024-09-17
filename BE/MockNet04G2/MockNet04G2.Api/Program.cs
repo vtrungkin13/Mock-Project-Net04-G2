@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using MockNet04G2.Business.DTOs.Authentication.Requests;
 using MockNet04G2.Business.Services.Authentication;
 using MockNet04G2.Business.Services.Authentication.Validators;
+using MockNet04G2.Business.Services.Campagin;
+using MockNet04G2.Business.Services.User;
 using MockNet04G2.Core.Data;
 using MockNet04G2.Core.Repositories;
 using MockNet04G2.Core.Repositories.Interfaces;
@@ -103,12 +105,21 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //service
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<RegisterService>();
+builder.Services.AddScoped<GetAllUserService>();
+
+builder.Services.AddScoped<GetAllCampaignsService>();
+builder.Services.AddScoped<GetCampaignByIdService>();
+builder.Services.AddScoped<FilterCampaignsByStatusService>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
+builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
+
 
 builder.Services.AddControllers();
 

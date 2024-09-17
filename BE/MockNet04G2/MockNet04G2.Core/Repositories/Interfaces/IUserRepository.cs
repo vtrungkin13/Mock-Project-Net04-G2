@@ -10,5 +10,8 @@ namespace MockNet04G2.Core.Repositories.Interfaces
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> FindUserByEmailorPhone(string emailOrPhone);
+        Task<User> FindUserByPhoneAsync(string phone);
+        Task<User> FindUserByEmailAsync(string email);
+        Task<List<User>> GetAllUserAsync();
     }
 }

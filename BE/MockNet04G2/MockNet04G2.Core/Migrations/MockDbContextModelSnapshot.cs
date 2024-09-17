@@ -70,6 +70,29 @@ namespace MockNet04G2.Core.Migrations
                     b.ToTable("Campaigns");
                 });
 
+            modelBuilder.Entity("MockNet04G2.Core.Models.Cooperate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CampaignId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Cooperate");
+                });
+
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
                 {
                     b.Property<int>("Id")
@@ -97,6 +120,34 @@ namespace MockNet04G2.Core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Donates");
+                });
+
+            modelBuilder.Entity("MockNet04G2.Core.Models.Organization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasMaxLength(3000)
+                        .HasColumnType("nvarchar(3000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organization");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
@@ -142,10 +193,29 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$K6Ha2QeXSlfSoBrzh5lA6e.FJJvTcN90EmLg8SxvrOGMQ0aN5gfi2",
+                            Password = "$2a$11$luh8dwAggAjTxRptVAYxXu.kKEL9LQGjRFFcniziYEadfW6SsNqWq",
                             Phone = "0375769058",
                             Role = 1
                         });
+                });
+
+            modelBuilder.Entity("MockNet04G2.Core.Models.Cooperate", b =>
+                {
+                    b.HasOne("MockNet04G2.Core.Models.Campaign", "Campaign")
+                        .WithMany("Cooperations")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MockNet04G2.Core.Models.Organization", "Organization")
+                        .WithMany("Cooperations")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
@@ -169,7 +239,14 @@ namespace MockNet04G2.Core.Migrations
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Campaign", b =>
                 {
+                    b.Navigation("Cooperations");
+
                     b.Navigation("Donations");
+                });
+
+            modelBuilder.Entity("MockNet04G2.Core.Models.Organization", b =>
+                {
+                    b.Navigation("Cooperations");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
