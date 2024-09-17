@@ -32,6 +32,30 @@ namespace MockNet04G2.Core.Data
             modelBuilder.Entity<User>().HasData(
                 new User{ Id = 1 ,Name = "Admin", Email = "Admin@gmail.com", Password = hashedPassword, Phone = "0375769058", Dob = new DateTime(2002,01,11), Role = Common.Enums.RoleEnum.Admin }
             );
+
+            modelBuilder.Entity<Organization>().HasData(
+               new Organization
+               {
+                   Id = 1,
+                   Name = "Organization A",
+                   Phone = "123-456-7890",
+                   Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s"
+               },
+               new Organization
+               {
+                   Id = 2,
+                   Name = "Organization B",
+                   Phone = "098-765-4321",
+                   Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s"
+               },
+               new Organization
+               {
+                   Id = 3,
+                   Name = "Organization C",
+                   Phone = "555-555-5555",
+                   Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s"
+               }
+             );
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -127,6 +127,8 @@ builder.Services.AddScoped<AddCampaignService>();
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<ICooperateRepository,CooperateRepository>();
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
