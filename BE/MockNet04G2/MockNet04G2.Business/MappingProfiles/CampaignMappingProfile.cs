@@ -34,6 +34,9 @@ namespace MockNet04G2.Business.MappingProfiles
             // Mapping Organization to CampaignByIdOrganizationDto
             CreateMap<Organization, CampaignByIdOrganizationDto>()
                 .ReverseMap();
+
+            CreateMap<Campaign, CampaignDetailReponse>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
         }
     }
 }
