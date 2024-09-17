@@ -31,9 +31,10 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var result = await _getAllUserService.ExecuteAsync();
-            return Ok(result);
+            return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{name}")]
         public async Task<IActionResult> GetUserByName(string name)
         {
