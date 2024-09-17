@@ -113,6 +113,7 @@ builder.Services.AddScoped<ChangeUserRoleService>();
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
 builder.Services.AddScoped<FilterCampaignsByStatusService>();
+builder.Services.AddScoped<CampaignsPagingService>();   
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();

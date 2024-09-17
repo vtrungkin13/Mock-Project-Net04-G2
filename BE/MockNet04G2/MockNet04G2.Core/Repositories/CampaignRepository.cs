@@ -17,24 +17,55 @@ namespace MockNet04G2.Core.Repositories
 
         public async Task<List<Campaign>> FilterCampaignsByStatusAsync(StatusEnum status)
         {
-           var campaigns = await _entities
-                .Include(c => c.Donations)
-                .Include(c => c.Cooperations).Where(c=>c.Status == status).ToListAsync();
+            var campaigns = await _entities
+                 .Include(c => c.Donations)
+                  .ThenInclude(u => u.User)
+                  .Include(c => c.Cooperations)
+                  .ThenInclude(o => o.Organization).Where(c => c.Status == status).ToListAsync();
             return campaigns;
         }
 
         public async Task<List<Campaign>> GetAllCampaignsAsync()
         {
             var campagins = await _entities
-                .Include(c=>c.Donations)
-                .Include(c=>c.Cooperations).ToListAsync();
+                .Include(c => c.Donations)
+                 .ThenInclude(u => u.User)
+                 .Include(c => c.Cooperations)
+                 .ThenInclude(o => o.Organization).ToListAsync();
             return campagins;
         }
 
         public async Task<Campaign> GetCampaignByIdAsync(int id)
         {
-            var campaign = await _entities.FindAsync(id);
+            var campaign = await _entities
+                 .Include(c => c.Donations)
+                 .ThenInclude(u => u.User)
+                 .Include(c => c.Cooperations)
+                 .ThenInclude(o => o.Organization)
+                 .FirstOrDefaultAsync(c => c.Id == id);
+
             return campaign;
         }
+
+        public async Task<List<Campaign>> CampaignPagingAsync(int page, int pageSize)
+        {
+            // Validate the page number and page size
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 9;
+
+            // Apply pagination logic using Skip and Take
+            var campaigns = await _entities
+                .Include(c => c.Donations)
+                .ThenInclude(d => d.User)
+                .Include(c => c.Cooperations)
+                .ThenInclude(co => co.Organization)
+                .OrderByDescending(c => c.CreatedAt) // sắp xếp theo createdAt
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return campaigns;
+        }
+
     }
 }
