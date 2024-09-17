@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Services\Interfaces\" />
     <Folder Include="DTOs\Campaign\Requests\" />
-    <Folder Include="MappingProfiles\" />
     <Folder Include="DTOs\Users\Requests\" />
   </ItemGroup>
 

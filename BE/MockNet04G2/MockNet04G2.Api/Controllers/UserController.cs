@@ -24,6 +24,7 @@ namespace MockNet04G2.Api.Controllers
         private readonly UsersPagingService _usersPagingService;
         private readonly CountUserService _countUserService;
 
+
         public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
             ChangeUserRoleService changeUserRoleService,
             ChangePasswordService changePasswordService, 
