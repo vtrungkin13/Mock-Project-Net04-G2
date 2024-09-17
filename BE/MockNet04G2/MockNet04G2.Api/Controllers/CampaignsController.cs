@@ -25,7 +25,7 @@ namespace MockNet04G2.Api.Controllers
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
             CampaignsPagingService campaignsPagingService,
-            GetTotalCampaignsService getTotalCampaignsService
+            GetTotalCampaignsService getTotalCampaignsService,
             AddCampaignService addCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
@@ -68,6 +68,7 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> TotalCampaignsCount()
         {
             var result = await _getTotalCampaignsService.ExecuteAsync();
+            return HandleApiResponse(result);
         }
         
         [Authorize(Roles = "Admin")]
