@@ -56,5 +56,21 @@ namespace MockNet04G2.Core.Repositories
             _context.Users.Attach(user);
             _context.Entry(user).Property(u=>u.Role).IsModified = true;
         }
+
+        public async Task<List<User>> UserPagingAsync(int page, int pageSize)
+        {
+            if (page <= 0) page = 1;
+            if (pageSize <= 0) pageSize = 9;
+            var users = await _entities
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync() ;
+            return users;
+        }
+
+        public async Task<int> TotalUserCountAsync()
+        {
+            return await _entities.CountAsync();
+        }
     }
 }

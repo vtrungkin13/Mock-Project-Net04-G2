@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MockNet04G2.Business.DTOs.Campaign.Requests;
+using MockNet04G2.Business.DTOs.Campaign.Responses;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services.User;
@@ -17,17 +20,20 @@ namespace MockNet04G2.Api.Controllers
         private readonly FilterCampaignsByStatusService _filterCampaignsByStatusService;
         private readonly CampaignsPagingService _campaignsPagingService;
         private readonly GetTotalCampaignsService _getTotalCampaignsService;
+        private readonly AddCampaignService _addCampaignService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
             CampaignsPagingService campaignsPagingService,
-            GetTotalCampaignsService getTotalCampaignsService)
+            GetTotalCampaignsService getTotalCampaignsService
+            AddCampaignService addCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
             _filterCampaignsByStatusService = filterCampaignsByStatusService;
             _campaignsPagingService = campaignsPagingService;
             _getTotalCampaignsService = getTotalCampaignsService;
+            _addCampaignService = addCampaignService;
         }
 
         [HttpGet]
@@ -62,6 +68,13 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> TotalCampaignsCount()
         {
             var result = await _getTotalCampaignsService.ExecuteAsync();
+        }
+        
+        [Authorize(Roles = "Admin")]
+        [HttpPost("Add-Campaign")]
+        public async Task<IActionResult> AddCampaignAsync(CampaignDetailRequest request)
+        {
+            var result = await _addCampaignService.ExecuteAsync(request);
             return HandleApiResponse(result);
         }
 
