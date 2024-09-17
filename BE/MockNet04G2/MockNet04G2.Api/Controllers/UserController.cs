@@ -9,6 +9,7 @@ using MockNet04G2.Core.Repositories.Interfaces;
 using MockNet04G2.Core.Models;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services;
+using MockNet04G2.Business.DTOs.Users.Requests;
 namespace MockNet04G2.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -18,12 +19,16 @@ namespace MockNet04G2.Api.Controllers
         private readonly GetAllUserService _getAllUserService;
         private readonly FindUserService _findUserService;
         private readonly ChangeUserRoleService _changeUserRoleService;
+        private readonly ChangePasswordService _changePasswordService;
 
-        public UserController(GetAllUserService getAllUserService, FindUserService findUserService, ChangeUserRoleService changeUserRoleService)
+        public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
+            ChangeUserRoleService changeUserRoleService,
+            ChangePasswordService changePasswordService)
         {
             _getAllUserService = getAllUserService;
             _findUserService = findUserService;
             _changeUserRoleService = changeUserRoleService;
+            _changePasswordService = changePasswordService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -47,6 +52,13 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> ChangeUserRole(int id, [FromBody] RoleEnum newRole)
         {
             var result = await _changeUserRoleService.ExecuteAsync(id, newRole);
+            return HandleApiResponse(result);
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request, int userId)
+        {
+            var result = await _changePasswordService.ExecuteAsync(request, userId);
             return HandleApiResponse(result);
         }
     }

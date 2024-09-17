@@ -13,9 +13,11 @@ namespace MockNet04G2.Core.Common.Messages
         public const string PhonelAlreadyExists = "Số điện thoại đã tồn tại!";
         public const string ConfirmPasswordDoesNotMatch = "Mật khẩu xác nhận không khớp";
         public const string ChangeRoleFailed = "Tài khoản này chưa được cập nhật quyền hạn!";
+        public const string CannotGetUser = "Không thể lấy được người dùng!";
+        public const string OldPasswordIsIncorrect = "Mật khẩu không đúng!";
+        public const string NewPasswordCanNotBeTheSameOldPassword = "Mật khẩu mới không được trùng với mật khẩu cũ!";
         public const string CampaginByIdNotFound = "Không tồn tại chiến dịch quyên góp với id này";
         public const string CannotGetUser = "Không thể lấy được người dùng";
-
 
     }
 }
