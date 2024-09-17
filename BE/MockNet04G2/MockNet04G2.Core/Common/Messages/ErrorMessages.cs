@@ -17,6 +17,7 @@ namespace MockNet04G2.Core.Common.Messages
         public const string OldPasswordIsIncorrect = "Mật khẩu không đúng!";
         public const string NewPasswordCanNotBeTheSameOldPassword = "Mật khẩu mới không được trùng với mật khẩu cũ!";
         public const string CampaginByIdNotFound = "Không tồn tại chiến dịch quyên góp với id này";
+        public const string UserListEmpty = "Không tồn tại người dùng!";
         public const string CannotAddCampaign = "Không thể thêm chiến dịch này!";
     }
 }

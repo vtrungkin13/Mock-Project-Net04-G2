@@ -21,16 +21,22 @@ namespace MockNet04G2.Api.Controllers
         private readonly FindUserService _findUserService;
         private readonly ChangeUserRoleService _changeUserRoleService;
         private readonly ChangePasswordService _changePasswordService;
+        private readonly UsersPagingService _usersPagingService;
+        private readonly CountUserService _countUserService;
 
 
         public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
             ChangeUserRoleService changeUserRoleService,
-            ChangePasswordService changePasswordService)
+            ChangePasswordService changePasswordService, 
+            UsersPagingService usersPagingService,
+            CountUserService countUserService)
         {
             _getAllUserService = getAllUserService;
             _findUserService = findUserService;
             _changeUserRoleService = changeUserRoleService;
             _changePasswordService = changePasswordService;
+            _usersPagingService = usersPagingService;
+            _countUserService = countUserService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -61,6 +67,20 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordRequest request, int userId)
         {
             var result = await _changePasswordService.ExecuteAsync(request, userId);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("Page/{page}")]
+        public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) 
+        {
+            var result = await _usersPagingService.ExecuteAsync(page, pageSize);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("Count")]
+        public async Task<IActionResult> CountUserAsync()
+        {
+            var result = await _countUserService.ExecuteAsync();
             return HandleApiResponse(result);
         }
     }
