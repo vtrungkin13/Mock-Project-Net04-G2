@@ -12,7 +12,7 @@ using MockNet04G2.Core.Data;
 namespace MockNet04G2.Core.Migrations
 {
     [DbContext(typeof(MockDbContext))]
-    [Migration("20240916053434_AddOrganizationAndCooperate")]
+    [Migration("20240917091742_AddOrganizationAndCooperate")]
     partial class AddOrganizationAndCooperate
     {
         /// <inheritdoc />
@@ -57,16 +57,6 @@ namespace MockNet04G2.Core.Migrations
                     b.Property<decimal>("Limitation")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("OrganizationName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("OrganizationPhone")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -103,7 +93,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Cooperate");
+                    b.ToTable("Cooperates");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
@@ -160,7 +150,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organization");
+                    b.ToTable("Organizations");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
@@ -206,7 +196,7 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$Lx5fK6mmYKmYeMLLo.r6SODZwwNKzlR6v8AB9Jftri0Sq4GRcehHO",
+                            Password = "$2a$11$x3bOGy7vBJH9kw3YR8LPZuJPcMtkyLlCV1jCEui8KD20DLlCjeZb6",
                             Phone = "0375769058",
                             Role = 1
                         });

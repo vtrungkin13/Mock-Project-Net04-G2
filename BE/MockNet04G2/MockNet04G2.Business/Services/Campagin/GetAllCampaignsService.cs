@@ -23,18 +23,18 @@ namespace MockNet04G2.Business.Services.Campagin
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<CampaignMappingProfile>();
+                cfg.AddProfile<CampaignDtoMappingProfile>();
             });
             _mapper = config.CreateMapper();
         }
 
-        public async Task<ApiResponse<List<CampaignByIdDto>, string>> ExecuteAsync()
+        public async Task<ApiResponse<List<CampaignResponseDto>, string>> ExecuteAsync()
         {
-            var response = new ApiResponse<List<CampaignByIdDto>, string>();
+            var response = new ApiResponse<List<CampaignResponseDto>, string>();
 
             var campaigns = await _campaignRepository.GetAllCampaignsAsync();
 
-            var campaignsDto = _mapper.Map<List<CampaignByIdDto>>(campaigns);
+            var campaignsDto = _mapper.Map<List<CampaignResponseDto>>(campaigns);
 
             response.Body = campaignsDto;
             response.Status = Core.Common.Enums.StatusResponseEnum.Success;

@@ -14,5 +14,6 @@ namespace MockNet04G2.Core.Repositories.Interfaces
         Task<List<Campaign>> FilterCampaignsByStatusAsync(StatusEnum status);
         Task<Campaign> GetCampaignByIdAsync(int id);
         Task<List<Campaign>> CampaignPagingAsync(int page, int pageSize);
+        Task<int> TotalCampaignsCountAsync();
     }
 }

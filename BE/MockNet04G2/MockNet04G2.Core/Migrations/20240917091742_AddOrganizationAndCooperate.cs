@@ -10,8 +10,16 @@ namespace MockNet04G2.Core.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "OrganizationName",
+                table: "Campaigns");
+
+            migrationBuilder.DropColumn(
+                name: "OrganizationPhone",
+                table: "Campaigns");
+
             migrationBuilder.CreateTable(
-                name: "Organization",
+                name: "Organizations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,11 +30,11 @@ namespace MockNet04G2.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Organization", x => x.Id);
+                    table.PrimaryKey("PK_Organizations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cooperate",
+                name: "Cooperates",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -36,17 +44,17 @@ namespace MockNet04G2.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cooperate", x => x.Id);
+                    table.PrimaryKey("PK_Cooperates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cooperate_Campaigns_CampaignId",
+                        name: "FK_Cooperates_Campaigns_CampaignId",
                         column: x => x.CampaignId,
                         principalTable: "Campaigns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cooperate_Organization_OrganizationId",
+                        name: "FK_Cooperates_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
-                        principalTable: "Organization",
+                        principalTable: "Organizations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -56,16 +64,16 @@ namespace MockNet04G2.Core.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "Password",
-                value: "$2a$11$Lx5fK6mmYKmYeMLLo.r6SODZwwNKzlR6v8AB9Jftri0Sq4GRcehHO");
+                value: "$2a$11$x3bOGy7vBJH9kw3YR8LPZuJPcMtkyLlCV1jCEui8KD20DLlCjeZb6");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cooperate_CampaignId",
-                table: "Cooperate",
+                name: "IX_Cooperates_CampaignId",
+                table: "Cooperates",
                 column: "CampaignId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cooperate_OrganizationId",
-                table: "Cooperate",
+                name: "IX_Cooperates_OrganizationId",
+                table: "Cooperates",
                 column: "OrganizationId");
         }
 
@@ -73,10 +81,26 @@ namespace MockNet04G2.Core.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cooperate");
+                name: "Cooperates");
 
             migrationBuilder.DropTable(
-                name: "Organization");
+                name: "Organizations");
+
+            migrationBuilder.AddColumn<string>(
+                name: "OrganizationName",
+                table: "Campaigns",
+                type: "nvarchar(255)",
+                maxLength: 255,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "OrganizationPhone",
+                table: "Campaigns",
+                type: "nvarchar(15)",
+                maxLength: 15,
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.UpdateData(
                 table: "Users",

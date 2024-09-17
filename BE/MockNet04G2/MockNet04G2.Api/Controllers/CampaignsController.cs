@@ -16,15 +16,18 @@ namespace MockNet04G2.Api.Controllers
         private readonly GetCampaignByIdService _getCampaignByIdService;
         private readonly FilterCampaignsByStatusService _filterCampaignsByStatusService;
         private readonly CampaignsPagingService _campaignsPagingService;
+        private readonly GetTotalCampaignsService _getTotalCampaignsService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
-            CampaignsPagingService campaignsPagingService)
+            CampaignsPagingService campaignsPagingService,
+            GetTotalCampaignsService getTotalCampaignsService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
             _filterCampaignsByStatusService = filterCampaignsByStatusService;
             _campaignsPagingService = campaignsPagingService;
+            _getTotalCampaignsService = getTotalCampaignsService;
         }
 
         [HttpGet]
@@ -52,6 +55,13 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) // tạm thời để mặc định 9 item 1 page 
         {
             var result = await _campaignsPagingService.ExecuteAsync(page,pageSize);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("TotalCampaignsCount")]
+        public async Task<IActionResult> TotalCampaignsCount()
+        {
+            var result = await _getTotalCampaignsService.ExecuteAsync();
             return HandleApiResponse(result);
         }
 

@@ -23,30 +23,30 @@ namespace MockNet04G2.Business.Services.Campagin
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<CampaignMappingProfile>();
+                cfg.AddProfile<CampaignDtoMappingProfile>();
             });
             _mapper = config.CreateMapper();
         }
 
-        public async Task<ApiResponse<CampaignByIdDto, string>> ExecuteAsync(int id)
+        public async Task<ApiResponse<CampaignResponseDto, string>> ExecuteAsync(int id)
         {
-            var apiResponse = new ApiResponse<CampaignByIdDto, string>();
+            var response = new ApiResponse<CampaignResponseDto, string>();
             var campaign = await _campaignRepository.GetCampaignByIdAsync(id);
 
             if (campaign == null)
             {
-                apiResponse.Error = ErrorMessages.CampaginByIdNotFound;
-                apiResponse.Status = Core.Common.Enums.StatusResponseEnum.NotFound;
+                response.Error = ErrorMessages.CampaginByIdNotFound;
+                response.Status = Core.Common.Enums.StatusResponseEnum.NotFound;
 
-                return apiResponse;
+                return response;
             }
 
-            var campaignDtos = _mapper.Map<CampaignByIdDto>(campaign);
+            var campaignDtos = _mapper.Map<CampaignResponseDto>(campaign);
 
-            apiResponse.Body = campaignDtos;
-            apiResponse.Status = Core.Common.Enums.StatusResponseEnum.Success;
+            response.Body = campaignDtos;
+            response.Status = Core.Common.Enums.StatusResponseEnum.Success;
 
-            return apiResponse;
+            return response;
         }
     }
 }
