@@ -16,5 +16,7 @@ namespace MockNet04G2.Core.Repositories.Interfaces
         Task<User> FindUserByIdAsync(int id);
         Task ChangeUserRoleAsync(User user);
         Task<List<User>> GetAllUserAsync();
+        Task<List<User>> UserPagingAsync(int page, int pageSize);
+        Task<int> TotalUserCountAsync();
     }
 }
