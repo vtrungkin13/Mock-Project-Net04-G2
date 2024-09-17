@@ -10,6 +10,7 @@ using MockNet04G2.Core.Models;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services;
 using MockNet04G2.Business.DTOs.Users.Requests;
+using MockNet04G2.Business.Services.Campagin;
 namespace MockNet04G2.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -20,6 +21,7 @@ namespace MockNet04G2.Api.Controllers
         private readonly FindUserService _findUserService;
         private readonly ChangeUserRoleService _changeUserRoleService;
         private readonly ChangePasswordService _changePasswordService;
+
 
         public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
             ChangeUserRoleService changeUserRoleService,

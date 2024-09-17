@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MockNet04G2.Business.DTOs.Campaign.Requests;
+using MockNet04G2.Business.DTOs.Campaign.Responses;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services.User;
@@ -16,15 +19,18 @@ namespace MockNet04G2.Api.Controllers
         private readonly GetCampaignByIdService _getCampaignByIdService;
         private readonly FilterCampaignsByStatusService _filterCampaignsByStatusService;
         private readonly CampaignsPagingService _campaignsPagingService;
+        private readonly AddCampaignService _addCampaignService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
-            CampaignsPagingService campaignsPagingService)
+            CampaignsPagingService campaignsPagingService,
+            AddCampaignService addCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
             _filterCampaignsByStatusService = filterCampaignsByStatusService;
             _campaignsPagingService = campaignsPagingService;
+            _addCampaignService = addCampaignService;
         }
 
         [HttpGet]
@@ -52,6 +58,14 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) // tạm thời để mặc định 9 item 1 page 
         {
             var result = await _campaignsPagingService.ExecuteAsync(page,pageSize);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("Add-Campaign")]
+        public async Task<IActionResult> AddCampaignAsync(CampaignDetailRequest request)
+        {
+            var result = await _addCampaignService.ExecuteAsync(request);
             return HandleApiResponse(result);
         }
 
