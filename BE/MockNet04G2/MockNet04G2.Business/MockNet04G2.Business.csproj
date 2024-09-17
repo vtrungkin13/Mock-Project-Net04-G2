@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\Cooperations\Requests\" />
+    <Folder Include="DTOs\Donations\Requests\" />
+    <Folder Include="DTOs\Organizations\Requests\" />
     <Folder Include="Services\Interfaces\" />
-    <Folder Include="DTOs\Campaign\Requests\" />
+    <Folder Include="DTOs\Campaigns\Requests\" />
     <Folder Include="DTOs\Users\Requests\" />
   </ItemGroup>
 

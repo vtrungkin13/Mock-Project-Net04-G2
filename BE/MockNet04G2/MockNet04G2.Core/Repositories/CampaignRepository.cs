@@ -67,5 +67,9 @@ namespace MockNet04G2.Core.Repositories
             return campaigns;
         }
 
+        public async Task<int> TotalCampaignsCountAsync()
+        {
+            return await _entities.CountAsync();
+        }
     }
 }

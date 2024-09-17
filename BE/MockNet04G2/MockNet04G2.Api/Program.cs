@@ -120,7 +120,8 @@ builder.Services.AddScoped<CountUserService>();
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
 builder.Services.AddScoped<FilterCampaignsByStatusService>();
-builder.Services.AddScoped<CampaignsPagingService>();
+builder.Services.AddScoped<CampaignsPagingService>();   
+builder.Services.AddScoped<GetTotalCampaignsService>();
 builder.Services.AddScoped<AddCampaignService>();
 
 // Repository

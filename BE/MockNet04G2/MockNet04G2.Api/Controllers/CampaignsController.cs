@@ -19,17 +19,20 @@ namespace MockNet04G2.Api.Controllers
         private readonly GetCampaignByIdService _getCampaignByIdService;
         private readonly FilterCampaignsByStatusService _filterCampaignsByStatusService;
         private readonly CampaignsPagingService _campaignsPagingService;
+        private readonly GetTotalCampaignsService _getTotalCampaignsService;
         private readonly AddCampaignService _addCampaignService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
             CampaignsPagingService campaignsPagingService,
+            GetTotalCampaignsService getTotalCampaignsService
             AddCampaignService addCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
             _filterCampaignsByStatusService = filterCampaignsByStatusService;
             _campaignsPagingService = campaignsPagingService;
+            _getTotalCampaignsService = getTotalCampaignsService;
             _addCampaignService = addCampaignService;
         }
 
@@ -61,6 +64,12 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [HttpGet("TotalCampaignsCount")]
+        public async Task<IActionResult> TotalCampaignsCount()
+        {
+            var result = await _getTotalCampaignsService.ExecuteAsync();
+        }
+        
         [Authorize(Roles = "Admin")]
         [HttpPost("Add-Campaign")]
         public async Task<IActionResult> AddCampaignAsync(CampaignDetailRequest request)
