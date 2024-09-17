@@ -38,7 +38,7 @@ namespace MockNet04G2.Business.Services.User
             if (userDetailDtos == null) 
             {
                 response.Error = ErrorMessages.CannotGetUser;
-                response.Status = StatusResponseEnum.BadRequest;
+                response.Status = StatusResponseEnum.NotFound;
                 return response;
             }
 
