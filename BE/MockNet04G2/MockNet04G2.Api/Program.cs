@@ -6,10 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MockNet04G2.Business.DTOs.Authentication.Requests;
+using MockNet04G2.Business.DTOs.Users.Requests;
 using MockNet04G2.Business.Services.Authentication;
 using MockNet04G2.Business.Services.Authentication.Validators;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.User;
+using MockNet04G2.Business.Services.User.Validators;
 using MockNet04G2.Core.Data;
 using MockNet04G2.Core.Repositories;
 using MockNet04G2.Core.Repositories.Interfaces;
@@ -109,6 +111,7 @@ builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<GetAllUserService>();
 builder.Services.AddScoped<FindUserService>();
 builder.Services.AddScoped<ChangeUserRoleService>();
+builder.Services.AddScoped<ChangePasswordService>();
 
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
@@ -122,6 +125,7 @@ builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
 builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
+builder.Services.AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordValidator>();
 
 
 builder.Services.AddControllers();
