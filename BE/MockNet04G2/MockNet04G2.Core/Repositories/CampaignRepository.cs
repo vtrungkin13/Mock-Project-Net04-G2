@@ -15,15 +15,25 @@ namespace MockNet04G2.Core.Repositories
     {
         public CampaignRepository(MockDbContext context) : base(context) { }
 
-        public async Task<List<Campaign>> FilterCampaignsByStatusAsync(StatusEnum status)
+        public async Task<List<Campaign>> FilterCampaignsByStatusAsync(StatusEnum status, int page, int pageSize)
         {
+            if (page < 1) page = 1; // Ensure the page number is at least 1
+            if (pageSize < 1) pageSize = 9; // Ensure the page size is at least 1
+
             var campaigns = await _entities
-                 .Include(c => c.Donations)
-                  .ThenInclude(u => u.User)
-                  .Include(c => c.Cooperations)
-                  .ThenInclude(o => o.Organization).Where(c => c.Status == status).ToListAsync();
+                .Include(c => c.Donations)
+                    .ThenInclude(u => u.User)
+                .Include(c => c.Cooperations)
+                    .ThenInclude(o => o.Organization)
+                .Where(c => c.Status == status)
+                .OrderByDescending(c => c.CreatedAt)
+                .Skip((page - 1) * pageSize) // Skip items for previous pages
+                .Take(pageSize) // Take the items for the current page
+                .ToListAsync();
+
             return campaigns;
         }
+
 
         public async Task<List<Campaign>> GetAllCampaignsAsync()
         {

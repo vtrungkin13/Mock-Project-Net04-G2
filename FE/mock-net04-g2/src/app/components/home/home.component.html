@@ -29,47 +29,51 @@
   <div id="campaigns-container" class="pt-5 container mb-5">
     <h2 class="text-primary text-center mb-3">Các hoàn cảnh quyên góp</h2>
     <div class="row">
-      @for (item of [].constructor(4); track $index) {
+      @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
         <div
           class="campaign-item border rounded-3 position-relative"
-          (click)="redirectToCampaignDeital(1)"
+          (click)="redirectToCampaignDeital(campaign.id)"
         >
           <img
             class="img-fluid"
-            src="https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240909173829-638615003093038331.jpg"
+            [src]="campaign.image"
             alt=""
           />
           <p class="fs-5 fw-bold p-3 m-0">
-            Hỗ trợ đồng bào bị ảnh hưởng bởi bão số 3
+            {{campaign.title}}
           </p>
           <div class="d-flex justify-content-between px-3 mb-3">
             <div>
-              <p class="m-0 small text-secondary">Đồng bào miền bắc</p>
-              <p class="m-0 small text-secondary">Liên hệ: 0123456789</p>
+              <p class="m-0 small text-secondary">
+                {{ campaign.cooperations.length > 0 ? campaign.cooperations[0].organization.name: 'No partner' }}
+              </p>
+              <p class="m-0 small text-secondary">
+                Liên hệ: {{ campaign.cooperations.length > 0 ? campaign.cooperations[0].organization.phone: 'No partner' }}
+              </p>
             </div>
-            <p class="campaign-time-remain px-2 py-1 rounded-5">Còn 23 Ngày</p>
+            <p class="campaign-time-remain px-2 py-1 rounded-5">Còn {{calculateRemainingDays(campaign)}} ngày</p>
           </div>
           <div class="px-3">
             <div class="mb-2">
-              <strong>5.089.267.286đ </strong>
-              <span class="small text-secondary">/ 7.000.000.000đ</span>
+              <strong>{{ calculateTotalAmount(campaign) | number }}đ </strong>
+              <span class="small text-secondary">/ {{campaign.limitation}}đ</span>
             </div>
             <div class="progress mb-3">
               <div
                 class="progress-bar bg-primary"
                 role="progressbar"
-                [ngStyle]="{ width: '72%' }"
+                [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
               ></div>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <div>
                 <p class="text-secondary small m-0">Lượt quyên góp</p>
-                <p class="small m-0 fw-bold">107.070</p>
+                <p class="small m-0 fw-bold">{{(campaign.donations || []).length}}</p>
               </div>
               <div>
                 <p class="text-secondary small m-0">Đạt được</p>
-                <p class="small m-0 fw-bold">72%</p>
+                <p class="small m-0 fw-bold">{{calculatePercentage(campaign)}}%</p>
               </div>
               <div class="my-auto z-2">
                 <button class="btn btn-outline-primary btn-sm small">

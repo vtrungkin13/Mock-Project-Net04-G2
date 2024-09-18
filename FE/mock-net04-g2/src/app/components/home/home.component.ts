@@ -14,6 +14,9 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   campaigns!: Campaign[];
+  totalCount: number = 0;
+  page: number = 1;
+  pageSize: number = 9; //để mặc định = 9
 
   constructor(
     private router: Router,
@@ -21,10 +24,65 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.campaigns = this.campaignService.getAllCampaigns();
+    this.getAllCampaigns();
+    this.getTotalCampaignCount();
   }
 
   redirectToCampaignDeital(campaignId: number) {
     this.router.navigateByUrl(`/campaign-detail/${campaignId}`);
   }
+
+  getAllCampaigns(){
+    this.campaignService.getAllCampaigns().subscribe({
+      next:(response) =>{
+        this.campaigns = response.body;
+        console.log(this.campaigns);
+      },
+      error:(error)=>{
+        alert(error.message);
+      }
+    })
+  }
+
+  getTotalCampaignCount(){
+    this.campaignService.getTotalCampaignCount().subscribe({
+      next:(response) =>{
+        this.totalCount = response.body;
+        console.log(this.campaigns);
+      },
+      error:(error)=>{
+        alert(error.message);
+      }
+    })
+  }
+
+  calculateTotalAmount(campaign:Campaign) : number{ // trả về tổng số tiền đã quyên góp đc 
+    return (campaign.donations || []).reduce((total: number, donate: any) => total + donate.amount, 0);
+  }
+
+  calculatePercentage(campaign: Campaign): number { // % quyên góp so vs mục tiêu
+    const totalAmount = this.calculateTotalAmount(campaign);
+    const targetAmount = campaign.limitation || 1; // tránh chia cho 0
+    return (totalAmount / targetAmount) * 100;
+  }
+
+  calculateRemainingDays(campaign:Campaign):number{
+    if (!campaign.endDate) { // tránh null
+      return 0;
+    }
+  
+    const today = new Date();
+    const endDate = new Date(campaign.endDate);
+  
+    // Calculate the difference in time
+    const timeDiff = endDate.getTime() - today.getTime();
+    
+    // Convert time difference from milliseconds to days
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+    return daysDiff >= 0 ? daysDiff : 0; // Ensure non-negative value
+  }
+
+  
+  
 }

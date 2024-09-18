@@ -50,16 +50,18 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
-        [HttpGet("{status}")]
-        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status)
+        [HttpGet("Status/{status}/{page}")]
+        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status,int page = 1) 
         {
-            var result = await _filterCampaignsByStatusService.ExecuteAsync(status);
+            int pageSize = 9;// tạm thời để mặc định pagesize = 9 
+            var result = await _filterCampaignsByStatusService.ExecuteAsync(status,page, pageSize);
             return HandleApiResponse(result);
         }
 
         [HttpGet("Page/{page}")]
-        public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) // tạm thời để mặc định 9 item 1 page 
+        public async Task<IActionResult> CampaignsPagingAsync(int page) 
         {
+            int pageSize = 9; // tạm thời để mặc định 9 item 1 page 
             var result = await _campaignsPagingService.ExecuteAsync(page,pageSize);
             return HandleApiResponse(result);
         }
