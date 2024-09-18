@@ -70,7 +70,7 @@ namespace MockNet04G2.Business.Services.Campagin
             
 
             //create a new campaign
-            var newCampaign = new Campaign
+            var newCampaign = new Core.Models.Campaign
             {
                 Title = request.Title,
                 Description = request.Description,

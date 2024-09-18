@@ -25,5 +25,9 @@ namespace MockNet04G2.Core.Common.Messages
         public const string PhoneDoesnotMatchName = "Số điện thoại không thuộc về tổ chức này!";
         public const string EmailDoesNotExists = "Email không tồn tại!";
         public const string CannotDeleteCampaign = "Không thể xoá chiến dịch này!";
+        public const string CannotUpdateCampaign = "Không thể thay đổi chiến dịch này!";
+        public const string InvalidId = "Id nhập vào không hợp lệ!";
+        public const string LimitationMustBeGreaterOrEqual = "Hạn mức tôi đa thay đổi phải lơn hơn hoặc bằng hạn mức ban đầu!";
+        public const string EndDatenMustBeGreaterOrEqual = "Ngày kết thúc đa thay đổi phải lơn hơn hoặc bằng ngày kết thúc ban đầu!";
     }
 }
