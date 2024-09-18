@@ -6,10 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MockNet04G2.Business.DTOs.Authentication.Requests;
+using MockNet04G2.Business.DTOs.Campaign.Requests;
+using MockNet04G2.Business.DTOs.Users.Requests;
 using MockNet04G2.Business.Services.Authentication;
 using MockNet04G2.Business.Services.Authentication.Validators;
 using MockNet04G2.Business.Services.Campagin;
+using MockNet04G2.Business.Services.Campagin.Validators;
 using MockNet04G2.Business.Services.User;
+using MockNet04G2.Business.Services.User.Validators;
 using MockNet04G2.Core.Data;
 using MockNet04G2.Core.Repositories;
 using MockNet04G2.Core.Repositories.Interfaces;
@@ -107,18 +111,30 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<GetAllUserService>();
+builder.Services.AddScoped<FindUserService>();
+builder.Services.AddScoped<ChangeUserRoleService>();
+builder.Services.AddScoped<ChangePasswordService>();
+builder.Services.AddScoped<UsersPagingService>();
+builder.Services.AddScoped<CountUserService>();
 
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
 builder.Services.AddScoped<FilterCampaignsByStatusService>();
+builder.Services.AddScoped<CampaignsPagingService>();   
+builder.Services.AddScoped<GetTotalCampaignsService>();
+builder.Services.AddScoped<AddCampaignService>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<ICooperateRepository,CooperateRepository>();
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
 builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
+builder.Services.AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordValidator>();
+builder.Services.AddScoped<IValidator<CampaignDetailRequest>, CampaignDetailRequestValidator>();
 
 
 builder.Services.AddControllers();

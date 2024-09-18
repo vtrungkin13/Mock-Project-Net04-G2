@@ -90,7 +90,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Cooperate");
+                    b.ToTable("Cooperates");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
@@ -147,7 +147,30 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organization");
+                    b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization A",
+                            Phone = "123-456-7890"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization B",
+                            Phone = "098-765-4321"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization C",
+                            Phone = "555-555-5555"
+                        });
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
@@ -193,7 +216,7 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$luh8dwAggAjTxRptVAYxXu.kKEL9LQGjRFFcniziYEadfW6SsNqWq",
+                            Password = "$2a$11$iBS.oGQyqEBPi/KhO07NFu4gMe1o8G2YIMZEM18ODVpDNVvvsVFxq",
                             Phone = "0375769058",
                             Role = 1
                         });

@@ -12,8 +12,8 @@ using MockNet04G2.Core.Data;
 namespace MockNet04G2.Core.Migrations
 {
     [DbContext(typeof(MockDbContext))]
-    [Migration("20240916053717_UpdateCampaignToDelete2Field")]
-    partial class UpdateCampaignToDelete2Field
+    [Migration("20240917091742_AddOrganizationAndCooperate")]
+    partial class AddOrganizationAndCooperate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Cooperate");
+                    b.ToTable("Cooperates");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
@@ -150,7 +150,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organization");
+                    b.ToTable("Organizations");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
@@ -196,7 +196,7 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$luh8dwAggAjTxRptVAYxXu.kKEL9LQGjRFFcniziYEadfW6SsNqWq",
+                            Password = "$2a$11$x3bOGy7vBJH9kw3YR8LPZuJPcMtkyLlCV1jCEui8KD20DLlCjeZb6",
                             Phone = "0375769058",
                             Role = 1
                         });

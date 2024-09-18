@@ -7,10 +7,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MockNet04G2.Business.DTOs.Donate.Responses;
+using MockNet04G2.Business.DTOs.Cooperations.Responses;
 
 namespace MockNet04G2.Business.DTOs.Campaign.Responses
 {
-    public class GetAllCampaignsResponseDto
+    public class CampaignResponseDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -21,8 +23,6 @@ namespace MockNet04G2.Business.DTOs.Campaign.Responses
         public DateTime EndDate { get; set; }
         public decimal Limitation { get; set; }
         public StatusEnum Status { get; set; }
-        public string OrganizationName { get; set; }
-        public string OrganizationPhone { get; set; }
         public string Code
         {
             get
@@ -32,6 +32,7 @@ namespace MockNet04G2.Business.DTOs.Campaign.Responses
         }
         public DateTime CreatedAt { get; set; }
 
-        public virtual ICollection<Donate> Donations { get; set; }
+        public virtual ICollection<DonateResponseDto> Donations { get; set; }
+        public virtual ICollection<CooperateResponseDto> Cooperations { get; set; }
     }
 }

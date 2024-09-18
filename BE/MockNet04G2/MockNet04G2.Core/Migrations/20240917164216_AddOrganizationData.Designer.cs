@@ -12,8 +12,8 @@ using MockNet04G2.Core.Data;
 namespace MockNet04G2.Core.Migrations
 {
     [DbContext(typeof(MockDbContext))]
-    [Migration("20240916053434_AddOrganizationAndCooperate")]
-    partial class AddOrganizationAndCooperate
+    [Migration("20240917164216_AddOrganizationData")]
+    partial class AddOrganizationData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,16 +57,6 @@ namespace MockNet04G2.Core.Migrations
                     b.Property<decimal>("Limitation")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("OrganizationName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("OrganizationPhone")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -103,7 +93,7 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("Cooperate");
+                    b.ToTable("Cooperates");
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.Donate", b =>
@@ -160,7 +150,30 @@ namespace MockNet04G2.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organization");
+                    b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization A",
+                            Phone = "123-456-7890"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization B",
+                            Phone = "098-765-4321"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENF9uv9UWIWWbExsgj7XyX58xMFAOZTzUSQ&s",
+                            Name = "Organization C",
+                            Phone = "555-555-5555"
+                        });
                 });
 
             modelBuilder.Entity("MockNet04G2.Core.Models.User", b =>
@@ -206,7 +219,7 @@ namespace MockNet04G2.Core.Migrations
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$Lx5fK6mmYKmYeMLLo.r6SODZwwNKzlR6v8AB9Jftri0Sq4GRcehHO",
+                            Password = "$2a$11$iBS.oGQyqEBPi/KhO07NFu4gMe1o8G2YIMZEM18ODVpDNVvvsVFxq",
                             Phone = "0375769058",
                             Role = 1
                         });
