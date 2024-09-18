@@ -31,6 +31,10 @@ namespace MockNet04G2.Core.Repositories
             return await _context.Organizations.FirstOrDefaultAsync(o => o.Phone == phone || o.Name == name);
         }
 
-        
+        public IQueryable<Organization> GetAll()
+        {
+            return _context.Organizations.AsQueryable();
+        }
+
     }
 }

@@ -17,5 +17,8 @@ namespace MockNet04G2.Business.DTOs.Campaign.Requests
         public decimal Limitation { get; set; }
 
         public List<int> OrganizationIds { get; set; }
+
+        public string CampaignCode { get; set; } 
+        public string OrganizationPhone { get; set; }
     }
 }
