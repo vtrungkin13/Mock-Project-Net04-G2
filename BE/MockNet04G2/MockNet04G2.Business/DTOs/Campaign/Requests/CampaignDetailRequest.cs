@@ -16,7 +16,6 @@ namespace MockNet04G2.Business.DTOs.Campaign.Requests
         public DateTime EndDate { get; set; }
         public decimal Limitation { get; set; }
 
-        public List<string> OrganizationNames { get; set; }
-        public List<string> OrganizationPhones { get; set; }
+        public List<int> OrganizationIds { get; set; }
     }
 }

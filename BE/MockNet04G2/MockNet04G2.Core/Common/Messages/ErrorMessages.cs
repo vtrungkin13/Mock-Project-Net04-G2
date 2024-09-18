@@ -24,5 +24,6 @@ namespace MockNet04G2.Core.Common.Messages
         public const string CannotFindOrganizationWithThisPhoneOrName = "Không thể tìm thấy tổ chức có tên hoặc số điện thoại này!";
         public const string PhoneDoesnotMatchName = "Số điện thoại không thuộc về tổ chức này!";
         public const string EmailDoesNotExists = "Email không tồn tại!";
+        public const string CannotDeleteCampaign = "Không thể xoá chiến dịch này!";
     }
 }

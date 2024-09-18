@@ -51,40 +51,23 @@ namespace MockNet04G2.Business.Services.Campagin
 
             var response = new ApiResponse<CampaignDetailReponse, string>();
 
+            List<Organization> selectedOrganizations = new List<Organization>();
 
-            // Check if the lengths of the organization name and phone lists match
-            if (request.OrganizationNames.Count != request.OrganizationPhones.Count)
+
+            var organizationIds = request.OrganizationIds;
+
+            var organizations = await _organizationRepository.FindByIdAsync(organizationIds);
+
+            if (organizations.Count != organizationIds.Count)
             {
-                response.Error = ErrorMessages.OrganizationNameAndPhoneListsDoesnotMatch;
+                response.Error = ErrorMessages.CannotFindOrganizationWithThisPhoneOrName;
                 response.Status = StatusResponseEnum.BadRequest;
                 return response;
             }
 
-            List<Organization> selectedOrganizations = new List<Organization>();
 
-            // Iterate through the organization names and phone numbers to find matching organizations
-            for (int i = 0; i < request.OrganizationNames.Count; i++)
-            {
-                var name = request.OrganizationNames[i];
-                var phone = request.OrganizationPhones[i];
-
-                var organization = await _organizationRepository.FindByPhoneOrNameAsync(phone, name);
-
-                if (organization == null)
-                {
-                    response.Error = ErrorMessages.CannotFindOrganizationWithThisPhoneOrName;
-                    response.Status = StatusResponseEnum.BadRequest;
-                    return response;
-                }
-
-                // Add additional logging or feedback about which field matched
-                if (organization.Phone != phone)
-                {
-                    response.Error = ErrorMessages.PhoneDoesnotMatchName;
-                }
-
-                selectedOrganizations.Add(organization);
-            }
+            selectedOrganizations.AddRange(organizations);
+            
 
             //create a new campaign
             var newCampaign = new Campaign
