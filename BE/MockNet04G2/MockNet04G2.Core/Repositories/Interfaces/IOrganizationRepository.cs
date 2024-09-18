@@ -11,6 +11,7 @@ namespace MockNet04G2.Core.Repositories.Interfaces
     {
         Task<Organization> FindByPhoneOrNameAsync(string phone, string name);
         Task<List<Organization>> FindByIdAsync(List<int> ids);
+        IQueryable<Organization> GetAll();
 
     }
 }

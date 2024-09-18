@@ -127,6 +127,7 @@ builder.Services.AddScoped<CampaignsPagingService>();
 builder.Services.AddScoped<GetTotalCampaignsService>();
 builder.Services.AddScoped<AddCampaignService>();
 builder.Services.AddScoped<DeleteCampaignService>();
+builder.Services.AddScoped<SearchCampaignService>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
