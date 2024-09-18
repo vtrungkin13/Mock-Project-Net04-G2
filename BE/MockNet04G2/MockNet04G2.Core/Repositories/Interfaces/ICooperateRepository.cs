@@ -9,5 +9,6 @@ namespace MockNet04G2.Core.Repositories.Interfaces
 {
     public interface ICooperateRepository : IGenericRepository<Cooperate>
     {
+        Task<List<Cooperate>> FindByCampaignIdAsync(int campaignId);
     }
 }

@@ -23,5 +23,6 @@ namespace MockNet04G2.Core.Common.Messages
         public const string OrganizationNameAndPhoneListsDoesnotMatch = "Số lượng số điện thoại và tên tổ chức không đồng nhất!";
         public const string CannotFindOrganizationWithThisPhoneOrName = "Không thể tìm thấy tổ chức có tên hoặc số điện thoại này!";
         public const string PhoneDoesnotMatchName = "Số điện thoại không thuộc về tổ chức này!";
+        public const string CannotDeleteCampaign = "Không thể xoá chiến dịch này!";
     }
 }
