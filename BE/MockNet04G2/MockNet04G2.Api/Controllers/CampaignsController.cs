@@ -23,6 +23,7 @@ namespace MockNet04G2.Api.Controllers
         private readonly AddCampaignService _addCampaignService;
         private readonly DeleteCampaignService _deleteCampaignService;
         private readonly SearchCampaignService _searchCampaignService;
+        private readonly GetCampaignsCountAfterFilterService _getCampaignsCountAfterFilterService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
@@ -30,7 +31,8 @@ namespace MockNet04G2.Api.Controllers
             GetTotalCampaignsService getTotalCampaignsService,
             AddCampaignService addCampaignService,
             DeleteCampaignService deleteCampaignService,
-            SearchCampaignService searchCampaignService)
+            SearchCampaignService searchCampaignService,
+            GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -40,6 +42,7 @@ namespace MockNet04G2.Api.Controllers
             _addCampaignService = addCampaignService;
             _deleteCampaignService = deleteCampaignService;
             _searchCampaignService = searchCampaignService;
+            _getCampaignsCountAfterFilterService = getCampaignsCountAfterFilterService;
         }
 
         [HttpGet]
@@ -56,16 +59,25 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
-        [HttpGet("{status}")]
-        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status)
+        [HttpGet("Status/{status}/{page}")]
+        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status,int page = 1) 
         {
-            var result = await _filterCampaignsByStatusService.ExecuteAsync(status);
+            int pageSize = 9;// tạm thời để mặc định pagesize = 9 
+            var result = await _filterCampaignsByStatusService.ExecuteAsync(status,page, pageSize);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("TotalCampaignsCountAfterFilter/{status}")]
+        public async Task<IActionResult> TotalCampaignsCountAfterFilter(StatusEnum status)
+        {
+            var result = await _getCampaignsCountAfterFilterService.ExecuteAsync(status);
             return HandleApiResponse(result);
         }
 
         [HttpGet("Page/{page}")]
-        public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) // tạm thời để mặc định 9 item 1 page 
+        public async Task<IActionResult> CampaignsPagingAsync(int page) 
         {
+            int pageSize = 9; // tạm thời để mặc định 9 item 1 page 
             var result = await _campaignsPagingService.ExecuteAsync(page,pageSize);
             return HandleApiResponse(result);
         }

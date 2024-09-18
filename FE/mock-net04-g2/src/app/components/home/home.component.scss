@@ -4,6 +4,7 @@
     min-height: 400px;
   }
   #campaigns-container {
+    padding-top: 70px;
     .campaign-item {
       .campaign-time-remain {
         background-color: #ffe8e0;
@@ -29,6 +30,12 @@
     .campaign-item:hover::after {
       cursor: pointer;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .pagination {
+      .page-link:hover {
+        cursor: pointer;
+      }
     }
   }
 }
