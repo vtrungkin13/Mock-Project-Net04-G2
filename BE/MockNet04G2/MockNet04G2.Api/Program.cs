@@ -116,6 +116,9 @@ builder.Services.AddScoped<ChangeUserRoleService>();
 builder.Services.AddScoped<ChangePasswordService>();
 builder.Services.AddScoped<UsersPagingService>();
 builder.Services.AddScoped<CountUserService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ResetPasswordService>();
 
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
