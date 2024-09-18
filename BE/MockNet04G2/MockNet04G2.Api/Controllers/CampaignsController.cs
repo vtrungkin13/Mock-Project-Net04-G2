@@ -21,12 +21,14 @@ namespace MockNet04G2.Api.Controllers
         private readonly CampaignsPagingService _campaignsPagingService;
         private readonly GetTotalCampaignsService _getTotalCampaignsService;
         private readonly AddCampaignService _addCampaignService;
+        private readonly DeleteCampaignService _deleteCampaignService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
             CampaignsPagingService campaignsPagingService,
             GetTotalCampaignsService getTotalCampaignsService,
-            AddCampaignService addCampaignService)
+            AddCampaignService addCampaignService,
+            DeleteCampaignService deleteCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -34,6 +36,7 @@ namespace MockNet04G2.Api.Controllers
             _campaignsPagingService = campaignsPagingService;
             _getTotalCampaignsService = getTotalCampaignsService;
             _addCampaignService = addCampaignService;
+            _deleteCampaignService = deleteCampaignService;
         }
 
         [HttpGet]
@@ -78,6 +81,14 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> AddCampaignAsync(CampaignDetailRequest request)
         {
             var result = await _addCampaignService.ExecuteAsync(request);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("Delete-Campaign")]
+        public async Task<IActionResult> DeleteCampaignAsync(int campaignId)
+        {
+            var result = await _deleteCampaignService.ExecuteAsync(campaignId);
             return HandleApiResponse(result);
         }
 
