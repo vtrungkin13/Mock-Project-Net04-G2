@@ -11,6 +11,8 @@ using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services;
 using MockNet04G2.Business.DTOs.Users.Requests;
 using MockNet04G2.Business.Services.Campagin;
+using MockNet04G2.Business.DTOs.Campaign.Requests;
+using MockNet04G2.Business.Services.Campaign;
 namespace MockNet04G2.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -23,13 +25,15 @@ namespace MockNet04G2.Api.Controllers
         private readonly ChangePasswordService _changePasswordService;
         private readonly UsersPagingService _usersPagingService;
         private readonly CountUserService _countUserService;
+        private readonly UpdateUserService _updateUserService;
 
 
         public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
             ChangeUserRoleService changeUserRoleService,
             ChangePasswordService changePasswordService, 
             UsersPagingService usersPagingService,
-            CountUserService countUserService)
+            CountUserService countUserService,
+            UpdateUserService updateUserService)
         {
             _getAllUserService = getAllUserService;
             _findUserService = findUserService;
@@ -37,6 +41,7 @@ namespace MockNet04G2.Api.Controllers
             _changePasswordService = changePasswordService;
             _usersPagingService = usersPagingService;
             _countUserService = countUserService;
+            _updateUserService = updateUserService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -88,6 +93,13 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             var result = await _findUserService.ExecuteAsync(id);
+            return HandleApiResponse(result);
+        }
+
+        [HttpPost("Update-User{id}")]
+        public async Task<IActionResult> UpdateCampaignAsync(int id, UpdateUserRequest request)
+        {
+            var result = await _updateUserService.ExecuteAsync(id, request);
             return HandleApiResponse(result);
         }
     }

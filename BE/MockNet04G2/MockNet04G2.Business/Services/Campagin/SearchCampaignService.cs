@@ -45,7 +45,7 @@ namespace MockNet04G2.Business.Services.Campagin
             }
 
             // Start with all campaigns
-            IQueryable<Campaign> query = _campaignRepository.GetAll();
+            IQueryable<Core.Models.Campaign> query = _campaignRepository.GetAll();
 
             // Filter by campaign code if provided
             if (!string.IsNullOrEmpty(campaignCode))

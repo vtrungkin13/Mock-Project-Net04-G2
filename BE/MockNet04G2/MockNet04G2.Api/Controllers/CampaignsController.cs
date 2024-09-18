@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MockNet04G2.Business.DTOs.Campaign.Requests;
 using MockNet04G2.Business.DTOs.Campaign.Responses;
 using MockNet04G2.Business.Services.Campagin;
+using MockNet04G2.Business.Services.Campaign;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Core.Common.Enums;
@@ -24,6 +25,7 @@ namespace MockNet04G2.Api.Controllers
         private readonly DeleteCampaignService _deleteCampaignService;
         private readonly SearchCampaignService _searchCampaignService;
         private readonly GetCampaignsCountAfterFilterService _getCampaignsCountAfterFilterService;
+        private readonly UpdateCampaignService _updateCampaignService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
@@ -32,7 +34,8 @@ namespace MockNet04G2.Api.Controllers
             AddCampaignService addCampaignService,
             DeleteCampaignService deleteCampaignService,
             SearchCampaignService searchCampaignService,
-            GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService)
+            GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService,
+             UpdateCampaignService updateCampaignService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -43,6 +46,7 @@ namespace MockNet04G2.Api.Controllers
             _deleteCampaignService = deleteCampaignService;
             _searchCampaignService = searchCampaignService;
             _getCampaignsCountAfterFilterService = getCampaignsCountAfterFilterService;
+            _updateCampaignService = updateCampaignService;
         }
 
         [HttpGet]
@@ -109,6 +113,14 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> SearchCampaignAsync(string campaignCode, string organizationPhone)
         {
             var result = await _searchCampaignService.ExecuteAsync(campaignCode, organizationPhone);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("Update-Campaign{id}")]
+        public async Task<IActionResult> UpdateCampaignAsync(int id,UpdateCampaignRequest request)
+        {
+            var result = await _updateCampaignService.ExecuteAsync(id,request);
             return HandleApiResponse(result);
         }
 
