@@ -52,18 +52,18 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> GetUserByName(string name)
         {
             var result = await _findUserService.ExecuteAsync(name);
-            return Ok(result);
+            return HandleApiResponse(result);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{id}/role")]
+        [HttpPut("Role/{id}")]
         public async Task<IActionResult> ChangeUserRole(int id, [FromBody] RoleEnum newRole)
         {
             var result = await _changeUserRoleService.ExecuteAsync(id, newRole);
             return HandleApiResponse(result);
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut("Password/{userId}")]
         public async Task<IActionResult> ChangePassword(ChangePasswordRequest request, int userId)
         {
             var result = await _changePasswordService.ExecuteAsync(request, userId);
@@ -71,7 +71,7 @@ namespace MockNet04G2.Api.Controllers
         }
 
         [HttpGet("Page/{page}")]
-        public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) 
+        public async Task<IActionResult> UsersPagingAsync(int page, int pageSize = 9) 
         {
             var result = await _usersPagingService.ExecuteAsync(page, pageSize);
             return HandleApiResponse(result);
