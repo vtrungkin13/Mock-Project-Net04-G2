@@ -42,9 +42,22 @@ namespace MockNet04G2.Business.Services.User
             return response;
         }
 
-        public async Task<Core.Models.User> ExecuteAsync(int id)
+        public async Task<ApiResponse<UserDetailDto, string>> ExecuteAsync(int id)
         {
-            return await _userRepository.FindUserByIdAsync(id);
+            var response = new ApiResponse<UserDetailDto, string>();
+            var user = await _userRepository.FindUserByIdAsync(id);
+
+            var userDetailDtos = _mapper.Map<UserDetailDto>(user);
+
+            if (user == null)
+            {
+                response.Error = ErrorMessages.CannotGetUser;
+                response.Status = StatusResponseEnum.InternalServerError;
+                return response;
+            }
+            response.Body = userDetailDtos;
+            response.Status = StatusResponseEnum.Success;
+            return response;
         }
     }
 }

@@ -83,5 +83,12 @@ namespace MockNet04G2.Api.Controllers
             var result = await _countUserService.ExecuteAsync();
             return HandleApiResponse(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var result = await _findUserService.ExecuteAsync(id);
+            return HandleApiResponse(result);
+        }
     }
 }
