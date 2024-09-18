@@ -104,9 +104,12 @@ namespace MockNet04G2.Business.Services.Authentication
                 ExpireAt = descriptor.Expires.Value,
                 User = new UserDetailDto
                 {
+                    Id = newUser.Id,
                     Email = newUser.Email,
                     Name = newUser.Name,
                     Phone = newUser.Phone,
+                    Dob = newUser.Dob,
+                    Role = newUser.Role,
                 }
             };
 

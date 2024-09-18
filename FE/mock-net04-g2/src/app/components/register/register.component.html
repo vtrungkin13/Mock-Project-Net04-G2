@@ -1,31 +1,15 @@
 <div id="register-wrapper">
   <div class="d-flex vh-100 container">
     <div class="d-flex align-items-center">
-      <img
-        src="https://homepage.momocdn.net/img/momo-upload-api-220610222354-637904966341393543.png"
-        alt=""
-      />
+      <img src="https://homepage.momocdn.net/img/momo-upload-api-220610222354-637904966341393543.png" alt="" />
     </div>
     <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-      <form
-        (ngSubmit)="onSubmit(registerForm)"
-        #registerForm="ngForm"
-        class="border p-3 rounded-2 w-75"
-      >
+      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm" class="border p-3 rounded-2 w-75">
         <h2 class="mb-3">Đăng ký tài khoản</h2>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="form-control"
-            placeholder="Nhập email của bạn"
-            required
-            ngModel
-            #email="ngModel"
-            (input)="onEmailInput()"
-          />
+          <input type="email" name="email" id="email" class="form-control" placeholder="Nhập email của bạn" required
+            ngModel #email="ngModel" (input)="onEmailInput()" />
           @if ((email.invalid || isExistedEmail) && registerForm.submitted) {
           @if (email.invalid) {
           <span class="text-danger">Bạn chưa nhập email!</span>
@@ -35,79 +19,40 @@
         </div>
         <div class="mb-3">
           <label for="name" class="form-label">Họ và tên</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            class="form-control"
-            placeholder="Nhập họ tên của bạn"
-            required
-            ngModel
-            #name="ngModel"
-          />
+          <input type="text" name="name" id="name" class="form-control" placeholder="Nhập họ tên của bạn" required
+            ngModel #name="ngModel" />
           @if (name.invalid && registerForm.submitted) {
           <span class="text-danger">Bạn chưa nhập tên!</span>
           }
         </div>
         <div class="mb-3">
           <label for="phone" class="form-label">Số điện thoại</label>
-          <input
-            type="tel"
-            name="phone"
-            id="phone"
-            class="form-control"
-            placeholder="Nhập số điện thoại"
-            required
-            ngModel
-            #phone="ngModel"
-          />
+          <input type="tel" name="phone" id="phone" class="form-control" placeholder="Nhập số điện thoại" required
+            ngModel #phone="ngModel" />
           @if (phone.invalid && registerForm.submitted) {
           <span class="text-danger">Bạn chưa nhập số điện thoại!</span>
           }
         </div>
         <div class="mb-3">
           <label for="dob" class="form-label">Ngày sinh</label>
-          <input
-            type="date"
-            name="dob"
-            id="dob"
-            class="form-control"
-            ngModel
-            #dob="ngModel"
-          />
+          <input type="date" name="dob" id="dob" class="form-control" ngModel #dob="ngModel" />
           @if (dob.invalid && registerForm.submitted) {
           <span class="text-danger">Bạn chưa nhập ngày sinh!</span>
           }
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Mật khẩu</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="form-control"
-            placeholder="Nhập mật khẩu"
-            required
-            ngModel
-            #password="ngModel"
-          />
+          <input type="password" name="password" id="password" class="form-control" placeholder="Nhập mật khẩu" required
+            ngModel #password="ngModel" />
           @if (password.invalid && registerForm.submitted) {
           <span class="text-danger">Bạn chưa nhập mật khẩu!</span>
           }
         </div>
         <div class="mb-3">
-          <label for="rePassword" class="form-label">Xác minh mật khẩu</label>
-          <input
-            type="password"
-            name="rePassword"
-            id="rePassword"
-            class="form-control"
-            placeholder="Xác minh mật khẩu"
-            required
-            ngModel
-            #rePassword="ngModel"
-          />
-          @if ((rePassword.invalid || !isPasswordMatch) && registerForm.submitted) {
+          <label for="confirmPassword" class="form-label">Xác minh mật khẩu</label>
+          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+            placeholder="Xác minh mật khẩu" required ngModel #confirmPassword="ngModel" />
+          @if ((confirmPassword.invalid || !isPasswordMatch) && registerForm.submitted) {
           <span class="text-danger">Mật khẩu không trùng khớp!</span>
           }
         </div>
@@ -115,9 +60,7 @@
           Đăng ký
         </button>
         <div class="d-flex justify-content-center">
-          <a class="small" routerLink="/login"
-            >Đã có tài khoản? Đăng nhập ngay</a
-          >
+          <a class="small" routerLink="/login">Đã có tài khoản? Đăng nhập ngay</a>
         </div>
       </form>
     </div>
