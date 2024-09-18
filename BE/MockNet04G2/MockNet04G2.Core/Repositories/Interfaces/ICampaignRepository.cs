@@ -16,8 +16,8 @@ namespace MockNet04G2.Core.Repositories.Interfaces
         Task<List<Campaign>> CampaignPagingAsync(int page, int pageSize);
         Task<List<Campaign>> SearchCampaignsAsync(string campaignCode, string organizationPhone);
         Task<int> TotalCampaignsCountAsync();
-
         IQueryable<Campaign> GetAll();
         IQueryable<Cooperate> GetCooperations();
+        Task<int> TotalCampaignsCountAfterFilterAsync(StatusEnum status);
     }
 }

@@ -107,5 +107,9 @@ namespace MockNet04G2.Core.Repositories
 
             return await query.ToListAsync();
         }
+        public async Task<int> TotalCampaignsCountAfterFilterAsync(StatusEnum status)
+        {
+            return await _entities.Where(c => c.Status == status).CountAsync();
+        }
     }
 }
