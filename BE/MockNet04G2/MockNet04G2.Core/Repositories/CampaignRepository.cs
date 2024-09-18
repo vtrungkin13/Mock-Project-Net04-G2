@@ -71,5 +71,31 @@ namespace MockNet04G2.Core.Repositories
         {
             return await _entities.CountAsync();
         }
+        public IQueryable<Campaign> GetAll()
+        {
+            return _context.Campaigns.AsQueryable();
+        }
+
+        public IQueryable<Cooperate> GetCooperations()
+        {
+            return _context.Cooperates.AsQueryable();
+        }
+
+        public async Task<List<Campaign>> SearchCampaignsAsync(string campaignCode, string organizationPhone)
+        {
+            var query = _context.Campaigns.AsQueryable();
+
+            if (!string.IsNullOrEmpty(campaignCode))
+            {
+                query = query.Where(c => c.Code == campaignCode);
+            }
+
+            if (!string.IsNullOrEmpty(organizationPhone))
+            {
+                query = query.Where(c => c.Cooperations.Any(co => co.Organization.Phone == organizationPhone));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
