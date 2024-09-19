@@ -19,5 +19,6 @@ namespace MockNet04G2.Core.Repositories.Interfaces
         IQueryable<Campaign> GetAll();
         IQueryable<Cooperate> GetCooperations();
         Task<int> TotalCampaignsCountAfterFilterAsync(StatusEnum status);
+        Task<List<Campaign>> GetCampaignsByEndDateAndStatusAsync(DateTime currentDate);
     }
 }

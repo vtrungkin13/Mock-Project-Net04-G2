@@ -37,7 +37,7 @@ namespace MockNet04G2.Business.Services.User
             if (user == null)
             {
                 response.Error = ErrorMessages.CannotGetUser;
-                response.Status = StatusResponseEnum.InternalServerError;
+                response.Status = StatusResponseEnum.NotFound;
                 return response;
             }
 
