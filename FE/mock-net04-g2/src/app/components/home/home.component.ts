@@ -5,63 +5,81 @@ import { Campaign } from '../../models/Campaign';
 import { CampaignService } from '../../services/campaign-service/campaign.service';
 import { Router, RouterLink } from '@angular/router';
 import { CampaignStatusEnum } from '../../models/enum/CampaignStatusEnum';
+import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, RouterLink],
+  imports: [HeaderComponent, CommonModule, RouterLink,FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
 
+  // campaignsResponse$: Observable<any>;
+  CampaignStatusEnum = CampaignStatusEnum;
   campaigns: Campaign[] = [];
-  totalCount: number = 0; // tổng số items (có thể thay đổi tùy theo search/filter)
+  totalCount: number = 0; // tổng số campaigns (có thể thay đổi tùy theo search/filter)
   page: number = 1; // page hiện tại
   pageSize: number = 9; //để mặc định = 9
-  totalPage : number = 0; // tổng số pages có thể có (totalCount / pagesize) làm tròn lên
+  totalPage: number = 0; // tổng số pages có thể có (totalCount chia pagesize) làm tròn lên
 
-  currentStatus = -1; // nếu currentStatus = -1 thì không áp dụng filter
+  // Param cho chức năng filter/search
+  statusFilter?: CampaignStatusEnum;
+  codeSearch: string = "";
+  phoneSearch: string = "";
+  loading: boolean = false; // To track the loading state
 
-  constructor(
-    private router: Router,
-    private campaignService: CampaignService
-  ) {}
+  constructor(private router: Router,private campaignService: CampaignService) {}
 
   ngOnInit(): void {
-    this.getCampaignByPage();
+    this.getCampaignList();
   }
 
   redirectToCampaignDeital(campaignId: number) {
     this.router.navigateByUrl(`/campaign-detail/${campaignId}`);
   }
 
-  getCampaignByPage(){
-    this.campaignService.getCampaignByPage(this.page).subscribe({
-      next:(response)=>{
+  getCampaignList() { // kết hợp search + filter + paging vào 1 cho đồng nhất
+    this.loading = true; // Set loading to true when starting the request
+    this.campaignService.getCampaigns(
+      this.pageSize
+      ,this.page
+      ,this.codeSearch
+      ,this.phoneSearch
+      ,this.statusFilter
+    ).subscribe({
+      next: (response) => {
         this.campaigns = response.body;
         this.getTotalCampaignCount();
-        this.totalPage = Math.ceil(this.totalCount/this.pageSize);
+        this.totalPage = Math.ceil(this.totalCount / this.pageSize);
+        this.loading = false; // Set loading to false after data is received
       },
-      error:(error)=>{
-        alert(error.message);
+      error: (error) => {
+        console.log(error.message);
+        this.loading = false; // Set loading to false after data is received
       }
-    })
+    });
   }
 
   getTotalCampaignCount(){
-    this.campaignService.getTotalCampaignCount().subscribe({
-      next:(response) =>{
+    this.campaignService.getCampaignsCount(this.codeSearch
+      ,this.phoneSearch
+      ,this.statusFilter
+    ).subscribe({
+      next: (response) => {
+        console.log(response)
         this.totalCount = response.body;
-        this.totalPage = Math.ceil(this.totalCount/this.pageSize);
+        this.totalPage = Math.ceil(this.totalCount / this.pageSize);
       },
-      error:(error)=>{
+      error: (error) => {
         alert(error.message);
       }
-    })
+    });
   }
 
-  calculateTotalAmount(campaign:Campaign) : number{ // trả về tổng số tiền đã quyên góp đc 
+  calculateTotalAmount(campaign: Campaign): number { // trả về tổng số tiền đã quyên góp đc 
     return (campaign.donations || []).reduce((total: number, donate: any) => total + donate.amount, 0);
   }
 
@@ -71,61 +89,51 @@ export class HomeComponent implements OnInit {
     return (totalAmount / targetAmount) * 100;
   }
 
-  calculateRemainingDays(campaign:Campaign):number{
+  calculateRemainingDays(campaign: Campaign): number { // đếm số ngày còn lại
     if (!campaign.endDate) { // tránh null
       return 0;
     }
     const today = new Date();
     const endDate = new Date(campaign.endDate);
-    // Calculate the difference in time
     const timeDiff = endDate.getTime() - today.getTime();
-    // Convert time difference from milliseconds to days
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return daysDiff >= 0 ? daysDiff : 0; // Ensure non-negative value
+    return daysDiff >= 0 ? daysDiff : 0;
   }
 
-  previousPage(){
-    if(this.page > 1){
+  previousPage() { // sang trang tiếp
+    if (this.page > 1) {
       this.page -= 1;
-      this.getCampaignByPage();
-      
+      this.getCampaignList();
+      window.location.href = '#campaigns-container';
     }
-
-    window.location.href = '#campaigns-container'
   }
 
-  nextPage(){
-    if(this.page <this.totalPage){
+  nextPage() { // quay lại trang trước
+    if (this.page < this.totalPage) {
       this.page += 1;
-      this.getCampaignByPage();
+      this.getCampaignList();
+      window.location.href = '#campaigns-container';
     }
-
-    window.location.href = '#campaigns-container'
   }
 
-  changePage(i:number){
-    if(i >= 1 && i <= this.totalPage){
+  changePage(i: number) { // đổi trang theo số thứ tự
+    if (i >= 1 && i <= this.totalPage) {
       this.page = i;
-      this.getCampaignByPage();
-    }
-
-    window.location.href = '#campaigns-container'
-  }
-
-  filter(status : number){
-    switch(status){
-      case -1 :{
-        this.currentStatus = -1;
-        this.page = 1;
-        this.getCampaignByPage();
-        break;
-      }
-      case 1:{
-        this.currentStatus = 1;
-        this.page = 1;
-        this
-      }
+      this.getCampaignList();
+      window.location.href = '#campaigns-container';
     }
   }
-  
+
+  onStatusChange(status? :CampaignStatusEnum){ // lọc theo status
+    this.page = 1;
+    this.statusFilter = status;
+    this.getCampaignList();
+    window.location.href = '#campaigns-container';
+  }
+
+  onSearchChange(){ // lọc theo mã hoặc số đt
+    this.page = 1;
+    this.getCampaignList();
+    window.location.href = '#campaigns-container';
+  }
 }
