@@ -97,7 +97,7 @@ namespace MockNet04G2.Api.Controllers
         }
 
         [HttpPost("Update-User{id}")]
-        public async Task<IActionResult> UpdateCampaignAsync(int id, UpdateUserRequest request)
+        public async Task<IActionResult> UpdateUsernAsync(int id, UpdateUserRequest request)
         {
             var result = await _updateUserService.ExecuteAsync(id, request);
             return HandleApiResponse(result);
