@@ -5,13 +5,12 @@ import { Campaign } from '../../models/Campaign';
 import { CampaignService } from '../../services/campaign-service/campaign.service';
 import { Router, RouterLink } from '@angular/router';
 import { CampaignStatusEnum } from '../../models/enum/CampaignStatusEnum';
-import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, RouterLink,FormsModule],
+  imports: [HeaderComponent, CommonModule, RouterLink, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -31,7 +30,7 @@ export class HomeComponent implements OnInit {
   phoneSearch: string = "";
   loading: boolean = false; // To track the loading state
 
-  constructor(private router: Router,private campaignService: CampaignService) {}
+  constructor(private router: Router, private campaignService: CampaignService) { }
 
   ngOnInit(): void {
     this.getCampaignList();
@@ -43,18 +42,24 @@ export class HomeComponent implements OnInit {
 
   getCampaignList() { // kết hợp search + filter + paging vào 1 cho đồng nhất
     this.loading = true; // Set loading to true when starting the request
+    const focusedElement = document.activeElement;// Save reference to the focused element
     this.campaignService.getCampaigns(
       this.pageSize
-      ,this.page
-      ,this.codeSearch
-      ,this.phoneSearch
-      ,this.statusFilter
+      , this.page
+      , this.codeSearch
+      , this.phoneSearch
+      , this.statusFilter
     ).subscribe({
       next: (response) => {
         this.campaigns = response.body;
         this.getTotalCampaignCount();
         this.totalPage = Math.ceil(this.totalCount / this.pageSize);
         this.loading = false; // Set loading to false after data is received
+
+        // Restore focus after data has been loaded
+        if (focusedElement) {
+          (focusedElement as HTMLElement).focus();
+        }
       },
       error: (error) => {
         console.log(error.message);
@@ -63,10 +68,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getTotalCampaignCount(){
+  getTotalCampaignCount() {
     this.campaignService.getCampaignsCount(this.codeSearch
-      ,this.phoneSearch
-      ,this.statusFilter
+      , this.phoneSearch
+      , this.statusFilter
     ).subscribe({
       next: (response) => {
         console.log(response)
@@ -124,14 +129,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onStatusChange(status? :CampaignStatusEnum){ // lọc theo status
+  onStatusChange(status?: CampaignStatusEnum) { // lọc theo status
     this.page = 1;
     this.statusFilter = status;
     this.getCampaignList();
     window.location.href = '#campaigns-container';
   }
 
-  onSearchChange(){ // lọc theo mã hoặc số đt
+  onSearchChange() { // lọc theo mã hoặc số đt
     this.page = 1;
     this.getCampaignList();
     window.location.href = '#campaigns-container';
