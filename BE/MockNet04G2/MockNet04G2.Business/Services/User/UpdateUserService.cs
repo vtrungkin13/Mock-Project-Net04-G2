@@ -68,10 +68,12 @@ namespace MockNet04G2.Business.Services.User
 
             var userDetailDto = new UserDetailDto
             {
+                Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
                 Phone = user.Phone,
                 Dob = user.Dob,
+                Role = user.Role,
             };
 
             response.Status = StatusResponseEnum.Success;

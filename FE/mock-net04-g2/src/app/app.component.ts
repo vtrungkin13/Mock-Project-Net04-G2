@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { AuthService } from './services/auth-service/auth.service';
-import { RoleEnum } from './models/enum/RoleEnum';
 import { filter } from 'rxjs/operators';
+import { User } from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  userRole?: RoleEnum;
+  user?: User;
 
   constructor(private router: Router, private authService: AuthService) {
     // this.router.events.subscribe((event) => {
@@ -45,9 +45,9 @@ export class AppComponent implements OnInit {
     // if (newUrl === '/') {
     const user = this.authService.getUser();
     if (user) {
-      this.userRole = user.role;
+      this.user = user;
     } else {
-      this.userRole = undefined;
+      this.user = undefined;
     }
     // }
   }
