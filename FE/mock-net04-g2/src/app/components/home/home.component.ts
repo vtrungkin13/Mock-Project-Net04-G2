@@ -62,7 +62,6 @@ export class HomeComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.log(error.message);
         this.loading = false; // Set loading to false after data is received
       }
     });
@@ -74,7 +73,6 @@ export class HomeComponent implements OnInit {
       , this.statusFilter
     ).subscribe({
       next: (response) => {
-        console.log(response)
         this.totalCount = response.body;
         this.totalPage = Math.ceil(this.totalCount / this.pageSize);
       },

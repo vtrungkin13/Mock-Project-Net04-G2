@@ -69,4 +69,12 @@ export class CampaignService {
     );
   }
 
+  getCampaignDetail(id:number):Observable<any>{
+    return this.http.get<any>(`${this.campaignApiUrl}/Detail/${id}`).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.message));
+      })
+    );
+  }
+
 }
