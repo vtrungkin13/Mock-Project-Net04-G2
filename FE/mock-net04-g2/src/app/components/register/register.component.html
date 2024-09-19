@@ -29,8 +29,14 @@
           <label for="phone" class="form-label">Số điện thoại</label>
           <input type="tel" name="phone" id="phone" class="form-control" placeholder="Nhập số điện thoại" required
             ngModel #phone="ngModel" />
-          @if (phone.invalid && registerForm.submitted) {
-          <span class="text-danger">Bạn chưa nhập số điện thoại!</span>
+          @if ((phone.invalid || isPhoneInvalid) && registerForm.submitted) {
+          <span class="text-danger">
+            @if (phone.invalid) {
+            Bạn chưa nhập số điện thoại!
+            } @else if (isPhoneInvalid) {
+            Số điện thoại không hợp lệ! Vui lòng nhập 10-11 chữ số.
+            }
+          </span>
           }
         </div>
         <div class="mb-3">
