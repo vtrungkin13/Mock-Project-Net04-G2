@@ -15,23 +15,21 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   userRole?: RoleEnum;
 
-  showHeader = true;
-
   constructor(private router: Router, private authService: AuthService) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const url = event.url;
-        if (
-          url !== '/login' &&
-          url !== '/register' &&
-          url !== '/reset-password'
-        ) {
-          this.showHeader = true;
-        } else {
-          this.showHeader = false;
-        }
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     const url = event.url;
+    //     if (
+    //       url !== '/login' &&
+    //       url !== '/register' &&
+    //       url !== '/reset-password'
+    //     ) {
+    //       this.showHeader = true;
+    //     } else {
+    //       this.showHeader = false;
+    //     }
+    //   }
+    // });
   }
   ngOnInit(): void {
     // Subscribe to NavigationEnd event
@@ -44,11 +42,13 @@ export class AppComponent implements OnInit {
   }
 
   onRouteChange(newUrl: string) {
-    if (newUrl === '/') {
-      const user = this.authService.getUser();
-      if (user) {
-        this.userRole = user.role;
-      }
+    // if (newUrl === '/') {
+    const user = this.authService.getUser();
+    if (user) {
+      this.userRole = user.role;
+    } else {
+      this.userRole = undefined;
     }
+    // }
   }
 }
