@@ -1,0 +1,25 @@
+<div id="multiple-select-wrapper">
+  <div class="position-relative">
+    <div
+      class="select-label form-control d-flex justify-content-between"
+      [ngClass]="isClicked ? 'select-label-click' : ''"
+      (click)="labelClick()"
+    >
+      <p class="m-0">{{ label }}</p>
+      <div><i class="fa-solid fa-chevron-down"></i></div>
+    </div>
+    @if (showOptions) {
+    <div class="border position-fixed w-25 bg-white select-options">
+      @for (option of mapOptions; track $index) {
+      <div
+        class="option-item p-2"
+        (click)="optionItemClick(option)"
+        [ngClass]="option.selected ? 'option-item-selected' : ''"
+      >
+        {{ option.name }}
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
