@@ -14,6 +14,7 @@ export class RegisterComponent {
   isExistedEmail: boolean = false; //check registered email have existed in db?
   isPasswordMatch: boolean = false; //check password and re-password is match?
   registerFailMessage: string = '';
+  isPhoneInvalid: boolean = false; // check if phone number is valid
 
   constructor(private router: Router, private registerService: RegisterService) {}
 
@@ -26,17 +27,24 @@ export class RegisterComponent {
         this.isPasswordMatch = false;
       } else {
         this.isPasswordMatch = true;
-        this.registerService.register(registerData).subscribe({
-          next: (response) => {          
-            this.storeUserLoginData(response);
-            this.router.navigateByUrl('/');
-          },
-          error: (error) => {
-            this.isExistedEmail = error.error.error === 'Email already exists';
-            this.registerFailMessage = error.error.error;
-          }
-        })
       }
+      const phonePattern = /^[0-9]{10,11}$/;
+      if(!phonePattern.test(registerData.phone)) {
+        this.isPhoneInvalid = true;
+        return;
+      } else {
+        this.isPhoneInvalid = false;
+      }
+      this.registerService.register(registerData).subscribe({
+        next: (response) => {          
+          this.storeUserLoginData(response);
+          this.router.navigateByUrl('/');
+        },
+        error: (error) => {
+          this.isExistedEmail = error.error.error === 'Email already exists';
+          this.registerFailMessage = error.error.error;
+        }
+      });
     }
   }
 
