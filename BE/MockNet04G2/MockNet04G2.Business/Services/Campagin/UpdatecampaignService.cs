@@ -59,7 +59,6 @@ namespace MockNet04G2.Business.Services.Campaign
                 return response;
             }
 
-
             if (campaign.Status != StatusEnum.Completed)
             {
                 response.Error = ErrorMessages.CannotUpdateCampaign;

@@ -111,5 +111,12 @@ namespace MockNet04G2.Core.Repositories
         {
             return await _entities.Where(c => c.Status == status).CountAsync();
         }
+
+        public async Task<List<Campaign>> GetCampaignsByEndDateAndStatusAsync(DateTime currentDate)
+        {
+            return await _context.Campaigns
+                .Where(c => c.EndDate <= currentDate && c.Status != StatusEnum.Completed)
+                .ToListAsync();
+        }
     }
 }
