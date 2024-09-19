@@ -26,6 +26,8 @@ namespace MockNet04G2.Api.Controllers
         private readonly SearchCampaignService _searchCampaignService;
         private readonly GetCampaignsCountAfterFilterService _getCampaignsCountAfterFilterService;
         private readonly UpdateCampaignService _updateCampaignService;
+        private readonly GetHomePageCampaignService _getHomePageCampaignService;
+        private readonly GetHomePageCampaignCountService _getHomePageCampaignCountService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
@@ -35,7 +37,9 @@ namespace MockNet04G2.Api.Controllers
             DeleteCampaignService deleteCampaignService,
             SearchCampaignService searchCampaignService,
             GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService,
-             UpdateCampaignService updateCampaignService)
+             UpdateCampaignService updateCampaignService,
+             GetHomePageCampaignService getHomePageCampaignService,
+             GetHomePageCampaignCountService getHomePageCampaignCountService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -47,6 +51,8 @@ namespace MockNet04G2.Api.Controllers
             _searchCampaignService = searchCampaignService;
             _getCampaignsCountAfterFilterService = getCampaignsCountAfterFilterService;
             _updateCampaignService = updateCampaignService;
+            _getHomePageCampaignService = getHomePageCampaignService;
+            _getHomePageCampaignCountService = getHomePageCampaignCountService;
         }
 
         [HttpGet]
@@ -124,5 +130,26 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [HttpGet("Filter")]
+        public async Task<IActionResult> FilterCampaignAsync(
+        [FromQuery] int pageSize = 9,
+        [FromQuery] int page = 1,
+        [FromQuery] string code = "",
+        [FromQuery] string phone = "",
+        [FromQuery] StatusEnum? status = null)
+        {
+            var result = await _getHomePageCampaignService.ExecuteAsync(pageSize, page, code, phone, status);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("FilterCount")]
+        public async Task<IActionResult> FilterCampaignCountAsync(
+        [FromQuery] string code = "",
+        [FromQuery] string phone = "",
+        [FromQuery] StatusEnum? status = null)
+        {
+            var result = await _getHomePageCampaignCountService.ExecuteAsync(code, phone, status);
+            return HandleApiResponse(result);
+        }
     }
 }

@@ -27,23 +27,66 @@
     <!-- Search / filter controls -->
     <div class="row">
 
-      <!-- filter dropdown button
-      <div class="dropdown mb-5">
-        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Status
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><div class="dropdown-item" (click)="filter(-1)">Toàn bộ</div></li>
-          <li><div class="dropdown-item" (click)="filter(1)">Mới tạo</div></li>
-          <li><div class="dropdown-item" (click)="filter(2)">Đang quyên góp</div></li>
-          <li><div class="dropdown-item" (click)="filter(3)">Kết thúc quyên góp</div></li>
-          <li><div class="dropdown-item" (click)="filter(4)">Đóng quyên góp</div></li>
-        </ul>
-      </div> -->
+      <!-- Search by code -->
+      <div class="col-5">
+        <div class="input-group mb-3">
+          <button (click)="onSearchChange()" class="btn btn-primary" id="basic-addon1">Tìm bằng mã</button>
+          <input type="text" class="form-control" placeholder="Nhập mã chiến dịch (ngày tạo + Id)" aria-describedby="basic-addon1"
+            [(ngModel)]="codeSearch" (keydown.enter)="onSearchChange()">
+        </div>
+      </div>
+
+      <!-- Search by phone -->
+      <div class="col-5">
+        <div class="input-group mb-3">
+          <button (click)="onSearchChange()" class="btn btn-primary" id="basic-addon1">Tìm bằng số điện thoại</button>
+          <input type="text" class="form-control" placeholder="Nhập số điện thoại đối tác"
+            aria-describedby="basic-addon1" (keydown.enter)="onSearchChange()">
+        </div>
+      </div>
+
+      <!-- filter dropdown button -->
+      <div class="col-2">
+        <div class="dropdown mb-5">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Lọc theo trạng thái
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(undefined)">Toàn bộ</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.JUSTCREATED)">Mới tạo</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.OPEN)">Đang quyên góp</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.COMPLETED)">Kết thúc quyên góp</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.CLOSED)">Đóng quyên góp</div>
+            </li>
+          </ul>
+        </div>
+      </div>
 
     </div>
 
-    <div class="row">
+    <!-- Campaign list -->
+    <!-- Display Loading while waiting for data -->
+    <div *ngIf="loading" class="text-center">
+      <p>Đang tải thông tin</p>
+    </div>
+    
+    <!-- Display No record message when there are no campaigns -->
+    <div *ngIf="!loading && campaigns.length === 0" class="text-center">
+      <p>Không có chiến dịch nào khớp với yêu cầu (hoặc không có gì trong database)!</p>
+    </div>
+
+    <!-- Display campaigns list -->
+    <div class="row" *ngIf="!loading && campaigns.length > 0">
       @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
         <div class="campaign-item border rounded-3 position-relative" (click)="redirectToCampaignDeital(campaign.id)">
@@ -92,6 +135,7 @@
       </div>
       }
     </div>
+
     <!-- Pagination controls -->
     <div class="d-flex justify-content-center mt-3">
       <nav aria-label="...">
