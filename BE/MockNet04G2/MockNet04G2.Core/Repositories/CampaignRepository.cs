@@ -214,6 +214,11 @@ namespace MockNet04G2.Core.Repositories
 
             // Return the count of filtered campaigns
             return campaigns.Count;
+        public async Task<List<Campaign>> GetCampaignsByEndDateAndStatusAsync(DateTime currentDate)
+        {
+            return await _context.Campaigns
+                .Where(c => c.EndDate <= currentDate && c.Status != StatusEnum.Completed)
+                .ToListAsync();
         }
     }
 }
