@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { AuthService } from './services/auth-service/auth.service';
-import { RoleEnum } from './models/enum/RoleEnum';
 import { filter } from 'rxjs/operators';
+import { User } from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -13,25 +13,23 @@ import { filter } from 'rxjs/operators';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  userRole?: RoleEnum;
-
-  showHeader = true;
+  user?: User;
 
   constructor(private router: Router, private authService: AuthService) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const url = event.url;
-        if (
-          url !== '/login' &&
-          url !== '/register' &&
-          url !== '/reset-password'
-        ) {
-          this.showHeader = true;
-        } else {
-          this.showHeader = false;
-        }
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     const url = event.url;
+    //     if (
+    //       url !== '/login' &&
+    //       url !== '/register' &&
+    //       url !== '/reset-password'
+    //     ) {
+    //       this.showHeader = true;
+    //     } else {
+    //       this.showHeader = false;
+    //     }
+    //   }
+    // });
   }
   ngOnInit(): void {
     // Subscribe to NavigationEnd event
@@ -44,11 +42,13 @@ export class AppComponent implements OnInit {
   }
 
   onRouteChange(newUrl: string) {
-    if (newUrl === '/') {
-      const user = this.authService.getUser();
-      if (user) {
-        this.userRole = user.role;
-      }
+    // if (newUrl === '/') {
+    const user = this.authService.getUser();
+    if (user) {
+      this.user = user;
+    } else {
+      this.user = undefined;
     }
+    // }
   }
 }
