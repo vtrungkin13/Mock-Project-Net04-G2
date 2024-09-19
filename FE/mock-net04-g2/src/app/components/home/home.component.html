@@ -30,18 +30,18 @@
       <!-- Search by code -->
       <div class="col-5">
         <div class="input-group mb-3">
-          <button (click)="onSearchChange()" class="btn btn-primary" id="basic-addon1">Tìm bằng mã</button>
-          <input type="text" class="form-control" placeholder="Nhập mã chiến dịch (ngày tạo + Id)" aria-describedby="basic-addon1"
-            [(ngModel)]="codeSearch" (keydown.enter)="onSearchChange()">
+          <span class="input-group-text" id="basic-addon1">Tìm bằng mã</span>
+          <input type="text" class="form-control" placeholder="Nhập mã chiến dịch (ngày tạo + Id)"
+            [(ngModel)]="codeSearch" (input)="onSearchChange()">
         </div>
       </div>
 
       <!-- Search by phone -->
       <div class="col-5">
         <div class="input-group mb-3">
-          <button (click)="onSearchChange()" class="btn btn-primary" id="basic-addon1">Tìm bằng số điện thoại</button>
+          <span class="input-group-text" id="basic-addon1">Tìm bằng số điện thoại</span>
           <input type="text" class="form-control" placeholder="Nhập số điện thoại đối tác"
-            aria-describedby="basic-addon1" (keydown.enter)="onSearchChange()">
+          [(ngModel)]="phoneSearch" (input)="onSearchChange()">
         </div>
       </div>
 
@@ -90,7 +90,7 @@
       @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
         <div class="campaign-item border rounded-3 position-relative" (click)="redirectToCampaignDeital(campaign.id)">
-          <img class="img-fluid" [src]="campaign.image" alt="" />
+          <img class="img-fluid" [src]="campaign.image"/>
           <p class="fs-5 fw-bold p-3 m-0">
             {{campaign.title}}
           </p>
