@@ -47,7 +47,7 @@ namespace MockNet04G2.Business.Services.Campaign
             if (campaignId <= 0)
             {
                 response.Error = ErrorMessages.InvalidId;
-                response.Status = StatusResponseEnum.BadRequest;
+                response.Status = StatusResponseEnum.InternalServerError;
                 return response;
             }
 
@@ -55,12 +55,12 @@ namespace MockNet04G2.Business.Services.Campaign
             if (campaign == null)
             {
                 response.Error = ErrorMessages.CampaginByIdNotFound;
-                response.Status = StatusResponseEnum.NotFound;
+                response.Status = StatusResponseEnum.InternalServerError;
                 return response;
             }
 
 
-            if (campaign.Status != StatusEnum.Closed)
+            if (campaign.Status != StatusEnum.Completed)
             {
                 response.Error = ErrorMessages.CannotUpdateCampaign;
                 response.Status = StatusResponseEnum.InternalServerError;
@@ -83,6 +83,7 @@ namespace MockNet04G2.Business.Services.Campaign
 
             campaign.EndDate = request.EndDate;
             campaign.Limitation = request.Limitation;
+            campaign.Status = StatusEnum.InProgress;
 
             _campaignRepository.Update(campaign);
 

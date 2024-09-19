@@ -37,7 +37,7 @@ namespace MockNet04G2.Business.Services.User
             if (user == null)
             {
                 response.Error = ErrorMessages.CannotGetUser;
-                response.Status = StatusResponseEnum.NotFound;
+                response.Status = StatusResponseEnum.InternalServerError;
                 return response;
             }
 
@@ -52,7 +52,7 @@ namespace MockNet04G2.Business.Services.User
                 if (existingPhone != null && existingPhone.Id != user.Id)
                 {
                     response.Error = ErrorMessages.PhonelAlreadyExists;
-                    response.Status = StatusResponseEnum.BadRequest;
+                    response.Status = StatusResponseEnum.InternalServerError;
                     return response;
                 }
                 user.Phone = request.Phone;
