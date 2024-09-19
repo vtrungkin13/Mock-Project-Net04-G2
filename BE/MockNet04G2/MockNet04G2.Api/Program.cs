@@ -132,6 +132,7 @@ builder.Services.AddScoped<DeleteCampaignService>();
 builder.Services.AddScoped<SearchCampaignService>();
 builder.Services.AddScoped<GetCampaignsCountAfterFilterService>();
 builder.Services.AddScoped<UpdateCampaignService>();
+builder.Services.AddScoped<EndDateService>();   
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
