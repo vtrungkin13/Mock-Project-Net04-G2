@@ -36,5 +36,10 @@ namespace MockNet04G2.Core.Repositories
             return _context.Organizations.AsQueryable();
         }
 
+        public async Task<List<Organization>> GetAllOrganizationAsync()
+        {
+            var organizations = await _context.Organizations.ToListAsync();
+            return organizations;
+        }
     }
 }

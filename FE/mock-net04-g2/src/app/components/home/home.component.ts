@@ -6,16 +6,22 @@ import { CampaignService } from '../../services/campaign-service/campaign.servic
 import { Router, RouterLink } from '@angular/router';
 import { CampaignStatusEnum } from '../../models/enum/CampaignStatusEnum';
 import { FormsModule } from '@angular/forms';
+import { ModifyCampaignComponent } from '../campaigns/modify-campaign/modify-campaign.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, RouterLink, FormsModule],
+  imports: [
+    HeaderComponent,
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    ModifyCampaignComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-
   // campaignsResponse$: Observable<any>;
   CampaignStatusEnum = CampaignStatusEnum;
   campaigns: Campaign[] = [];
@@ -26,11 +32,14 @@ export class HomeComponent implements OnInit {
 
   // Param cho chức năng filter/search
   statusFilter?: CampaignStatusEnum;
-  codeSearch: string = "";
-  phoneSearch: string = "";
+  codeSearch: string = '';
+  phoneSearch: string = '';
   loading: boolean = false; // To track the loading state
 
-  constructor(private router: Router, private campaignService: CampaignService) { }
+  constructor(
+    private router: Router,
+    private campaignService: CampaignService
+  ) {}
 
   ngOnInit(): void {
     this.getCampaignList();
@@ -40,60 +49,75 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl(`/campaign-detail/${campaignId}`);
   }
 
-  getCampaignList() { // kết hợp search + filter + paging vào 1 cho đồng nhất
-    this.loading = true; // Set loading to true when starting the request
-    const focusedElement = document.activeElement;// Save reference to the focused element
-    this.campaignService.getCampaigns(
-      this.pageSize
-      , this.page
-      , this.codeSearch
-      , this.phoneSearch
-      , this.statusFilter
-    ).subscribe({
-      next: (response) => {
-        this.campaigns = response.body;
-        this.getTotalCampaignCount();
-        this.totalPage = Math.ceil(this.totalCount / this.pageSize);
-        this.loading = false; // Set loading to false after data is received
+  onCampaignAdded() {
+    this.getCampaignList();
+  }
 
-        // Restore focus after data has been loaded
-        if (focusedElement) {
-          (focusedElement as HTMLElement).focus();
-        }
-      },
-      error: (error) => {
-        this.loading = false; // Set loading to false after data is received
-      }
-    });
+  getCampaignList() {
+    // kết hợp search + filter + paging vào 1 cho đồng nhất
+    this.loading = true; // Set loading to true when starting the request
+    const focusedElement = document.activeElement; // Save reference to the focused element
+    this.campaignService
+      .getCampaigns(
+        this.pageSize,
+        this.page,
+        this.codeSearch,
+        this.phoneSearch,
+        this.statusFilter
+      )
+      .subscribe({
+        next: (response) => {
+          this.campaigns = response.body;
+          this.getTotalCampaignCount();
+          this.totalPage = Math.ceil(this.totalCount / this.pageSize);
+          this.loading = false; // Set loading to false after data is received
+
+          // Restore focus after data has been loaded
+          if (focusedElement) {
+            (focusedElement as HTMLElement).focus();
+          }
+        },
+        error: (error) => {
+          console.log(error.message);
+          this.loading = false; // Set loading to false after data is received
+        },
+      });
   }
 
   getTotalCampaignCount() {
-    this.campaignService.getCampaignsCount(this.codeSearch
-      , this.phoneSearch
-      , this.statusFilter
-    ).subscribe({
-      next: (response) => {
-        this.totalCount = response.body;
-        this.totalPage = Math.ceil(this.totalCount / this.pageSize);
-      },
-      error: (error) => {
-        alert(error.message);
-      }
-    });
+    this.campaignService
+      .getCampaignsCount(this.codeSearch, this.phoneSearch, this.statusFilter)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.totalCount = response.body;
+          this.totalPage = Math.ceil(this.totalCount / this.pageSize);
+        },
+        error: (error) => {
+          alert(error.message);
+        },
+      });
   }
 
-  calculateTotalAmount(campaign: Campaign): number { // trả về tổng số tiền đã quyên góp đc 
-    return (campaign.donations || []).reduce((total: number, donate: any) => total + donate.amount, 0);
+  calculateTotalAmount(campaign: Campaign): number {
+    // trả về tổng số tiền đã quyên góp đc
+    return (campaign.donations || []).reduce(
+      (total: number, donate: any) => total + donate.amount,
+      0
+    );
   }
 
-  calculatePercentage(campaign: Campaign): number { // % quyên góp so vs mục tiêu
+  calculatePercentage(campaign: Campaign): number {
+    // % quyên góp so vs mục tiêu
     const totalAmount = this.calculateTotalAmount(campaign);
     const targetAmount = campaign.limitation || 1; // tránh chia cho 0
     return (totalAmount / targetAmount) * 100;
   }
 
-  calculateRemainingDays(campaign: Campaign): number { // đếm số ngày còn lại
-    if (!campaign.endDate) { // tránh null
+  calculateRemainingDays(campaign: Campaign): number {
+    // đếm số ngày còn lại
+    if (!campaign.endDate) {
+      // tránh null
       return 0;
     }
     const today = new Date();
@@ -103,7 +127,8 @@ export class HomeComponent implements OnInit {
     return daysDiff >= 0 ? daysDiff : 0;
   }
 
-  previousPage() { // sang trang tiếp
+  previousPage() {
+    // sang trang tiếp
     if (this.page > 1) {
       this.page -= 1;
       this.getCampaignList();
@@ -111,7 +136,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  nextPage() { // quay lại trang trước
+  nextPage() {
+    // quay lại trang trước
     if (this.page < this.totalPage) {
       this.page += 1;
       this.getCampaignList();
@@ -119,7 +145,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  changePage(i: number) { // đổi trang theo số thứ tự
+  changePage(i: number) {
+    // đổi trang theo số thứ tự
     if (i >= 1 && i <= this.totalPage) {
       this.page = i;
       this.getCampaignList();
@@ -127,14 +154,16 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onStatusChange(status?: CampaignStatusEnum) { // lọc theo status
+  onStatusChange(status?: CampaignStatusEnum) {
+    // lọc theo status
     this.page = 1;
     this.statusFilter = status;
     this.getCampaignList();
     window.location.href = '#campaigns-container';
   }
 
-  onSearchChange() { // lọc theo mã hoặc số đt
+  onSearchChange() {
+    // lọc theo mã hoặc số đt
     this.page = 1;
     this.getCampaignList();
     window.location.href = '#campaigns-container';

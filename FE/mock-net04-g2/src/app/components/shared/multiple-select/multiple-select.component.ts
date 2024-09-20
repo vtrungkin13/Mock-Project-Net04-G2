@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-multiple-select',
@@ -8,43 +16,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './multiple-select.component.html',
   styleUrl: './multiple-select.component.scss',
 })
-export class MultipleSelectComponent implements OnInit {
+export class MultipleSelectComponent implements OnInit, OnChanges {
   @Input() label: string = '';
-  @Input() options: any[] = [
-    {
-      id: 1,
-      name: 'Option 1',
-    },
-    {
-      id: 2,
-      name: 'Option 2',
-    },
-    {
-      id: 3,
-      name: 'Option 3',
-    },
-    {
-      id: 4,
-      name: 'Option 4',
-    },
-  ];
+  @Input() options: any[] = [];
   @Output() onOptionSelect = new EventEmitter();
 
-  mapOptions: any[] = this.options.map((item) => {
-    return { ...item, selected: false };
-  });
-  @Input() selectedItems: any[] = [
-    {
-      id: 1,
-      name: 'Option 1',
-      selected: true,
-    },
-    {
-      id: 3,
-      name: 'Option 3',
-      selected: true,
-    },
-  ];
+  mapOptions!: any[];
+  @Input() selectedItems: any[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['options'] && !changes['options'].isFirstChange()) {
+      this.initializeMapOptions();
+    }
+  }
 
   ngOnInit(): void {
     if (this.selectedItems.length !== 0) {
@@ -62,6 +46,12 @@ export class MultipleSelectComponent implements OnInit {
       });
       this.onOptionSelect.emit(this.selectedItems.map((item) => item.id));
     }
+  }
+
+  initializeMapOptions() {
+    this.mapOptions = this.options.map((item) => {
+      return { ...item, selected: false };
+    });
   }
 
   isClicked: boolean = false;

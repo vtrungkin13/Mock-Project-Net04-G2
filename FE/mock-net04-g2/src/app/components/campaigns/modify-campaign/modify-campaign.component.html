@@ -1,147 +1,67 @@
 <div id="modify-campaign-wrapper">
   <!-- Modal trigger button -->
   @if (!campaign) {
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#newCampaignModal"
-  >
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCampaignModal">
     Thêm chiến dịch
   </button>
 
   } @else {
-  <i
-    type="button"
-    class="fa-solid fa-pen text-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#updateCampaignModal"
-  ></i>
+  <i type="button" class="fa-solid fa-pen text-primary" data-bs-toggle="modal"
+    [attr.data-bs-target]="'#updateCampaignModal' + campaign.id"></i>
   }
 
   <!-- Modal Body -->
   <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div
-    class="modal fade"
-    id="newCampaignModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="modalTitleId"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
-      role="document"
-    >
+  <div class="modal fade" [attr.id]="campaign ? 'updateCampaignModal' + campaign.id : 'newCampaignModal'" tabindex="-1"
+    role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form
-          (ngSubmit)="onSubmit(modifyCampaignForm)"
-          #modifyCampaignForm="ngForm"
-        >
+        <form (ngSubmit)="onSubmit(modifyCampaignForm)" #modifyCampaignForm="ngForm">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitleId">
               @if (!campaign) { Thêm chiến dịch mới } @else { Chỉnh sửa thông
               tin chiến dịch }
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                class="form-control"
-                placeholder="Tên chiến dịch"
-                ngModel
-              />
+              <input type="text" name="title" id="title" class="form-control" placeholder="Tên chiến dịch" ngModel />
             </div>
             <div class="mb-3">
-              <input
-                type="text"
-                name="description"
-                id="description"
-                class="form-control"
-                placeholder="Mô tả chung"
-                ngModel
-              />
+              <input type="text" name="description" id="description" class="form-control" placeholder="Mô tả chung"
+                ngModel />
             </div>
             <div class="mb-3">
-              <textarea
-                name="content"
-                id="content"
-                class="form-control"
-                placeholder="Nội dung chiến dịch"
-                rows="4"
-                ngModel
-              ></textarea>
-            </div>
-            <div class="mb-3 d-flex justify-content-between">
-              <div>
-                <input
-                  type="url"
-                  name="image"
-                  id="image"
-                  class="form-control"
-                  placeholder="Nhập đường dẫn ảnh"
-                  ngModel
-                />
-              </div>
-              <div class="border"></div>
+              <textarea name="content" id="content" class="form-control" placeholder="Nội dung chiến dịch" rows="4"
+                ngModel></textarea>
             </div>
             <div class="mb-3">
-              <input
-                type="number"
-                name="limitation"
-                id="limitation"
-                class="form-control"
-                placeholder="Giới hạn quyên góp"
-                ngModel
-              />
+              <input type="url" name="image" id="image" class="form-control" placeholder="Nhập đường dẫn ảnh" ngModel />
+            </div>
+            <div class="mb-3">
+              <input type="number" name="limitation" id="limitation" class="form-control"
+                placeholder="Giới hạn quyên góp" ngModel />
             </div>
             <div class="mb-3 d-flex justify-content-between">
               <div class="w-50 me-2">
                 <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  id="startDate"
-                  class="form-control"
-                  placeholder="Ngày bắt đầu"
-                  ngModel
-                />
+                <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Ngày bắt đầu"
+                  ngModel />
               </div>
               <div class="w-50 ms-2">
                 <label for="endDate" class="form-label">Ngày kết thúc</label>
-                <input
-                  type="date"
-                  name="endDate"
-                  id="endDate"
-                  class="form-control"
-                  placeholder="Ngày kết thúc"
-                  ngModel
-                />
+                <input type="date" name="endDate" id="endDate" class="form-control" placeholder="Ngày kết thúc"
+                  ngModel />
               </div>
             </div>
             <div>
-              <app-multiple-select
-                [label]="'Chọn tổ chức đồng hành'"
-                [selectedItems]="[]"
-                (onOptionSelect)="getOrganizationIds($event)"
-              ></app-multiple-select>
+              <app-multiple-select [label]="'Chọn tổ chức đồng hành'" [options]="organizations" [selectedItems]="[]"
+                (onOptionSelect)="getOrganizationIds($event)"></app-multiple-select>
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
             <button type="submit" class="btn btn-primary">Save</button>

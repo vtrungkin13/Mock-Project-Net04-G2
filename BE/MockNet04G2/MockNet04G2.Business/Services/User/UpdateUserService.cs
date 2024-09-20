@@ -34,6 +34,7 @@ namespace MockNet04G2.Business.Services.User
             var response = new ApiResponse<UserDetailDto, string>();
 
             var user = await _userRepository.FindUserByIdAsync(userId);
+
             if (user == null)
             {
                 response.Error = ErrorMessages.CannotGetUser;
