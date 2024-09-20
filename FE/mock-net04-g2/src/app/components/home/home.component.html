@@ -40,8 +40,8 @@
       <div class="col-5">
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Tìm bằng số điện thoại</span>
-          <input type="text" class="form-control" placeholder="Nhập số điện thoại đối tác"
-          [(ngModel)]="phoneSearch" (input)="onSearchChange()">
+          <input type="text" class="form-control" placeholder="Nhập số điện thoại đối tác" [(ngModel)]="phoneSearch"
+            (input)="onSearchChange()">
         </div>
       </div>
 
@@ -79,10 +79,14 @@
     <div *ngIf="loading" class="text-center">
       <p>Đang tải thông tin</p>
     </div>
-    
+
     <!-- Display No record message when there are no campaigns -->
     <div *ngIf="!loading && campaigns.length === 0" class="text-center">
       <p>Không có chiến dịch nào khớp với yêu cầu (hoặc không có gì trong database)!</p>
+    </div>
+
+    <div class="mb-3">
+      <app-modify-campaign (onCampaignAdded)="onCampaignAdded()"></app-modify-campaign>
     </div>
 
     <!-- Display campaigns list -->
@@ -90,7 +94,7 @@
       @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
         <div class="campaign-item border rounded-3 position-relative" (click)="redirectToCampaignDeital(campaign.id)">
-          <img class="img-fluid" [src]="campaign.image"/>
+          <img class="img-fluid" [src]="campaign.image" />
           <p class="fs-5 fw-bold p-3 m-0">
             {{campaign.title}}
           </p>

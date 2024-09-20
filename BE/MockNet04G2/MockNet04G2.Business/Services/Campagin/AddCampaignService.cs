@@ -51,7 +51,7 @@ namespace MockNet04G2.Business.Services.Campagin
 
             var response = new ApiResponse<CampaignDetailReponse, string>();
 
-            List<Organization> selectedOrganizations = new List<Organization>();
+            List<Core.Models.Organization> selectedOrganizations = new List<Core.Models.Organization>();
 
 
             var organizationIds = request.OrganizationIds;

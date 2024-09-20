@@ -36,12 +36,8 @@
               <textarea name="content" id="content" class="form-control" placeholder="Nội dung chiến dịch" rows="4"
                 ngModel></textarea>
             </div>
-            <div class="mb-3 d-flex justify-content-between">
-              <div>
-                <input type="url" name="image" id="image" class="form-control" placeholder="Nhập đường dẫn ảnh"
-                  ngModel />
-              </div>
-              <div class="border"></div>
+            <div class="mb-3">
+              <input type="url" name="image" id="image" class="form-control" placeholder="Nhập đường dẫn ảnh" ngModel />
             </div>
             <div class="mb-3">
               <input type="number" name="limitation" id="limitation" class="form-control"
@@ -60,7 +56,7 @@
               </div>
             </div>
             <div>
-              <app-multiple-select [label]="'Chọn tổ chức đồng hành'" [selectedItems]="[]"
+              <app-multiple-select [label]="'Chọn tổ chức đồng hành'" [options]="organizations" [selectedItems]="[]"
                 (onOptionSelect)="getOrganizationIds($event)"></app-multiple-select>
             </div>
           </div>

@@ -13,6 +13,7 @@ using MockNet04G2.Business.Services.Authentication.Validators;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Campagin.Validators;
 using MockNet04G2.Business.Services.Campaign;
+using MockNet04G2.Business.Services.Organization;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Business.Services.User.Validators;
 using MockNet04G2.Core.Data;
@@ -135,6 +136,8 @@ builder.Services.AddScoped<UpdateCampaignService>();
 builder.Services.AddScoped<GetHomePageCampaignService>();
 builder.Services.AddScoped<GetHomePageCampaignCountService>();
 builder.Services.AddScoped<EndDateService>();   
+
+builder.Services.AddScoped<OrganizationService>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
