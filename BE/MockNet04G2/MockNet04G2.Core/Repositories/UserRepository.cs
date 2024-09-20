@@ -41,7 +41,7 @@ namespace MockNet04G2.Core.Repositories
 
         public async Task<User> FindUserByNameAsync(string name)
         {
-            var user = await _entities.SingleOrDefaultAsync(x => x.Name == name);
+            var user = await _entities.SingleOrDefaultAsync(x => x.Name.ToLower().Contains(name.Trim().ToLower()));
             return user;
         }
 
