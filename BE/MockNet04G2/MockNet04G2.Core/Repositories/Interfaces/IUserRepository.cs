@@ -12,11 +12,13 @@ namespace MockNet04G2.Core.Repositories.Interfaces
         Task<User> FindUserByEmailorPhone(string emailOrPhone);
         Task<User> FindUserByPhoneAsync(string phone);
         Task<User> FindUserByEmailAsync(string email);
-        Task<User> FindUserByNameAsync(string name);
+        Task<List<User>> FindUserByNameAsync(string name);
         Task<User> FindUserByIdAsync(int id);
         Task ChangeUserRoleAsync(User user);
         Task<List<User>> GetAllUserAsync();
         Task<List<User>> UserPagingAsync(int page, int pageSize);
         Task<int> TotalUserCountAsync();
+        Task<List<User>> FilterUser(int pageSize, int page, string name);
+        Task<int> FilterUserCount(string name);
     }
 }
