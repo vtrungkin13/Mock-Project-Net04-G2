@@ -68,6 +68,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("Password/{userId}")]
         public async Task<IActionResult> ChangePassword(ChangePasswordRequest request, int userId)
         {
@@ -75,6 +76,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Page/{page}")]
         public async Task<IActionResult> UsersPagingAsync(int page, int pageSize = 9)
         {
@@ -82,6 +84,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Count")]
         public async Task<IActionResult> CountUserAsync()
         {
@@ -89,6 +92,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -96,6 +100,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("Update-User/{id}")]
         public async Task<IActionResult> UpdateUsernAsync(int id, UpdateUserRequest request)
         {
