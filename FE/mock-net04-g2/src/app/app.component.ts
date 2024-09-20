@@ -15,22 +15,8 @@ import { User } from './models/User';
 export class AppComponent implements OnInit {
   user?: User;
 
-  constructor(private router: Router, private authService: AuthService) {
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     const url = event.url;
-    //     if (
-    //       url !== '/login' &&
-    //       url !== '/register' &&
-    //       url !== '/reset-password'
-    //     ) {
-    //       this.showHeader = true;
-    //     } else {
-    //       this.showHeader = false;
-    //     }
-    //   }
-    // });
-  }
+  constructor(private router: Router, private authService: AuthService) {}
+
   ngOnInit(): void {
     // Subscribe to NavigationEnd event
     this.router.events
@@ -42,13 +28,16 @@ export class AppComponent implements OnInit {
   }
 
   onRouteChange(newUrl: string) {
-    // if (newUrl === '/') {
+    // Execute route-specific logic if needed
+    this.loadUser();
+  }
+
+  loadUser() {
     const user = this.authService.getUser();
     if (user) {
       this.user = user;
     } else {
       this.user = undefined;
     }
-    // }
   }
 }

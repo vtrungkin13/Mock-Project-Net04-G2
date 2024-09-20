@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../../models/User';
 import { UserService } from '../../../services/user-service/user.service';
@@ -12,6 +12,7 @@ import { UserService } from '../../../services/user-service/user.service';
 })
 export class UserProfileComponent implements OnInit {
   @Input() user!: User;
+  @Output() onUserUpdate = new EventEmitter();
 
   constructor(private userService: UserService) {}
 
@@ -25,6 +26,7 @@ export class UserProfileComponent implements OnInit {
       this.userService.updateUser(this.user.id, newUser).subscribe({
         next: (response) => {
           sessionStorage.setItem('user', JSON.stringify(response.body));
+          this.onUserUpdate.emit();
         },
         error: (error) => {
           console.log(error);
