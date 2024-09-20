@@ -94,7 +94,7 @@
       @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
         <div class="campaign-item border rounded-3 position-relative" (click)="redirectToCampaignDeital(campaign.id)">
-          <img class="img-fluid" [src]="campaign.image" />
+          <img class="campaign-img" [src]="campaign.image" />
           <p class="fs-5 fw-bold p-3 m-0">
             {{campaign.title}}
           </p>

@@ -8,6 +8,14 @@
     padding-top: 70px;
 
     .campaign-item {
+      .campaign-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        vertical-align: middle;
+        border-radius: 8px 8px 0 0;
+      }
+
       .campaign-time-remain {
         background-color: #ffe8e0;
         color: #fc743b;
