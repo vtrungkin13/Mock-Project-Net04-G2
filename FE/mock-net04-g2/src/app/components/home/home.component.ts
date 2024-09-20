@@ -24,6 +24,7 @@ import { ModifyCampaignComponent } from '../campaigns/modify-campaign/modify-cam
 export class HomeComponent implements OnInit {
   // campaignsResponse$: Observable<any>;
   CampaignStatusEnum = CampaignStatusEnum;
+  
   campaigns: Campaign[] = [];
   totalCount: number = 0; // tổng số campaigns (có thể thay đổi tùy theo search/filter)
   page: number = 1; // page hiện tại

@@ -26,6 +26,8 @@ namespace MockNet04G2.Api.Controllers
         private readonly UsersPagingService _usersPagingService;
         private readonly CountUserService _countUserService;
         private readonly UpdateUserService _updateUserService;
+        private readonly FilterUserCountService _filterUserCountService;
+        private readonly FilterService _filterService;
 
 
         public UserController(GetAllUserService getAllUserService, FindUserService findUserService,
@@ -33,7 +35,9 @@ namespace MockNet04G2.Api.Controllers
             ChangePasswordService changePasswordService,
             UsersPagingService usersPagingService,
             CountUserService countUserService,
-            UpdateUserService updateUserService)
+            UpdateUserService updateUserService, 
+            FilterUserCountService filterUserCountService, 
+            FilterService filterService)
         {
             _getAllUserService = getAllUserService;
             _findUserService = findUserService;
@@ -42,6 +46,8 @@ namespace MockNet04G2.Api.Controllers
             _usersPagingService = usersPagingService;
             _countUserService = countUserService;
             _updateUserService = updateUserService;
+            _filterUserCountService = filterUserCountService;
+            _filterService = filterService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -105,6 +111,22 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> UpdateUsernAsync(int id, UpdateUserRequest request)
         {
             var result = await _updateUserService.ExecuteAsync(id, request);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Filter/{pageSize}/{page}/{name}")]
+        public async Task<IActionResult> FilterAsync(int page = 1, int pageSize = 9, string name = "")
+        {
+            var result = await _filterService.ExecuteAsync(pageSize, page, name);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("FilterCount/{name}")]
+        public async Task<IActionResult> FilterCountAsync(string name = "")
+        {
+            var result = await _filterUserCountService.ExecuteAsync(name);
             return HandleApiResponse(result);
         }
     }

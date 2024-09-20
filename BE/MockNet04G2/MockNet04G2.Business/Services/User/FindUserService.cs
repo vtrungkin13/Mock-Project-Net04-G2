@@ -25,11 +25,11 @@ namespace MockNet04G2.Business.Services.User
             _mapper = config.CreateMapper();
         }
 
-        public async Task<ApiResponse<UserDetailDto,string>> ExecuteAsync(string name)
+        public async Task<ApiResponse<List<UserDetailDto>,string>> ExecuteAsync(string name)
         {
-            var response = new ApiResponse<UserDetailDto, string>();
+            var response = new ApiResponse<List<UserDetailDto>, string>();
             var user = await _userRepository.FindUserByNameAsync(name);
-            var userDetailDtos = _mapper.Map<UserDetailDto>(user);
+            var userDetailDtos = _mapper.Map<List<UserDetailDto>>(user);
 
             if (user == null)
             {
