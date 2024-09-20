@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using MockNet04G2.Core.Data;
 using MockNet04G2.Core.Models;
 using MockNet04G2.Core.Repositories.Interfaces;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MockNet04G2.Core.Repositories
 {
@@ -39,10 +41,10 @@ namespace MockNet04G2.Core.Repositories
             return users;
         }
 
-        public async Task<User> FindUserByNameAsync(string name)
+        public async Task<List<User>> FindUserByNameAsync(string name)
         {
-            var user = await _entities.SingleOrDefaultAsync(x => x.Name.ToLower().Contains(name.Trim().ToLower()));
-            return user;
+            var users = await _entities.Where(x => x.Name.ToLower().Contains(name.Trim().ToLower())).ToListAsync();
+            return users;
         }
 
         public async Task<User> FindUserByIdAsync(int id)
@@ -71,6 +73,41 @@ namespace MockNet04G2.Core.Repositories
         public async Task<int> TotalUserCountAsync()
         {
             return await _entities.CountAsync();
+        }
+
+        public async Task<List<User>> FilterUser(int pageSize, int page, string name)
+        {
+            // Decode the code string if it's URL-encoded
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = HttpUtility.UrlDecode(name).Replace(" ", "").ToLower();
+            }
+
+            if (page < 1) page = 1;
+            if(pageSize < 1) pageSize = 9;
+
+            var query = _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower())).AsQueryable();
+
+            var users = await query.ToListAsync();
+
+            users = users
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+             return users;
+        }
+
+        public async Task<int> FilterUserCount(string name)
+        {
+            // Decode the code string if it's URL-encoded
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = HttpUtility.UrlDecode(name).Replace(" ", "").ToLower();
+            }
+
+            var users = await _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower())).ToListAsync();
+            return users.Count;
         }
     }
 }
