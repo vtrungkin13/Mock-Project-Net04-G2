@@ -29,10 +29,10 @@ namespace MockNet04G2.Business.Services.Campagin
             _mapper = config.CreateMapper();
         }
 
-        public async Task<ApiResponse<List<CampaignResponseDto>,string>> ExecuteAsync(StatusEnum status)
+        public async Task<ApiResponse<List<CampaignResponseDto>,string>> ExecuteAsync(StatusEnum status,int page,int pageSize)
         {
             var response = new ApiResponse<List<CampaignResponseDto>,string>();
-            var campaigns = await _campaignRepository.FilterCampaignsByStatusAsync(status);
+            var campaigns = await _campaignRepository.FilterCampaignsByStatusAsync(status,page,pageSize);
 
             var campaignsDto = _mapper.Map<List<CampaignResponseDto>>(campaigns);
 

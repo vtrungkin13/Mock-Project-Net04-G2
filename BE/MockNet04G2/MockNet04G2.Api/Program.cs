@@ -12,6 +12,7 @@ using MockNet04G2.Business.Services.Authentication;
 using MockNet04G2.Business.Services.Authentication.Validators;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Campagin.Validators;
+using MockNet04G2.Business.Services.Campaign;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Business.Services.User.Validators;
 using MockNet04G2.Core.Data;
@@ -116,6 +117,10 @@ builder.Services.AddScoped<ChangeUserRoleService>();
 builder.Services.AddScoped<ChangePasswordService>();
 builder.Services.AddScoped<UsersPagingService>();
 builder.Services.AddScoped<CountUserService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ResetPasswordService>();
+builder.Services.AddScoped<UpdateUserService>();
 
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
@@ -123,6 +128,13 @@ builder.Services.AddScoped<FilterCampaignsByStatusService>();
 builder.Services.AddScoped<CampaignsPagingService>();   
 builder.Services.AddScoped<GetTotalCampaignsService>();
 builder.Services.AddScoped<AddCampaignService>();
+builder.Services.AddScoped<DeleteCampaignService>();
+builder.Services.AddScoped<SearchCampaignService>();
+builder.Services.AddScoped<GetCampaignsCountAfterFilterService>();
+builder.Services.AddScoped<UpdateCampaignService>();
+builder.Services.AddScoped<GetHomePageCampaignService>();
+builder.Services.AddScoped<GetHomePageCampaignCountService>();
+builder.Services.AddScoped<EndDateService>();   
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -135,6 +147,8 @@ builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
 builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
 builder.Services.AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordValidator>();
 builder.Services.AddScoped<IValidator<CampaignDetailRequest>, CampaignDetailRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdateCampaignRequest>, UpdateCampaignValidator>();
+builder.Services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
 
 
 builder.Services.AddControllers();

@@ -11,11 +11,13 @@ namespace MockNet04G2.Api.Controllers
     {
         private readonly LoginService _loginService;
         private readonly RegisterService _registerService;
+        private readonly ResetPasswordService _resetPasswordService;
 
-        public AuthenticationController(LoginService loginService, RegisterService registerService)
+        public AuthenticationController(LoginService loginService, RegisterService registerService, ResetPasswordService resetPasswordService)
         {
             _loginService = loginService;
             _registerService = registerService;
+            _resetPasswordService = resetPasswordService;
         }
 
         [HttpPost("login")]
@@ -29,6 +31,13 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
             var result = await _registerService.ExecuteAsync(request);
+            return HandleApiResponse(result);
+        }
+
+        [HttpPut("reset/{email}")]
+        public async Task<IActionResult> ResetPasswordAsync(string email)
+        {
+            var result = await _resetPasswordService.ExecuteAsync(email);
             return HandleApiResponse(result);
         }
     }

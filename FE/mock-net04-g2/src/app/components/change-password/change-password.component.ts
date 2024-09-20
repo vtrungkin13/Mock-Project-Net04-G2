@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ChangepasswordService } from '../../services/changepassword-service/changepassword.service';
 
 @Component({
   selector: 'app-change-password',
@@ -10,34 +12,32 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './change-password.component.scss',
 })
 export class ChangePasswordComponent {
-  isPasswordCorrect: boolean = true; //check password is correct?
-  isPasswordDuplicate: boolean = true; //check new password duplicate with old password?
   isPasswordMatch: boolean = false; //check password and re-password is match?
+  changePasswordFailMessage: string = ''; // Store error message if change password fails
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private router: Router,private changePasswordService: ChangepasswordService) {}
 
   onSubmit(form: NgForm) {
     if (form.valid) {
       //changePasswordData = { password, newPassword, reNewPassword }
       const changePasswordData = form.value;
-      this.isPasswordCorrect = false;
 
-      if (changePasswordData.newPassword === changePasswordData.password) {
-        this.isPasswordDuplicate = true;
-      } else {
-        this.isPasswordDuplicate = false;
-      }
-
-      if (changePasswordData.reNewPassword !== changePasswordData.newPassword) {
+      if (changePasswordData.confirmPassword !== changePasswordData.newPassword) {
         this.isPasswordMatch = false;
       } else {
         this.isPasswordMatch = true;
       }
+      if (this.isPasswordMatch) {
+        this.changePasswordService.changePassword(changePasswordData).subscribe({
+          next: (response) => {
+            this.router.navigateByUrl('/');
+          },
+          error: (error) => {
+            this.changePasswordFailMessage = error.error.error;
+          },
+        });
+      }
     }
-  }
-
-  onPasswordInput() {
-    this.isPasswordCorrect = true;
   }
 
   goBack() {

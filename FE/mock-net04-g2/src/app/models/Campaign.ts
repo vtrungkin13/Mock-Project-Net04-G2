@@ -1,3 +1,5 @@
+import { Cooperate } from "./Cooperate";
+import { Donate } from "./Donate";
 import { CampaignStatusEnum } from "./enum/CampaignStatusEnum";
 import { Organization } from "./Organization";
 import { User } from "./User";
@@ -14,6 +16,6 @@ export interface Campaign {
     status: CampaignStatusEnum;
     code: string;
     createdAt: Date;
-    donators: User[]
-    organizations: Organization[]
+    donations: Donate[]
+    cooperations: Cooperate[]
 }

@@ -12,64 +12,117 @@
         </p>
         <div>
           <a class="btn btn-primary" href="#campaigns-container">Quyên góp</a>
-          <a class="btn btn-outline-primary ms-3" href="#introduction"
-            >Giới thiệu</a
-          >
+          <a class="btn btn-outline-primary ms-3" href="#introduction">Giới thiệu</a>
         </div>
       </div>
       <div class="col-6 d-flex justify-content-center">
-        <img
-          class="pb-5"
-          src="https://homepage.momocdn.net/images/momo-upload-api-210118152714-637465804342708477.png"
-          alt=""
-        />
+        <img class="pb-5" src="https://homepage.momocdn.net/images/momo-upload-api-210118152714-637465804342708477.png"
+          alt="" />
       </div>
     </div>
   </div>
-  <div id="campaigns-container" class="pt-5 container mb-5">
+  <div id="campaigns-container" class="container mb-5">
     <h2 class="text-primary text-center mb-3">Các hoàn cảnh quyên góp</h2>
+
+    <!-- Search / filter controls -->
     <div class="row">
-      @for (item of [].constructor(4); track $index) {
+
+      <!-- Search by code -->
+      <div class="col-5">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Tìm bằng mã</span>
+          <input type="text" class="form-control" placeholder="Nhập mã chiến dịch (ngày tạo + Id)"
+            [(ngModel)]="codeSearch" (input)="onSearchChange()">
+        </div>
+      </div>
+
+      <!-- Search by phone -->
+      <div class="col-5">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Tìm bằng số điện thoại</span>
+          <input type="text" class="form-control" placeholder="Nhập số điện thoại đối tác"
+          [(ngModel)]="phoneSearch" (input)="onSearchChange()">
+        </div>
+      </div>
+
+      <!-- filter dropdown button -->
+      <div class="col-2">
+        <div class="dropdown mb-5">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Lọc theo trạng thái
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(undefined)">Toàn bộ</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.JUSTCREATED)">Mới tạo</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.OPEN)">Đang quyên góp</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.COMPLETED)">Kết thúc quyên góp</div>
+            </li>
+            <li>
+              <div class="dropdown-item" (click)="onStatusChange(CampaignStatusEnum.CLOSED)">Đóng quyên góp</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Campaign list -->
+    <!-- Display Loading while waiting for data -->
+    <div *ngIf="loading" class="text-center">
+      <p>Đang tải thông tin</p>
+    </div>
+    
+    <!-- Display No record message when there are no campaigns -->
+    <div *ngIf="!loading && campaigns.length === 0" class="text-center">
+      <p>Không có chiến dịch nào khớp với yêu cầu (hoặc không có gì trong database)!</p>
+    </div>
+
+    <!-- Display campaigns list -->
+    <div class="row" *ngIf="!loading && campaigns.length > 0">
+      @for (campaign of campaigns; track $index) {
       <div class="col-4 px-3 mb-3">
-        <div
-          class="campaign-item border rounded-3 position-relative"
-          (click)="redirectToCampaignDeital(1)"
-        >
-          <img
-            class="img-fluid"
-            src="https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240909173829-638615003093038331.jpg"
-            alt=""
-          />
+        <div class="campaign-item border rounded-3 position-relative" (click)="redirectToCampaignDeital(campaign.id)">
+          <img class="img-fluid" [src]="campaign.image"/>
           <p class="fs-5 fw-bold p-3 m-0">
-            Hỗ trợ đồng bào bị ảnh hưởng bởi bão số 3
+            {{campaign.title}}
           </p>
           <div class="d-flex justify-content-between px-3 mb-3">
             <div>
-              <p class="m-0 small text-secondary">Đồng bào miền bắc</p>
-              <p class="m-0 small text-secondary">Liên hệ: 0123456789</p>
+              <p class="m-0 small text-secondary">
+                {{ campaign.cooperations.length > 0 ? campaign.cooperations[0].organization.name: 'No partner' }}
+              </p>
+              <p class="m-0 small text-secondary">
+                Liên hệ: {{ campaign.cooperations.length > 0 ? campaign.cooperations[0].organization.phone: 'No partner'
+                }}
+              </p>
             </div>
-            <p class="campaign-time-remain px-2 py-1 rounded-5">Còn 23 Ngày</p>
+            <p class="campaign-time-remain px-2 py-1 rounded-5">Còn {{calculateRemainingDays(campaign)}} ngày</p>
           </div>
           <div class="px-3">
             <div class="mb-2">
-              <strong>5.089.267.286đ </strong>
-              <span class="small text-secondary">/ 7.000.000.000đ</span>
+              <strong>{{ calculateTotalAmount(campaign) | number }}đ </strong>
+              <span class="small text-secondary">/ {{campaign.limitation}}đ</span>
             </div>
             <div class="progress mb-3">
-              <div
-                class="progress-bar bg-primary"
-                role="progressbar"
-                [ngStyle]="{ width: '72%' }"
-              ></div>
+              <div class="progress-bar bg-primary" role="progressbar"
+                [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <div>
                 <p class="text-secondary small m-0">Lượt quyên góp</p>
-                <p class="small m-0 fw-bold">107.070</p>
+                <p class="small m-0 fw-bold">{{(campaign.donations || []).length}}</p>
               </div>
               <div>
                 <p class="text-secondary small m-0">Đạt được</p>
-                <p class="small m-0 fw-bold">72%</p>
+                <p class="small m-0 fw-bold">{{calculatePercentage(campaign)}}%</p>
               </div>
               <div class="my-auto z-2">
                 <button class="btn btn-outline-primary btn-sm small">
@@ -82,7 +135,28 @@
       </div>
       }
     </div>
+
+    <!-- Pagination controls -->
+    <div class="d-flex justify-content-center mt-3">
+      <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item">
+            <div class="page-link" [ngClass]="{'disabled': page === 1}" (click)="previousPage()">Previous</div>
+          </li>
+          <li *ngFor="let pageNum of [].constructor(totalPage); let i = index" class="page-item"
+            [class.active]="i + 1 === page" (click)="changePage(i + 1)">
+            <div class="page-link">{{i + 1}}</div>
+          </li>
+          <li class="page-item">
+            <div class="page-link" [ngClass]="{'disabled': page === totalPage}" (click)="nextPage()">Next</div>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
+
+
+
   <div id="introduction" class="bg-primary-light pt-5">
     <h2 class="text-primary text-center mb-5">
       Trái tim Net 04 - Việc tốt không khó
@@ -105,11 +179,8 @@
         </div>
       </div>
       <div class="col-4">
-        <img
-          class="img-fluid"
-          src="https://homepage.momocdn.net/img/momo-upload-api-211217034129-637753092896897613.jpg"
-          alt=""
-        />
+        <img class="img-fluid"
+          src="https://homepage.momocdn.net/img/momo-upload-api-211217034129-637753092896897613.jpg" alt="" />
       </div>
       <div class="col-4">
         <div class="mb-5 text-end">

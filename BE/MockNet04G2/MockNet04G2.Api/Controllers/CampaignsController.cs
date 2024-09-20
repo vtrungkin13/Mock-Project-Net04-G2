@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MockNet04G2.Business.DTOs.Campaign.Requests;
 using MockNet04G2.Business.DTOs.Campaign.Responses;
 using MockNet04G2.Business.Services.Campagin;
+using MockNet04G2.Business.Services.Campaign;
 using MockNet04G2.Business.Services.Interfaces;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Core.Common.Enums;
@@ -21,12 +22,24 @@ namespace MockNet04G2.Api.Controllers
         private readonly CampaignsPagingService _campaignsPagingService;
         private readonly GetTotalCampaignsService _getTotalCampaignsService;
         private readonly AddCampaignService _addCampaignService;
+        private readonly DeleteCampaignService _deleteCampaignService;
+        private readonly SearchCampaignService _searchCampaignService;
+        private readonly GetCampaignsCountAfterFilterService _getCampaignsCountAfterFilterService;
+        private readonly UpdateCampaignService _updateCampaignService;
+        private readonly GetHomePageCampaignService _getHomePageCampaignService;
+        private readonly GetHomePageCampaignCountService _getHomePageCampaignCountService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
             CampaignsPagingService campaignsPagingService,
             GetTotalCampaignsService getTotalCampaignsService,
-            AddCampaignService addCampaignService)
+            AddCampaignService addCampaignService,
+            DeleteCampaignService deleteCampaignService,
+            SearchCampaignService searchCampaignService,
+            GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService,
+             UpdateCampaignService updateCampaignService,
+             GetHomePageCampaignService getHomePageCampaignService,
+             GetHomePageCampaignCountService getHomePageCampaignCountService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -34,6 +47,12 @@ namespace MockNet04G2.Api.Controllers
             _campaignsPagingService = campaignsPagingService;
             _getTotalCampaignsService = getTotalCampaignsService;
             _addCampaignService = addCampaignService;
+            _deleteCampaignService = deleteCampaignService;
+            _searchCampaignService = searchCampaignService;
+            _getCampaignsCountAfterFilterService = getCampaignsCountAfterFilterService;
+            _updateCampaignService = updateCampaignService;
+            _getHomePageCampaignService = getHomePageCampaignService;
+            _getHomePageCampaignCountService = getHomePageCampaignCountService;
         }
 
         [HttpGet]
@@ -50,16 +69,25 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
-        [HttpGet("{status}")]
-        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status)
+        [HttpGet("Status/{status}/{page}")]
+        public async Task<IActionResult> FilterCampaignsByStatusAsync(StatusEnum status,int page = 1) 
         {
-            var result = await _filterCampaignsByStatusService.ExecuteAsync(status);
+            int pageSize = 9;// tạm thời để mặc định pagesize = 9 
+            var result = await _filterCampaignsByStatusService.ExecuteAsync(status,page, pageSize);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("TotalCampaignsCountAfterFilter/{status}")]
+        public async Task<IActionResult> TotalCampaignsCountAfterFilter(StatusEnum status)
+        {
+            var result = await _getCampaignsCountAfterFilterService.ExecuteAsync(status);
             return HandleApiResponse(result);
         }
 
         [HttpGet("Page/{page}")]
-        public async Task<IActionResult> CampaignsPagingAsync(int page, int pageSize = 9) // tạm thời để mặc định 9 item 1 page 
+        public async Task<IActionResult> CampaignsPagingAsync(int page) 
         {
+            int pageSize = 9; // tạm thời để mặc định 9 item 1 page 
             var result = await _campaignsPagingService.ExecuteAsync(page,pageSize);
             return HandleApiResponse(result);
         }
@@ -79,5 +107,49 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("Delete-Campaign")]
+        public async Task<IActionResult> DeleteCampaignAsync(int campaignId)
+        {
+            var result = await _deleteCampaignService.ExecuteAsync(campaignId);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchCampaignAsync(string campaignCode, string organizationPhone)
+        {
+            var result = await _searchCampaignService.ExecuteAsync(campaignCode, organizationPhone);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("Update-Campaign{id}")]
+        public async Task<IActionResult> UpdateCampaignAsync(int id,UpdateCampaignRequest request)
+        {
+            var result = await _updateCampaignService.ExecuteAsync(id,request);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("Filter")]
+        public async Task<IActionResult> FilterCampaignAsync(
+        [FromQuery] int pageSize = 9,
+        [FromQuery] int page = 1,
+        [FromQuery] string code = "",
+        [FromQuery] string phone = "",
+        [FromQuery] StatusEnum? status = null)
+        {
+            var result = await _getHomePageCampaignService.ExecuteAsync(pageSize, page, code, phone, status);
+            return HandleApiResponse(result);
+        }
+
+        [HttpGet("FilterCount")]
+        public async Task<IActionResult> FilterCampaignCountAsync(
+        [FromQuery] string code = "",
+        [FromQuery] string phone = "",
+        [FromQuery] StatusEnum? status = null)
+        {
+            var result = await _getHomePageCampaignCountService.ExecuteAsync(code, phone, status);
+            return HandleApiResponse(result);
+        }
     }
 }

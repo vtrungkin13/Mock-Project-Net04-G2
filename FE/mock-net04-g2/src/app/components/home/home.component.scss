@@ -3,17 +3,22 @@
     padding-top: 60px;
     min-height: 400px;
   }
+
   #campaigns-container {
+    padding-top: 70px;
+
     .campaign-item {
       .campaign-time-remain {
         background-color: #ffe8e0;
         color: #fc743b;
         font-size: 12px;
       }
+
       .progress {
         height: 6px;
       }
     }
+
     .campaign-item::after {
       content: "";
       position: absolute;
@@ -29,6 +34,31 @@
     .campaign-item:hover::after {
       cursor: pointer;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .pagination {
+      .page-link:hover {
+        cursor: pointer;
+      }
+    }
+
+    .input-group-text {
+      display: flex;
+      align-items: center;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: white;
+      text-align: center;
+      white-space: nowrap;
+      background-color:#d63384;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
+    }
+
+    .dropdown-item:hover {
+      cursor: pointer;
     }
   }
 }

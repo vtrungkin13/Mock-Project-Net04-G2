@@ -1,0 +1,22 @@
+#multiple-select-wrapper {
+  .select-label {
+    cursor: pointer;
+  }
+  .select-label-click {
+    border-color: #e685b5;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(253, 13, 181, 0.25);
+  }
+  .select-options {
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+  .option-item:hover {
+    cursor: pointer;
+    background-color: #f7d6e6 !important;
+  }
+
+  .option-item-selected {
+    background-color: #f7d6e6 !important;
+  }
+}
