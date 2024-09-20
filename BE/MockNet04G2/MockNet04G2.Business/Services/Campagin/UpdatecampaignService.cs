@@ -59,12 +59,12 @@ namespace MockNet04G2.Business.Services.Campaign
                 return response;
             }
 
-            if (campaign.Status != StatusEnum.Completed)
-            {
-                response.Error = ErrorMessages.CannotUpdateCampaign;
-                response.Status = StatusResponseEnum.InternalServerError;
-                return response;
-            }
+            //if (campaign.status != statusenum.completed)
+            //{
+            //    response.error = errormessages.cannotupdatecampaign;
+            //    response.status = statusresponseenum.internalservererror;
+            //    return response;
+            //}
 
             if (request.EndDate < campaign.EndDate)
             {
