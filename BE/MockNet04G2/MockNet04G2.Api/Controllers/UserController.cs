@@ -28,9 +28,9 @@ namespace MockNet04G2.Api.Controllers
         private readonly UpdateUserService _updateUserService;
 
 
-        public UserController(GetAllUserService getAllUserService, FindUserService findUserService, 
+        public UserController(GetAllUserService getAllUserService, FindUserService findUserService,
             ChangeUserRoleService changeUserRoleService,
-            ChangePasswordService changePasswordService, 
+            ChangePasswordService changePasswordService,
             UsersPagingService usersPagingService,
             CountUserService countUserService,
             UpdateUserService updateUserService)
@@ -76,7 +76,7 @@ namespace MockNet04G2.Api.Controllers
         }
 
         [HttpGet("Page/{page}")]
-        public async Task<IActionResult> UsersPagingAsync(int page, int pageSize = 9) 
+        public async Task<IActionResult> UsersPagingAsync(int page, int pageSize = 9)
         {
             var result = await _usersPagingService.ExecuteAsync(page, pageSize);
             return HandleApiResponse(result);
@@ -96,7 +96,7 @@ namespace MockNet04G2.Api.Controllers
             return HandleApiResponse(result);
         }
 
-        [HttpPost("Update-User{id}")]
+        [HttpPut("Update-User/{id}")]
         public async Task<IActionResult> UpdateUsernAsync(int id, UpdateUserRequest request)
         {
             var result = await _updateUserService.ExecuteAsync(id, request);
