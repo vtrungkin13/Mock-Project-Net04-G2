@@ -128,11 +128,13 @@
                 <p class="text-secondary small m-0">Đạt được</p>
                 <p class="small m-0 fw-bold">{{calculatePercentage(campaign)}}%</p>
               </div>
+              @if(user?.role !== 1){
               <div class="my-auto z-2">
                 <button class="btn btn-outline-primary btn-sm small">
                   Quyên góp
                 </button>
               </div>
+              }
             </div>
           </div>
         </div>

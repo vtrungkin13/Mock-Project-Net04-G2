@@ -112,20 +112,18 @@ export class CampaignService {
     });
   }
 
-  // updateCampaign(
-  //   id: number,
-  //   request: UpdateCampaignRequest
-  // ): Observable<CampaignDetailResponse> {
-  //   const url = `${this.campaignApiUrl}/Update-Campaign${id}`;
-  //   const headers = new HttpHeaders().set('Authorization', 'Bearer ');
-
-  //   return this.http
-  //     .put<CampaignDetailResponse>(url, request, { headers })
-  //     .pipe(
-  //       catchError((error) => {
-  //         console.error('Error occurred during campaign update:', error);
-  //         return throwError(() => new Error(error.message));
-  //       })
-  //     );
-  // }
+  updateCampaign(
+    id: number,
+    request: UpdateCampaignRequest
+  ): Observable<CampaignDetailResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.put<CampaignDetailResponse>(
+      `${this.campaignApiUrl}/Update-Campaign/${id}`,
+      request,
+      { headers }
+    );
+  }
 }

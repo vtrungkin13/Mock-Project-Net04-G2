@@ -7,6 +7,8 @@ import { Router, RouterLink } from '@angular/router';
 import { CampaignStatusEnum } from '../../models/enum/CampaignStatusEnum';
 import { FormsModule } from '@angular/forms';
 import { ModifyCampaignComponent } from '../campaigns/modify-campaign/modify-campaign.component';
+import { User } from '../../models/User';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -36,13 +38,17 @@ export class HomeComponent implements OnInit {
   phoneSearch: string = '';
   loading: boolean = false; // To track the loading state
 
+  user?: User;
+
   constructor(
     private router: Router,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.getCampaignList();
+    this.user = this.authService.getUser();
   }
 
   redirectToCampaignDeital(campaignId: number) {

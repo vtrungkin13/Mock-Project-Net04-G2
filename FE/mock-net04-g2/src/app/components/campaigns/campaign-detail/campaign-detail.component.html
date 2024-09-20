@@ -8,41 +8,23 @@
   </div>
   <div class="row mb-3">
     <div class="col-8">
-      <img
-        class="img-fluid"
-        [src]="campaign.image"
-        alt="ảnh minh họa chiến dịch"
-      />
+      <img class="img-fluid" [src]="campaign.image" alt="ảnh minh họa chiến dịch" />
     </div>
     <div class="col-4">
       <div class="px-3">
         <p class="text-primary text-uppercase fw-bold">Thông tin quyên góp</p>
         <div class="border p-2 rounded-2 bg-light mb-3">
           @for (cooperate of campaign.cooperations; track $index) {
-            <div class="d-flex mb-3">
-              <div>
-                <img
-                  width="44px"
-                  [src]="cooperate.organization.logo"
-                  alt=""
-                />
-              </div>
-              <div class="ps-2">
-                <p class="m-0 small">{{cooperate.organization.name}}</p>
-                <span class="text-secondary small"
-                  >{{cooperate.organization.phone}}</span
-                >
-              </div>
+          <div class="d-flex mb-3">
+            <div>
+              <img width="44px" [src]="cooperate.organization.logo" alt="" />
             </div>
+            <div class="ps-2">
+              <p class="m-0 small">{{cooperate.organization.name}}</p>
+              <span class="text-secondary small">{{cooperate.organization.phone}}</span>
+            </div>
+          </div>
           }
-
-          <!-- mình éo có cái này -->
-          <!-- <div>
-            <p class="m-0">Đơn vị nhận tài trợ</p>
-            <span class="small text-secondary"
-              >Đồng bào miền bắc - 01234567789</span
-            >
-          </div> -->
 
         </div>
         <div class="mb-4">
@@ -51,11 +33,8 @@
             <span class="text-secondary">/ {{campaign.limitation}}đ</span>
           </div>
           <div class="progress mb-3">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
-            ></div>
+            <div class="progress-bar bg-primary" role="progressbar"
+              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div>
@@ -72,8 +51,12 @@
             </div>
           </div>
         </div>
+        @if (user.role === 2) {
         <button class="btn btn-primary w-100 fw-bold fs-5 mb-2">Quyên góp</button>
-        <button class="btn btn-primary w-100 fw-bold fs-5">Gia thêm hạn</button>
+        } @else {
+        <button class="btn btn-primary w-100 fw-bold fs-5 mb-2">Xoá chiến dịch</button>
+        }
+        <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
       </div>
     </div>
   </div>
@@ -95,10 +78,10 @@
         </thead>
         <tbody>
           @for (donate of campaign.donations; track $index) {
-            <tr>
-              <td scope="row">{{donate.user.name}}</td>
-              <td class="text-end">{{donate.amount}}đ</td>
-            </tr>
+          <tr>
+            <td scope="row">{{donate.user.name}}</td>
+            <td class="text-end">{{donate.amount}}đ</td>
+          </tr>
           }
         </tbody>
       </table>
