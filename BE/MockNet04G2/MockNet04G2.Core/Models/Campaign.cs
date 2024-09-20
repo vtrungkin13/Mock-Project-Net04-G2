@@ -21,10 +21,10 @@ namespace MockNet04G2.Core.Models
         [StringLength(255)]
         public string Description { get; set; }
 
-        [StringLength(3000)]
+        [StringLength(8000)]
         public string Image { get; set; }
 
-        [StringLength(3000)]
+        [StringLength(8000)]
         public string Content { get; set; }
 
         [DataType(DataType.DateTime)]

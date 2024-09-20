@@ -53,7 +53,7 @@ namespace MockNet04G2.Api.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("{name}")]
+        [HttpGet("/{name}")]
         public async Task<IActionResult> GetUserByName(string name)
         {
             var result = await _findUserService.ExecuteAsync(name);
