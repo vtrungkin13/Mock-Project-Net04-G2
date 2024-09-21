@@ -33,7 +33,6 @@ export class CampaignDetailComponent implements OnInit {
     if (this.campaignId && this.campaignId >= 0) {
       this.campaignService.getCampaignDetail(this.campaignId).subscribe({
         next: (response) => {
-          console.log(response);
           this.campaign = response.body;
         },
         error: (error) => {

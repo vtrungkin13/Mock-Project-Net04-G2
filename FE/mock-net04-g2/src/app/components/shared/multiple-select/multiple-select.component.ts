@@ -32,20 +32,11 @@ export class MultipleSelectComponent implements OnInit, OnChanges {
       this.initializeMapOptions();
     }
     if (changes['selectedItems']) {
-      console.log(
-        'MultipleSelectComponent - selectedItems changed:',
-        this.selectedItems
-      );
       this.updateSelectedOptions();
     }
   }
 
   ngOnInit(): void {
-    console.log('MultipleSelectComponent - ngOnInit - options:', this.options);
-    console.log(
-      'MultipleSelectComponent - ngOnInit - selectedItems:',
-      this.selectedItems
-    );
     this.initializeMapOptions();
     this.updateSelectedOptions();
   }

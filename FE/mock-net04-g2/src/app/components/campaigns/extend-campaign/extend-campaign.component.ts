@@ -38,38 +38,34 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getOrganizations();
+    if (this.campaign) {
+      this.extractSelectedOrganizations(this.campaign.cooperations);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['campaign'] && this.campaign && this.organizations.length > 0) {
-      this.selectedOrganizations = this.extractSelectedOrganizations(
-        this.campaign.cooperations
-      );
+      this.extractSelectedOrganizations(this.campaign.cooperations);
     }
   }
 
   // Hàm trích xuất các Organization đã chọn từ cooperations
-  extractSelectedOrganizations(cooperations: Cooperate[]): any[] {
-    return cooperations
-      .map((coop) => {
-        const org = this.organizations.find(
-          (o) => o.id === coop.organizationId
-        );
-        return org ? org : null;
-      })
-      .filter((org) => org !== null);
+  extractSelectedOrganizations(cooperations: Cooperate[]) {
+    // return cooperations
+    //   .map((coop) => {
+    //     const org = this.organizations.find(
+    //       (o) => o.id === coop.organizationId
+    //     );
+    //     return org ? org : null;
+    //   })
+    //   .filter((org) => org !== null);
+    this.selectedOrganizations = cooperations.map((coop) => coop.organization);
   }
 
   getOrganizations() {
     this.organizationService.getOrganizations().subscribe({
-      next: (data: Organization[]) => {
-        this.organizations = data;
-        // Nếu campaign đã có, cập nhật các tổ chức đã chọn
-        if (this.campaign) {
-          this.selectedOrganizations = this.extractSelectedOrganizations(
-            this.campaign.cooperations
-          );
-        }
+      next: (response) => {
+        this.organizations = response.body;
       },
       error: (error) => {
         console.error('Error fetching organizations:', error);
