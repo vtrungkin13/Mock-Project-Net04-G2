@@ -13,8 +13,14 @@ export class UserService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   updateUser(userId: number, newUser: any): Observable<any> {
+    const token = this.authService.getAuthToken();
+    const headers = {
+      Authorization: 'Bearer ' + token,
+    };
     return this.http
-      .put<any>(`${this.baseUrl}/api/user/update-user/${userId}`, newUser)
+      .put<any>(`${this.baseUrl}/api/user/update-user/${userId}`, newUser, {
+        headers: headers
+      })
       .pipe(
         catchError((error) => {
           return throwError(() => error);
