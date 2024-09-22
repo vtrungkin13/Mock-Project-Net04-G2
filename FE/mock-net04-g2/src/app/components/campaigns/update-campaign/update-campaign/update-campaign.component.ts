@@ -1,30 +1,29 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
+  OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Campaign } from '../../../models/Campaign';
-import { CampaignService } from '../../../services/campaign-service/campaign.service';
-import { OrganizationService } from '../../../services/organization-service/organization.service';
-import { ExtendCampaignRequest } from '../../../models/ExtendCampaignRequest';
-import { Cooperate } from '../../../models/Cooperate';
-import { MultipleSelectComponent } from '../../shared/multiple-select/multiple-select.component';
-import { Organization } from '../../../models/Organization';
+import { MultipleSelectComponent } from '../../../shared/multiple-select/multiple-select.component';
+import { Campaign } from '../../../../models/Campaign';
+import { Organization } from '../../../../models/Organization';
+import { CampaignService } from '../../../../services/campaign-service/campaign.service';
+import { OrganizationService } from '../../../../services/organization-service/organization.service';
+import { Cooperate } from '../../../../models/Cooperate';
+import { UpdateCampaignRequest } from '../../../../models/UpdateCampaignRequest';
 
 @Component({
-  selector: 'app-extend-campaign',
+  selector: 'app-update-campaign',
   standalone: true,
-  imports: [CommonModule, FormsModule, MultipleSelectComponent],
-  templateUrl: './extend-campaign.component.html',
-  styleUrl: './extend-campaign.component.scss',
+  imports: [FormsModule, MultipleSelectComponent],
+  templateUrl: './update-campaign.component.html',
+  styleUrls: ['./update-campaign.component.scss'],
 })
-export class ExtendCampaignComponent implements OnInit, OnChanges {
+export class UpdateCampaignComponent implements OnInit, OnChanges {
   @Input() campaign?: Campaign;
   @Output() onCampaignUpdated = new EventEmitter<void>();
 
@@ -58,7 +57,7 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
         this.organizations = response.body;
       },
       error: (error) => {
-        console.error('Error fetching organizations:', error);
+        console.log(error);
       },
     });
   }
@@ -69,18 +68,32 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
       return;
     }
 
+    const startDate = new Date(form.value.startDate);
+    const endDate = new Date(form.value.endDate);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      console.error('Định dạng ngày sai!');
+      return;
+    }
+
     const selectedOrganizationIds = this.selectedOrganizations.map(
       (org) => org.id
     );
 
-    const updateRequest: ExtendCampaignRequest = {
-      limitation: form.value.limitation,
+    const updateRequest: UpdateCampaignRequest = {
+      title: form.value.title,
+      description: form.value.description,
+      content: form.value.content,
+      image: form.value.image,
+      startDate: form.value.startDate,
       endDate: form.value.endDate,
+      limitation: form.value.limitation,
+      status: form.value.status,
       organizationIds: selectedOrganizationIds,
     };
 
     this.campaignService
-      .extendCampaign(this.campaign.id, updateRequest)
+      .updateCampaign(this.campaign.id, updateRequest)
       .subscribe({
         next: (response) => {
           console.log('Chiến dịch được cập nhật thành công:', response);

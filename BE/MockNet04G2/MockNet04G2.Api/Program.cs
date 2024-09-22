@@ -158,11 +158,13 @@ builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
 builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
 builder.Services.AddScoped<IValidator<ChangePasswordRequest>, ChangePasswordValidator>();
 builder.Services.AddScoped<IValidator<CampaignDetailRequest>, CampaignDetailRequestValidator>();
-builder.Services.AddScoped<IValidator<UpdateCampaignRequest>, UpdateCampaignValidator>();
+builder.Services.AddScoped<IValidator<ExtendCampaignRequest>, UpdateCampaignValidator>();
 builder.Services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
 
 
 builder.Services.AddControllers();
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

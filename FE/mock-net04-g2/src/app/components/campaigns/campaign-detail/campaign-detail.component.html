@@ -8,11 +8,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-8">
-      <img
-        class="img-fluid"
-        [src]="campaign.image"
-        alt="ảnh minh họa chiến dịch"
-      />
+      <img class="img-fluid" [src]="campaign.image" alt="ảnh minh họa chiến dịch" />
     </div>
     <div class="col-4">
       <div class="px-3">
@@ -28,24 +24,19 @@
               <p class="m-0 small">{{ cooperate.organization.name }}</p>
               <span class="text-secondary small">{{
                 cooperate.organization.phone
-              }}</span>
+                }}</span>
             </div>
           </div>
           }
         </div>
         <div class="mb-4">
           <div class="mb-2">
-            <span class="fs-5 m-0 fw-bold"
-              >{{ calculateTotalAmount(campaign) | number }}đ</span
-            >
+            <span class="fs-5 m-0 fw-bold">{{ calculateTotalAmount(campaign) | number }}đ</span>
             <span class="text-secondary">/ {{ campaign.limitation }}đ</span>
           </div>
           <div class="progress mb-3">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
-            ></div>
+            <div class="progress-bar bg-primary" role="progressbar"
+              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div>
@@ -65,15 +56,18 @@
           </div>
         </div>
         @if (user?.role === 1) {
-        <button class="btn btn-primary w-100 fw-bold fs-5 mb-2">
+        <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
           Xoá chiến dịch
         </button>
+        @if(campaign.status == 1){
+        <app-update-campaign [campaign]="campaign"></app-update-campaign>
+        }@else if(campaign.status == 3) {
         <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
-        } @else { @if (campaign.status < 3) {
-        <app-donate-form [campaign]="campaign"></app-donate-form>
-        } @else {
-        <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
-        } }
+        }
+        } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
+          } @else {
+          <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
+          } }
       </div>
     </div>
   </div>

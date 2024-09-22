@@ -1,11 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Campaign } from '../../models/Campaign';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CampaignStatusEnum } from '../../models/enum/CampaignStatusEnum';
-import { UpdateCampaignRequest } from '../../models/UpdateCampaignRequest';
+import { ExtendCampaignRequest } from '../../models/ExtendCampaignRequest';
 import { CampaignDetailResponse } from '../../models/CampaignDetailResponse ';
 import { CampaignDetailRequest } from '../../models/CampaignDetailRequest ';
+import { UpdateCampaignRequest } from '../../models/UpdateCampaignRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -112,6 +113,21 @@ export class CampaignService {
     });
   }
 
+  extendCampaign(
+    id: number,
+    request: ExtendCampaignRequest
+  ): Observable<CampaignDetailResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.put<CampaignDetailResponse>(
+      `${this.campaignApiUrl}/Extend-Campaign/${id}`,
+      request,
+      { headers }
+    );
+  }
+
   updateCampaign(
     id: number,
     request: UpdateCampaignRequest
@@ -125,5 +141,17 @@ export class CampaignService {
       request,
       { headers }
     );
+  }
+
+  deleteCampaign(id: number): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const params = new HttpParams().set('campaignId', id.toString());
+    return this.http.delete<any>(`${this.campaignApiUrl}/Delete-Campaign`, {
+      headers,
+      params,
+    });
   }
 }
