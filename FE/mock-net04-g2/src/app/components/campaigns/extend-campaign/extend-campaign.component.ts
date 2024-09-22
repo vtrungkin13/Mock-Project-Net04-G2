@@ -48,17 +48,7 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
       this.extractSelectedOrganizations(this.campaign.cooperations);
     }
   }
-
-  // Hàm trích xuất các Organization đã chọn từ cooperations
   extractSelectedOrganizations(cooperations: Cooperate[]) {
-    // return cooperations
-    //   .map((coop) => {
-    //     const org = this.organizations.find(
-    //       (o) => o.id === coop.organizationId
-    //     );
-    //     return org ? org : null;
-    //   })
-    //   .filter((org) => org !== null);
     this.selectedOrganizations = cooperations.map((coop) => coop.organization);
   }
 
@@ -92,7 +82,7 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
     };
 
     this.campaignService
-      .updateCampaign(this.campaign.id, updateRequest)
+      .extendCampaign(this.campaign.id, updateRequest)
       .subscribe({
         next: (response) => {
           console.log('Chiến dịch được cập nhật thành công:', response);

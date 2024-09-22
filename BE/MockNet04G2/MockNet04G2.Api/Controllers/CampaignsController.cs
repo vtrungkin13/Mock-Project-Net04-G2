@@ -123,10 +123,18 @@ namespace MockNet04G2.Api.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("Update-Campaign/{id}")]
-        public async Task<IActionResult> UpdateCampaignAsync(int id,UpdateCampaignRequest request)
+        [HttpPut("Extend-Campaign/{id}")]
+        public async Task<IActionResult> UpdateCampaignAsync(int id,ExtendCampaignRequest request)
         {
             var result = await _updateCampaignService.ExecuteAsync(id,request);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("Update-Campaign/{id}")]
+        public async Task<IActionResult> UpdateCampaignAsync(int id, CampaignDetailRequest request)
+        {
+            var result = await _updateCampaignService.ExecuteAsync(id, request);
             return HandleApiResponse(result);
         }
 

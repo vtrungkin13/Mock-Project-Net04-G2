@@ -112,7 +112,7 @@ export class CampaignService {
     });
   }
 
-  updateCampaign(
+  extendCampaign(
     id: number,
     request: UpdateCampaignRequest
   ): Observable<CampaignDetailResponse> {

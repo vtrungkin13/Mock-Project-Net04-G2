@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MockNet04G2.Business.Services.Campagin.Validators
 {
-    public class UpdateCampaignValidator : AbstractValidator<UpdateCampaignRequest>
+    public class UpdateCampaignValidator : AbstractValidator<ExtendCampaignRequest>
     {
         public UpdateCampaignValidator()
         {
