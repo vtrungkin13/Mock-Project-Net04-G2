@@ -7,18 +7,19 @@ import { AuthService } from '../../../services/auth-service/auth.service';
 import { User } from '../../../models/User';
 import { ModifyCampaignComponent } from '../modify-campaign/modify-campaign.component';
 import { ExtendCampaignComponent } from '../extend-campaign/extend-campaign.component';
+import { DonateFormComponent } from "../../donate-form/donate-form.component";
 
 @Component({
   selector: 'app-campaign-detail',
   standalone: true,
-  imports: [CommonModule, ModifyCampaignComponent, ExtendCampaignComponent],
+  imports: [CommonModule, ModifyCampaignComponent, ExtendCampaignComponent, DonateFormComponent],
   templateUrl: './campaign-detail.component.html',
   styleUrls: ['./campaign-detail.component.scss'], // Updated key
 })
 export class CampaignDetailComponent implements OnInit {
   campaignId!: number;
   campaign!: Campaign;
-  user!: User;
+  user?: User;
 
   constructor(
     private route: ActivatedRoute,

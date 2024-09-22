@@ -20,7 +20,7 @@ import { Organization } from '../../../models/Organization';
 export class MultipleSelectComponent implements OnInit, OnChanges {
   @Input() label: string = '';
   @Input() options: Organization[] = [];
-  @Output() onOptionSelect = new EventEmitter();
+  // @Output() onOptionSelect = new EventEmitter();
 
   mapOptions: any[] = [];
 
@@ -113,6 +113,6 @@ export class MultipleSelectComponent implements OnInit, OnChanges {
     }));
 
     // Emit the updated selectedItems array
-    this.selectedItemsChange.emit(this.selectedItems);
+    this.selectedItemsChange.emit(this.selectedItems.map((item) => item.id));
   }
 }
