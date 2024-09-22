@@ -39,8 +39,8 @@
               <i type="button" class="fa-solid fa-pen" id="changeRoleDropdown" data-bs-toggle="dropdown"
                 aria-expanded="false" data-bs-auto-close="outside"></i>
               <ul class="dropdown-menu" aria-labelledby="changeRoleDropdown">
-                <li type="button" class="dropdown-item">Người dùng</li>
-                <li type="button" class="dropdown-item">Quản trị viên</li>
+                <li type="button" class="dropdown-item" (click)="onChangeRole(user, RoleEnum.USER)">Người dùng</li>
+                <li type="button" class="dropdown-item" (click)="onChangeRole(user, RoleEnum.ADMIN)">Quản trị viên</li>
               </ul>
             </td>
           </tr>

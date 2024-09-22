@@ -128,12 +128,12 @@ namespace MockNet04G2.Business.Services.Campaign
                 return response;
             }
 
-            //if (campaign.Status != StatusEnum.JustCreated)
-            //{
-            //    response.Error = ErrorMessages.CannotUpdateCampaign;
-            //    response.Status = StatusResponseEnum.InternalServerError;
-            //    return response;
-            //}
+            if (campaign.Status != StatusEnum.JustCreated)
+            {
+                response.Error = ErrorMessages.CannotUpdateCampaign;
+                response.Status = StatusResponseEnum.InternalServerError;
+                return response;
+            }
 
             var organizationIds = request.OrganizationIds.Distinct().ToList();
             var organizations = await _organizationRepository.FindByIdAsync(organizationIds);
