@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MultipleSelectComponent } from '../../shared/multiple-select/multiple-select.component';
 import { CampaignService } from '../../../services/campaign-service/campaign.service';
 import { OrganizationService } from '../../../services/organization-service/organization.service';
+import { Organization } from '../../../models/Organization';
 
 @Component({
   selector: 'app-modify-campaign',
@@ -33,6 +34,7 @@ export class ModifyCampaignComponent implements OnInit {
       ...form.value,
       organizationIds: this.organizationIds,
     };
+
     this.campaignService.addCampaign(modifyCampaignData).subscribe({
       next: (response) => {
         console.log('Campaign added successfully:', response);
