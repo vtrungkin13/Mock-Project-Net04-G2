@@ -14,6 +14,7 @@ using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Campagin.Validators;
 using MockNet04G2.Business.Services.Campaign;
 using MockNet04G2.Business.Services.Organization;
+using MockNet04G2.Business.Services.Payment;
 using MockNet04G2.Business.Services.User;
 using MockNet04G2.Business.Services.User.Validators;
 using MockNet04G2.Core.Data;
@@ -143,11 +144,14 @@ builder.Services.AddScoped<EndDateService>();
 
 builder.Services.AddScoped<OrganizationService>();
 
+builder.Services.AddScoped<CreatePaymentService>();
+
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 builder.Services.AddScoped<ICooperateRepository,CooperateRepository>();
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+builder.Services.AddScoped<IDonateRepository, DonateRepository>();
 
 // Validator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginValidator>();
