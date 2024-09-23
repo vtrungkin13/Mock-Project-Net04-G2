@@ -25,7 +25,7 @@ namespace MockNet04G2.Core.Models
 
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
-        [Range(5000, double.MaxValue, ErrorMessage = "Số tiền quyên góp ít nhất là 5000đ")]
+        [Range(1000, double.MaxValue, ErrorMessage = "Số tiền quyên góp ít nhất là 1000đ")]
         public decimal Amount { get; set; }
 
         [DataType(DataType.Date)]

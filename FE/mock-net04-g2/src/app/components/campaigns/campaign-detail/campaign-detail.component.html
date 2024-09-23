@@ -1,49 +1,33 @@
 <div id="campaign-detail-wrapper" class="container" *ngIf="campaign">
   <div class="mb-3">
-    <h1 class="pt-3 mb-3">{{campaign.title}}</h1>
-    <p class="m-0 text-secondary">
-      ❤️ {{campaign.description}}
+    <h1 class="pt-3 mb-3">{{ campaign.title }}</h1>
+    <p class="m-0 text-secondary">❤️ {{ campaign.description }}</p>
+    <p class="text-secondary">
+      {{ campaign.createdAt | date : "dd/MM/yyyy" : "vi-VN" }}
     </p>
-    <p class="text-secondary">{{ campaign.createdAt | date: 'dd/MM/yyyy' : 'vi-VN' }}</p>
   </div>
   <div class="row mb-3">
     <div class="col-8">
-      <img
-        class="img-fluid"
-        [src]="campaign.image"
-        alt="ảnh minh họa chiến dịch"
-      />
+      <img class="img-fluid" [src]="campaign.image" alt="ảnh minh họa chiến dịch" />
     </div>
     <div class="col-4">
       <div class="px-3">
         <p class="text-primary text-uppercase fw-bold">Thông tin quyên góp</p>
         <div class="border p-2 rounded-2 bg-light mb-3">
+          <p class="fw-bold">Các tổ chức đồng hành</p>
           @for (cooperate of campaign.cooperations; track $index) {
-            <div class="d-flex mb-3">
-              <div>
-                <img
-                  width="44px"
-                  [src]="cooperate.organization.logo"
-                  alt=""
-                />
-              </div>
-              <div class="ps-2">
-                <p class="m-0 small">{{cooperate.organization.name}}</p>
-                <span class="text-secondary small"
-                  >{{cooperate.organization.phone}}</span
-                >
-              </div>
+          <div class="d-flex mb-3">
+            <div>
+              <img width="44px" [src]="cooperate.organization.logo" alt="" />
             </div>
+            <div class="ps-2">
+              <p class="m-0 small">{{ cooperate.organization.name }}</p>
+              <span class="text-secondary small">{{
+                cooperate.organization.phone
+                }}</span>
+            </div>
+          </div>
           }
-
-          <!-- mình éo có cái này -->
-          <!-- <div>
-            <p class="m-0">Đơn vị nhận tài trợ</p>
-            <span class="small text-secondary"
-              >Đồng bào miền bắc - 01234567789</span
-            >
-          </div> -->
-
         </div>
         <div class="mb-4">
           <div class="mb-2">
@@ -51,36 +35,51 @@
             <span class="text-secondary">/ {{campaign.limitation| number}}đ </span>
           </div>
           <div class="progress mb-3">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
-            ></div>
+            <div class="progress-bar bg-primary" role="progressbar"
+              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div>
               <p class="text-secondary m-0">Lượt quyên góp</p>
-              <p class="m-0 fw-bold">{{(campaign.donations || []).length}}</p>
+              <p class="m-0 fw-bold">{{ (campaign.donations || []).length }}</p>
             </div>
             <div>
               <p class="text-secondary m-0">Đạt được</p>
-              <p class="m-0 fw-bold">{{calculatePercentage(campaign)}}%</p>
+              <p class="m-0 fw-bold">{{ calculatePercentage(campaign) }}%</p>
             </div>
             <div>
               <p class="text-secondary m-0">Thời hạn còn</p>
-              <p class="m-0 fw-bold">{{calculateRemainingDays(campaign)}} ngày</p>
+              <p class="m-0 fw-bold">
+                {{ calculateRemainingDays(campaign) }} ngày
+              </p>
             </div>
           </div>
         </div>
-        <button class="btn btn-primary w-100 fw-bold fs-5 mb-2">Quyên góp</button>
-        <button class="btn btn-primary w-100 fw-bold fs-5">Gia thêm hạn</button>
+        @if (user?.role === 1) {
+        @if(campaign.status == 1){
+        <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
+          Xoá chiến dịch
+        </button>
+        <app-update-campaign [campaign]="campaign"></app-update-campaign>
+        }@else if(campaign.status == 3) {
+        <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
+        <button class="btn btn-primary w-100 fw-bold fs-5 mt-2" (click)="onChangeStatusCampaign(campaignId)">
+          Kết thúc chiến dịch
+        </button>
+        }@else if(campaign.status == 4){
+        <p class="fw-bold text-primary fs-5">Chiến dịch đã kết thúc!</p>
+        }
+        } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
+          } @else {
+          <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
+          } }
       </div>
     </div>
   </div>
   <div class="mb-3 border-bottom">
     <p class="fs-5 fw-bold">Câu chuyện</p>
     <p>
-      {{campaign.content}}
+      {{ campaign.content }}
     </p>
   </div>
   <div class="mb-3">

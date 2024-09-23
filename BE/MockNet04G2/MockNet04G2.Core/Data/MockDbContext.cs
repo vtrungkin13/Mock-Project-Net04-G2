@@ -25,13 +25,18 @@ namespace MockNet04G2.Core.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            string nonUserPassword = BCrypt.Net.BCrypt.HashPassword("G7t@f9Xq");
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword("Admin@123");
 
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                new User{ Id = 1 ,Name = "Admin", Email = "Admin@gmail.com", Password = hashedPassword, Phone = "0375769058", Dob = new DateTime(2002,01,11), Role = Common.Enums.RoleEnum.Admin }
+                new User { Id = 1, Name = "NonUser", Email = "NonUser@gmail.com", Password = nonUserPassword, Phone = "000000000", Dob = DateTime.MinValue, Role = Common.Enums.RoleEnum.User }
             );
+            modelBuilder.Entity<User>().HasData(
+                new User{ Id = 2 ,Name = "Admin", Email = "Admin@gmail.com", Password = hashedPassword, Phone = "0375769058", Dob = new DateTime(2002,01,11), Role = Common.Enums.RoleEnum.Admin }
+            );
+
 
             modelBuilder.Entity<Organization>().HasData(
                new Organization

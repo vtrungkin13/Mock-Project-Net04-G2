@@ -24,15 +24,15 @@ namespace MockNet04G2.Business.Services.Campagin
             _cooperateRepository = cooperateRepository;
         }  
 
-        public async Task<ApiResponse<string,string>> ExecuteAsync(int campaignId)
+        public async Task<ApiResponse<string,string>> ExecuteAsync(int id)
         {
             var response = new ApiResponse<string, string>();
-            var campaign = await _campaignRepository.GetCampaignByIdAsync(campaignId);
+            var campaign = await _campaignRepository.GetCampaignByIdAsync(id);
 
             if (campaign == null)
             {
                 response.Error = ErrorMessages.CampaginByIdNotFound;
-                response.Status = Core.Common.Enums.StatusResponseEnum.InternalServerError;
+                response.Status = Core.Common.Enums.StatusResponseEnum.NotFound;
                 return response;
             }
 
@@ -43,7 +43,7 @@ namespace MockNet04G2.Business.Services.Campagin
                 return response;
             }
 
-            var cooperations = await _cooperateRepository.FindByCampaignIdAsync(campaignId);
+            var cooperations = await _cooperateRepository.FindByCampaignIdAsync(id);
             if (cooperations.Any())
             {
                 foreach (var cooperation in cooperations)

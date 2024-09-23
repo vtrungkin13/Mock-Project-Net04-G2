@@ -1,0 +1,84 @@
+<div id="donate-form-wrapper">
+  <button
+    class="btn btn-primary w-100 fw-bold fs-5"
+    data-bs-toggle="modal"
+    data-bs-target="#donateModal"
+  >
+    Quyên góp
+  </button>
+
+  <!-- Modal Body -->
+  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+  <div
+    class="modal fade"
+    id="donateModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+      role="document"
+    >
+      <div class="modal-content">
+        <form (ngSubmit)="onSubmit(donateForm)" #donateForm="ngForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">{{ campaign.title }}</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>{{ campaign.description }}</p>
+            <div>
+              <div class="mb-3">
+                <img [attr.src]="campaign.image" alt="" />
+              </div>
+              <p class="fw-bold m-0">Số tiền quyên góp</p>
+              <div class="row">
+                @for (multiplier of multipliers; track $index) {
+                <div class="col-4">
+                  <div
+                    class="money-select m-1 p-1 border rounded-2 text-center"
+                    [ngClass]="getClass($index)"
+                    (click)="setAmount(baseAmount * multiplier, $index)"
+                  >
+                    {{ baseAmount * multiplier | number : "1.0" }}₫
+                  </div>
+                </div>
+                }
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Số tiền khác</label>
+                <input
+                  type="number"
+                  name="amount"
+                  id="amount"
+                  class="form-control"
+                  placeholder="0đ"
+                  min="1000"
+                  [(ngModel)]="selectedAmount"
+                  #amount="ngModel"
+                  (input)="unSelectAmount()"
+                />
+                @if (amount.invalid && (amount.touched ||
+                donateForm.submitted)){
+                <span class="text-danger"
+                  >Số tiền quyên góp ít nhất là 1.000đ</span
+                >
+                }
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                Quyên góp
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

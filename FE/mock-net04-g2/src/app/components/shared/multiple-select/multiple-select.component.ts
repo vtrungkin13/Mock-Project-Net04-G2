@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Organization } from '../../../models/Organization';
 
 @Component({
   selector: 'app-multiple-select',
@@ -18,40 +19,72 @@ import {
 })
 export class MultipleSelectComponent implements OnInit, OnChanges {
   @Input() label: string = '';
-  @Input() options: any[] = [];
-  @Output() onOptionSelect = new EventEmitter();
+  @Input() options: Organization[] = [];
+  // @Output() onOptionSelect = new EventEmitter();
 
-  mapOptions!: any[];
+  mapOptions: any[] = [];
+
   @Input() selectedItems: any[] = [];
+  @Output() selectedItemsChange = new EventEmitter<any[]>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['options'] && !changes['options'].isFirstChange()) {
       this.initializeMapOptions();
     }
-  }
-
-  ngOnInit(): void {
-    if (this.selectedItems.length !== 0) {
-      this.label = this.selectedItems.map((item) => item.name).join(', ');
-
-      this.mapOptions = this.mapOptions.map((item1) => {
-        const match = this.selectedItems.find((item2) => item2.id === item1.id);
-        if (match) {
-          return {
-            ...item1,
-            selected: match.selected,
-          };
-        }
-        return item1;
-      });
-      this.onOptionSelect.emit(this.selectedItems.map((item) => item.id));
+    if (changes['selectedItems']) {
+      this.updateSelectedOptions();
     }
   }
 
+  ngOnInit(): void {
+    this.initializeMapOptions();
+    this.updateSelectedOptions();
+  }
+
   initializeMapOptions() {
-    this.mapOptions = this.options.map((item) => {
-      return { ...item, selected: false };
-    });
+    if (Array.isArray(this.options)) {
+      this.mapOptions = this.options.map((item) => ({
+        ...item,
+        selected: false,
+      }));
+
+      // Cập nhật selectedItems nếu đã có dữ liệu
+      if (this.selectedItems && this.selectedItems.length !== 0) {
+        this.mapOptions = this.mapOptions.map((item) => ({
+          ...item,
+          selected: this.selectedItems.some(
+            (selected) => selected.id === item.id
+          ),
+        }));
+
+        this.updateLabel();
+      }
+    } else {
+      console.error('Options is not an array:', this.options);
+      this.mapOptions = [];
+    }
+
+    this.updateLabel();
+  }
+
+  updateSelectedOptions() {
+    if (Array.isArray(this.options) && Array.isArray(this.selectedItems)) {
+      this.mapOptions = this.mapOptions.map((item) => ({
+        ...item,
+        selected: this.selectedItems.some(
+          (selected) => selected.id === item.id
+        ),
+      }));
+      this.updateLabel();
+    }
+  }
+
+  updateLabel() {
+    if (this.selectedItems.length > 0) {
+      this.label = this.selectedItems.map((item) => item.name).join(', ');
+    } else {
+      this.label = 'Lựa chọn tổ chức đồng hành!';
+    }
   }
 
   isClicked: boolean = false;
@@ -63,29 +96,23 @@ export class MultipleSelectComponent implements OnInit, OnChanges {
   }
 
   optionItemClick(option: any) {
-    option.selected = !option.selected;
-
-    if (option.selected) {
+    const index = this.selectedItems.findIndex((item) => item.id === option.id);
+    if (index === -1) {
       this.selectedItems.push(option);
     } else {
-      this.selectedItems = this.selectedItems.filter(
-        (item) => item.id !== option.id
-      );
+      this.selectedItems.splice(index, 1);
     }
 
     // Update label based on selected items
-    this.label = this.selectedItems.map((item) => item.name).join(', ');
+    this.updateLabel();
 
     // Update mapOptions to ensure selected state is correct
-    this.mapOptions = this.mapOptions.map((item1) => {
-      const match = this.selectedItems.find((item2) => item2.id === item1.id);
-      return {
-        ...item1,
-        selected: !!match, // true if found in selectedItems, false otherwise
-      };
-    });
+    this.mapOptions = this.mapOptions.map((item) => ({
+      ...item,
+      selected: this.selectedItems.some((selected) => selected.id === item.id),
+    }));
 
-    // Emit the ids of selected items
-    this.onOptionSelect.emit(this.selectedItems.map((item) => item.id));
+    // Emit the updated selectedItems array
+    this.selectedItemsChange.emit(this.selectedItems.map((item) => item.id));
   }
 }

@@ -6,14 +6,17 @@
   </button>
 
   } @else {
-  <i type="button" class="fa-solid fa-pen text-primary" data-bs-toggle="modal"
-    [attr.data-bs-target]="'#updateCampaignModal' + campaign.id"></i>
+  <button class="btn btn-primary w-100 fw-bold fs-5" data-bs-toggle="modal"
+    [attr.data-bs-target]="'#updateCampaignModal' + campaign.id">
+    Chỉnh sửa chiến dịch
+  </button>
   }
 
   <!-- Modal Body -->
   <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div class="modal fade" [attr.id]="campaign ? 'updateCampaignModal' + campaign.id : 'newCampaignModal'" tabindex="-1"
-    role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal fade" [attr.id]="
+      campaign ? 'updateCampaignModal' + campaign.id : 'newCampaignModal'
+    " tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
       <div class="modal-content">
         <form (ngSubmit)="onSubmit(modifyCampaignForm)" #modifyCampaignForm="ngForm">
@@ -57,7 +60,7 @@
             </div>
             <div>
               <app-multiple-select [label]="'Chọn tổ chức đồng hành'" [options]="organizations" [selectedItems]="[]"
-                (onOptionSelect)="getOrganizationIds($event)"></app-multiple-select>
+                (selectedItemsChange)="getOrganizationIds($event)"></app-multiple-select>
             </div>
           </div>
           <div class="modal-footer">

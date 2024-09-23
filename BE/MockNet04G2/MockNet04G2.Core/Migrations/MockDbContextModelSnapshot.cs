@@ -32,8 +32,8 @@ namespace MockNet04G2.Core.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("nvarchar(3000)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -48,8 +48,8 @@ namespace MockNet04G2.Core.Migrations
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("nvarchar(3000)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Limitation")
                         .HasColumnType("decimal(18, 2)");
@@ -213,10 +213,20 @@ namespace MockNet04G2.Core.Migrations
                         new
                         {
                             Id = 1,
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "NonUser@gmail.com",
+                            Name = "NonUser",
+                            Password = "$2a$11$ztxfEDgpbBFqR6wWthThiutg/ITnhjE4zYX2r75O.mRz0IhL0ay2i",
+                            Phone = "000000000",
+                            Role = 2
+                        },
+                        new
+                        {
+                            Id = 2,
                             Dob = new DateTime(2002, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
-                            Password = "$2a$11$iBS.oGQyqEBPi/KhO07NFu4gMe1o8G2YIMZEM18ODVpDNVvvsVFxq",
+                            Password = "$2a$11$dxbEDCqupqPDo6oMkuXIj.0oP0lD5izj5QDOVhYtleb/NqGmw45wK",
                             Phone = "0375769058",
                             Role = 1
                         });
