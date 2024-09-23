@@ -1,81 +1,209 @@
 <div id="update-campaign-wrapper">
-    <!-- Modal trigger button -->
+  <!-- Modal trigger button -->
 
-    <button class="btn btn-primary w-100 fw-bold fs-5" data-bs-toggle="modal"
-        [attr.data-bs-target]="'#updateCampaignModal' + campaign?.id">
-        Chỉnh sửa chiến dịch
-    </button>
+  <button
+    class="btn btn-primary w-100 fw-bold fs-5"
+    data-bs-toggle="modal"
+    [attr.data-bs-target]="'#updateCampaignModal' + campaign?.id"
+  >
+    Chỉnh sửa chiến dịch
+  </button>
 
-    <!-- Modal Body -->
-    <!-- Nếu bạn muốn đóng modal bằng cách click bên ngoài, hãy xóa các thuộc tính data-bs-backdrop và data-bs-keyboard -->
-    <div class="modal fade" [attr.id]="'updateCampaignModal' + campaign?.id" tabindex="-1" role="dialog"
-        aria-labelledby="modalTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form (ngSubmit)="onSubmit(updateCampaignForm)" #updateCampaignForm="ngForm">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitleId">
-                            Chỉnh sửa thông tin chiến dịch
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Tiêu đề -->
-                        <div class="mb-3">
-                            <input type="text" name="title" id="title" class="form-control" [ngModel]="campaign?.title"
-                                required />
-                        </div>
-
-                        <!-- Mô tả -->
-                        <div class="mb-3">
-                            <input type="text" name="description" id="description" class="form-control"
-                                [ngModel]="campaign?.description" required />
-                        </div>
-
-                        <!-- Nội dung -->
-                        <div class="mb-3">
-                            <textarea name="content" id="content" class="form-control" [ngModel]="campaign?.content"
-                                rows="4" required></textarea>
-                        </div>
-
-                        <!-- Ảnh -->
-                        <div class="mb-3">
-                            <input type="url" name="image" id="image" class="form-control" [ngModel]="campaign?.image"
-                                required />
-                        </div>
-
-                        <!-- Giới hạn -->
-                        <div class="mb-3">
-                            <input type="number" name="limitation" id="limitation" class="form-control"
-                                placeholder="Giới hạn quyên góp" [ngModel]="campaign?.limitation" required min="0" />
-                        </div>
-
-                        <!-- Ngày bắt đầu và kết thúc -->
-                        <div class="mb-3 d-flex justify-content-between">
-                            <div class="w-50 me-2">
-                                <input type="date" name="startDate" id="startDate" class="form-control"
-                                    [ngModel]="campaign?.startDate" required />
-                            </div>
-                            <div class="w-50 ms-2">
-                                <input type="date" name="endDate" id="endDate" class="form-control"
-                                    [ngModel]="campaign?.endDate" required />
-                            </div>
-                        </div>
-
-                        <!-- Chọn tổ chức -->
-                        <div>
-                            <app-multiple-select [options]="organizations"
-                                [selectedItems]="selectedOrganizations"></app-multiple-select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Đóng
-                        </button>
-                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-                    </div>
-                </form>
+  <!-- Modal Body -->
+  <!-- Nếu bạn muốn đóng modal bằng cách click bên ngoài, hãy xóa các thuộc tính data-bs-backdrop và data-bs-keyboard -->
+  <div
+    class="modal fade"
+    [attr.id]="'updateCampaignModal' + campaign?.id"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+      role="document"
+    >
+      <div class="modal-content">
+        <form
+          (ngSubmit)="onSubmit(updateCampaignForm)"
+          #updateCampaignForm="ngForm"
+        >
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">
+              Chỉnh sửa thông tin chiến dịch
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Tiêu đề -->
+            <div class="mb-3">
+              <input
+                type="text"
+                name="title"
+                id="title"
+                class="form-control"
+                placeholder="Tên chiến dịch"
+                required
+                [ngModel]="campaign?.title"
+                #title="ngModel"
+              />
+              <span
+                *ngIf="title.invalid && updateCampaignForm.submitted"
+                class="text-danger"
+              >
+                Bạn chưa nhập tên chiến dịch!
+              </span>
             </div>
-        </div>
+
+            <!-- Mô tả -->
+            <div class="mb-3">
+              <input
+                type="text"
+                name="description"
+                id="description"
+                class="form-control"
+                placeholder="Mô tả chung"
+                required
+                [ngModel]="campaign?.description"
+                #description="ngModel"
+              />
+              <span
+                *ngIf="description.invalid && updateCampaignForm.submitted"
+                class="text-danger"
+              >
+                Bạn chưa nhập mô tả!
+              </span>
+            </div>
+
+            <!-- Nội dung -->
+            <div class="mb-3">
+              <textarea
+                name="content"
+                id="content"
+                class="form-control"
+                placeholder="Nội dung chiến dịch"
+                rows="4"
+                required
+                [ngModel]="campaign?.content"
+                #content="ngModel"
+              ></textarea>
+              <span
+                *ngIf="content.invalid && updateCampaignForm.submitted"
+                class="text-danger"
+              >
+                Bạn chưa nhập nội dung!
+              </span>
+            </div>
+
+            <!-- Ảnh -->
+            <div class="mb-3">
+              <input
+                type="url"
+                name="image"
+                id="image"
+                class="form-control"
+                placeholder="Nhập đường dẫn ảnh"
+                required
+                [ngModel]="campaign?.image"
+                #image="ngModel"
+              />
+              <span
+                *ngIf="image.invalid && updateCampaignForm.submitted"
+                class="text-danger"
+              >
+                Bạn chưa nhập đường dẫn ảnh!
+              </span>
+            </div>
+
+            <!-- Giới hạn -->
+            <div class="mb-3">
+              <input
+                type="number"
+                name="limitation"
+                id="limitation"
+                class="form-control"
+                placeholder="Giới hạn quyên góp"
+                required
+                [ngModel]="campaign?.limitation"
+                #limitation="ngModel"
+                min="0"
+              />
+              <span
+                *ngIf="limitation.invalid && updateCampaignForm.submitted"
+                class="text-danger"
+              >
+                Bạn chưa nhập giới hạn quyên góp!
+              </span>
+            </div>
+
+            <!-- Ngày bắt đầu và kết thúc -->
+            <div class="mb-3 d-flex justify-content-between">
+              <div class="w-50 me-2">
+                <input
+                  type="date"
+                  name="startDate"
+                  id="startDate"
+                  class="form-control"
+                  required
+                  [ngModel]="campaign?.startDate"
+                  #startDate="ngModel"
+                />
+                <span
+                  *ngIf="startDate.invalid && updateCampaignForm.submitted"
+                  class="text-danger"
+                >
+                  Bạn chưa chọn ngày bắt đầu!
+                </span>
+              </div>
+              <div class="w-50 ms-2">
+                <input
+                  type="date"
+                  name="endDate"
+                  id="endDate"
+                  class="form-control"
+                  required
+                  [ngModel]="campaign?.endDate"
+                  #endDate="ngModel"
+                />
+                <span
+                  *ngIf="endDate.invalid && updateCampaignForm.submitted"
+                  class="text-danger"
+                >
+                  Bạn chưa chọn ngày kết thúc!
+                </span>
+              </div>
+            </div>
+
+            <!-- Chọn tổ chức -->
+            <div>
+              <app-multiple-select
+                [options]="organizations"
+                [selectedItems]="selectedOrganizations"
+              ></app-multiple-select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+  <app-toast
+    [toastStatus]="updateCampaignStatus"
+    [message]="updateCampaignMessage"
+    [showToast]="updateCampaignShowToast"
+  ></app-toast>
 </div>

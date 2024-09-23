@@ -9,7 +9,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './toast.component.scss',
 })
 export class ToastComponent {
-  @Input() isSuccess: boolean = false;
+  // 1: success, 2: fail, 3: loading
+  @Input() toastStatus: number = 1;
+
   @Input() message: string = '';
   @Input() showToast: boolean = false;
 }

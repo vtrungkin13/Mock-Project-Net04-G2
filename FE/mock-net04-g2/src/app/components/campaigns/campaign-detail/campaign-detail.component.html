@@ -55,21 +55,21 @@
             </div>
           </div>
         </div>
-        @if (user?.role === 1) {
-        @if(campaign.status == 1){
+        @if (user?.role === 1) { @if(campaign.status == 1){
         <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
           Xoá chiến dịch
         </button>
-        <app-update-campaign [campaign]="campaign"></app-update-campaign>
+        <app-update-campaign [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"></app-update-campaign>
         }@else if(campaign.status == 3) {
-        <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
+        <app-extend-campaign [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"></app-extend-campaign>
         <button class="btn btn-primary w-100 fw-bold fs-5 mt-2" (click)="onChangeStatusCampaign(campaignId)">
           Kết thúc chiến dịch
         </button>
         }@else if(campaign.status == 4){
         <p class="fw-bold text-primary fs-5">Chiến dịch đã kết thúc!</p>
-        }
-        } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
+        } } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
           } @else {
           <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
           } }
@@ -93,13 +93,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let donor of topDonors">
-            <td>{{ donor.name }}</td>
+          @for (donor of topDonors; track $index) {
+          <tr>
+            <td scope="row">
+              {{
+              donor.name === "NonUser"
+              ? "Người dùng ẩn danh"
+              : donor.name
+              }}
+            </td>
             <td class="text-end">{{ donor.totalAmount }}đ</td>
-          </tr>
+          </tr>}
         </tbody>
       </table>
     </div>
   </div>
-  <app-campaign-chart [donations]="campaign.donations"></app-campaign-chart>
+ <app-campaign-chart [donations]="campaign.donations"></app-campaign-chart>
+  <app-toast [toastStatus]="campaignDetailStatus" [message]="campaignDetailMessage" [showToast]="campaignDetailShowToast"></app-toast>
 </div>

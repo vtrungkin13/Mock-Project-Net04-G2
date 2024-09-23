@@ -16,7 +16,24 @@ export class ResetPasswordComponent {
   resetPasswordFailMessage: string = ''; // Store error message
   resetPasswordSuccess: boolean = false; // Flag to track success
 
-  constructor(private router: Router, private resetPasswordService : ResetpasswordService) {}
+  // 1: success, 2: fail, 3: loading
+  resetPasswordStatus: number = 0;
+  resetPasswordMessage: string = '';
+  resetPasswordShowToast: boolean = false;
+
+  constructor(
+    private router: Router,
+    private resetPasswordService: ResetpasswordService
+  ) {}
+
+  handleShowToast(status: number, message: string) {
+    this.resetPasswordShowToast = true;
+    this.resetPasswordStatus = status;
+    this.resetPasswordMessage = message;
+    setTimeout(() => {
+      this.resetPasswordShowToast = false;
+    }, 3000);
+  }
 
   onSubmit(form: NgForm) {
     if (form.valid) {
@@ -24,16 +41,20 @@ export class ResetPasswordComponent {
       //this.isExistedEmail = false;
       this.resetPasswordService.resetPassword(email).subscribe({
         next: (response) => {
-          this.isExistedEmail = true; 
+          this.isExistedEmail = true;
+          this.handleShowToast(
+            1,
+            'Thành công. Kiểm tra email để lấy mật khẩu mới'
+          );
           this.resetPasswordSuccess = true; // Show success message
         },
         error: (error) => {
           this.isExistedEmail = false;
-          this.resetPasswordFailMessage = error.error.error;
+          this.handleShowToast(2, error.error.error);
           this.resetPasswordSuccess = false; // reset to false in case of failure
         },
       });
-    } 
+    }
   }
 
   onEmailInput() {
