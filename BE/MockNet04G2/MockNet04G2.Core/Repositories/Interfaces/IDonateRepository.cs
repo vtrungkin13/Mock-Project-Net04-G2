@@ -10,5 +10,7 @@ namespace MockNet04G2.Core.Repositories.Interfaces
     public interface IDonateRepository : IGenericRepository<Donate>
     {
         Task<decimal> GetTotalDonateAmount(int id);
+        Task<List<Donate>> GetDonationHistory(int uid);
     }
+
 }

@@ -25,5 +25,12 @@ namespace MockNet04G2.Core.Repositories
                                                 .SumAsync(d => d.Amount);
             return total;
         }
+
+        public async Task<List<Donate>> GetDonationHistory(int uid)
+        {
+            var list = await _context.Donates.Where(d => d.UserId == uid)
+                .Include(c => c.Campaign).ToListAsync();
+            return list;
+        }
     }
 }

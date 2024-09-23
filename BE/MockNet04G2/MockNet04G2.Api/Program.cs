@@ -13,6 +13,7 @@ using MockNet04G2.Business.Services.Authentication.Validators;
 using MockNet04G2.Business.Services.Campagin;
 using MockNet04G2.Business.Services.Campagin.Validators;
 using MockNet04G2.Business.Services.Campaign;
+using MockNet04G2.Business.Services.Donate;
 using MockNet04G2.Business.Services.Organization;
 using MockNet04G2.Business.Services.Payment;
 using MockNet04G2.Business.Services.User;
@@ -126,8 +127,6 @@ builder.Services.AddScoped<UpdateUserService>();
 builder.Services.AddScoped<FilterService>();
 builder.Services.AddScoped<FilterUserCountService>();
 
-
-
 builder.Services.AddScoped<GetAllCampaignsService>();
 builder.Services.AddScoped<GetCampaignByIdService>();
 builder.Services.AddScoped<FilterCampaignsByStatusService>();
@@ -147,6 +146,8 @@ builder.Services.AddScoped<ChangeStatusService>();
 builder.Services.AddScoped<OrganizationService>();
 
 builder.Services.AddScoped<CreatePaymentService>();
+
+builder.Services.AddScoped<GetDonationHistoryService>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
