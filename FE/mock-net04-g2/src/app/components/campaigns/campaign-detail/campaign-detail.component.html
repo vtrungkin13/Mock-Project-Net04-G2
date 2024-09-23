@@ -56,13 +56,18 @@
           </div>
         </div>
         @if (user?.role === 1) {
+        @if(campaign.status == 1){
         <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
           Xoá chiến dịch
         </button>
-        @if(campaign.status == 1){
         <app-update-campaign [campaign]="campaign"></app-update-campaign>
         }@else if(campaign.status == 3) {
         <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
+        <button class="btn btn-primary w-100 fw-bold fs-5 mt-2" (click)="onChangeStatusCampaign(campaignId)">
+          Kết thúc chiến dịch
+        </button>
+        }@else if(campaign.status == 4){
+        <p class="fw-bold text-primary fs-5">Chiến dịch đã kết thúc!</p>
         }
         } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
           } @else {
