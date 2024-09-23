@@ -36,7 +36,7 @@ namespace MockNet04G2.Core.Repositories
         }
 
         public async Task<List<User>> GetAllUserAsync()
-        {
+         {
             var users = await _entities.Where(x => x.Id != 1).ToListAsync();
             return users;
         }
