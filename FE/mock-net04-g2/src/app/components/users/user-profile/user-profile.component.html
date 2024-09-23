@@ -10,7 +10,6 @@
   </span>
 
   <!-- Modal Body -->
-  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
   <div
     class="modal fade"
     id="userProfileModal"
@@ -44,7 +43,11 @@
                 class="form-control"
                 required
                 [(ngModel)]="user.name"
+                #name="ngModel"
               />
+              @if (name.invalid && userProfileForm.submitted) {
+              <span class="text-danger"> Bạn chưa nhập tên! </span>
+              }
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -67,7 +70,11 @@
                 class="form-control"
                 required
                 [(ngModel)]="user.phone"
+                #phone="ngModel"
               />
+              @if (phone.invalid && userProfileForm.submitted) {
+              <span class="text-danger"> Bạn chưa nhập số điện thoại! </span>
+              }
             </div>
             <div class="mb-3">
               <label for="dob" class="form-label">Ngày sinh</label>
@@ -78,7 +85,11 @@
                 class="form-control"
                 required
                 [(ngModel)]="user.dob.toISOString().split('T')[0]"
+                #dob="ngModel"
               />
+              @if (dob.invalid && userProfileForm.submitted) {
+              <span class="text-danger"> Bạn chưa nhập ngày sinh! </span>
+              }
             </div>
           </div>
           <div class="modal-footer">
@@ -95,4 +106,9 @@
       </div>
     </div>
   </div>
+  <app-toast
+    [toastStatus]="updateUserStatus"
+    [message]="updateUserMessage"
+    [showToast]="updateUserShowToast"
+  ></app-toast>
 </div>

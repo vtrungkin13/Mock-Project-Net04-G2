@@ -3,8 +3,9 @@
     <div
       class="toast align-items-center text-white border-0"
       [ngClass]="{
-        'bg-success': isSuccess,
-        'bg-danger': !isSuccess,
+        'bg-success': toastStatus === 1,
+        'bg-danger': toastStatus === 2,
+        'bg-primary': toastStatus === 3,
         show: showToast
       }"
       role="alert"
@@ -16,10 +17,12 @@
         <div class="toast-body">
           <div class="d-flex align-items-center fs-5">
             {{ message }}
-            @if (isSuccess) {
+            @if (toastStatus === 1) {
             <i class="fa-regular ms-2 fa-circle-check"></i>
-            } @if (!isSuccess) {
+            } @if (toastStatus === 2) {
             <i class="fa-regular ms-2 fa-circle-xmark"></i>
+            } @if (toastStatus === 3) {
+            <i class="fa-solid ms-2 fa-spinner"></i>
             }
           </div>
         </div>

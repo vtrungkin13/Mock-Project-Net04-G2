@@ -8,7 +8,11 @@
   </div>
   <div class="row mb-3">
     <div class="col-8">
-      <img class="img-fluid" [src]="campaign.image" alt="ảnh minh họa chiến dịch" />
+      <img
+        class="img-fluid"
+        [src]="campaign.image"
+        alt="ảnh minh họa chiến dịch"
+      />
     </div>
     <div class="col-4">
       <div class="px-3">
@@ -24,19 +28,24 @@
               <p class="m-0 small">{{ cooperate.organization.name }}</p>
               <span class="text-secondary small">{{
                 cooperate.organization.phone
-                }}</span>
+              }}</span>
             </div>
           </div>
           }
         </div>
         <div class="mb-4">
           <div class="mb-2">
-            <span class="fs-5 m-0 fw-bold">{{ calculateTotalAmount(campaign) | number }}đ</span>
+            <span class="fs-5 m-0 fw-bold"
+              >{{ calculateTotalAmount(campaign) | number }}đ</span
+            >
             <span class="text-secondary">/ {{ campaign.limitation }}đ</span>
           </div>
           <div class="progress mb-3">
-            <div class="progress-bar bg-primary" role="progressbar"
-              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
+            <div
+              class="progress-bar bg-primary"
+              role="progressbar"
+              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
+            ></div>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div>
@@ -55,24 +64,35 @@
             </div>
           </div>
         </div>
-        @if (user?.role === 1) {
-        @if(campaign.status == 1){
-        <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
+        @if (user?.role === 1) { @if(campaign.status == 1){
+        <button
+          class="btn btn-danger w-100 fw-bold fs-5 mb-2"
+          (click)="onDeleteCampaign()"
+        >
           Xoá chiến dịch
         </button>
-        <app-update-campaign [campaign]="campaign"></app-update-campaign>
+        <app-update-campaign
+          [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"
+        ></app-update-campaign>
         }@else if(campaign.status == 3) {
-        <app-extend-campaign [campaign]="campaign"></app-extend-campaign>
-        <button class="btn btn-primary w-100 fw-bold fs-5 mt-2" (click)="onChangeStatusCampaign(campaignId)">
+        <app-extend-campaign
+          [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"
+        ></app-extend-campaign>
+        <button
+          class="btn btn-primary w-100 fw-bold fs-5 mt-2"
+          (click)="onChangeStatusCampaign(campaignId)"
+        >
           Kết thúc chiến dịch
         </button>
         }@else if(campaign.status == 4){
         <p class="fw-bold text-primary fs-5">Chiến dịch đã kết thúc!</p>
-        }
-        } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
-          } @else {
-          <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
-          } }
+        } } @else { @if (campaign.status < 3) {
+        <app-donate-form [campaign]="campaign"></app-donate-form>
+        } @else {
+        <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
+        } }
       </div>
     </div>
   </div>
@@ -95,7 +115,13 @@
         <tbody>
           @for (donate of campaign.donations; track $index) {
           <tr>
-            <td scope="row">{{ donate.user.name }}</td>
+            <td scope="row">
+              {{
+                donate.user.name === "NonUser"
+                  ? "Người dùng ẩn danh"
+                  : donate.user.name
+              }}
+            </td>
             <td class="text-end">{{ donate.amount }}đ</td>
           </tr>
           }
@@ -103,4 +129,9 @@
       </table>
     </div>
   </div>
+  <app-toast
+    [toastStatus]="campaignDetailStatus"
+    [message]="campaignDetailMessage"
+    [showToast]="campaignDetailShowToast"
+  ></app-toast>
 </div>

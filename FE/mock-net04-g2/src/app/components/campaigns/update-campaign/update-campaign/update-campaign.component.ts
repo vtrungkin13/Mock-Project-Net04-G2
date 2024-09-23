@@ -15,11 +15,13 @@ import { CampaignService } from '../../../../services/campaign-service/campaign.
 import { OrganizationService } from '../../../../services/organization-service/organization.service';
 import { Cooperate } from '../../../../models/Cooperate';
 import { UpdateCampaignRequest } from '../../../../models/UpdateCampaignRequest';
+import { ToastComponent } from '../../../shared/toast/toast.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-update-campaign',
   standalone: true,
-  imports: [FormsModule, MultipleSelectComponent],
+  imports: [FormsModule, MultipleSelectComponent, ToastComponent, CommonModule],
   templateUrl: './update-campaign.component.html',
   styleUrls: ['./update-campaign.component.scss'],
 })
@@ -29,6 +31,11 @@ export class UpdateCampaignComponent implements OnInit, OnChanges {
 
   selectedOrganizations: any[] = [];
   organizations: Organization[] = [];
+
+  // 1: success, 2: fail, 3: loading
+  updateCampaignStatus: number = 0;
+  updateCampaignMessage: string = '';
+  updateCampaignShowToast: boolean = false;
 
   constructor(
     private campaignService: CampaignService,
@@ -62,49 +69,49 @@ export class UpdateCampaignComponent implements OnInit, OnChanges {
     });
   }
 
+  handleShowToast(status: number, message: string) {
+    this.updateCampaignShowToast = true;
+    this.updateCampaignStatus = status;
+    this.updateCampaignMessage = message;
+    setTimeout(() => {
+      this.updateCampaignShowToast = false;
+    }, 3000);
+  }
+
   onSubmit(form: NgForm) {
-    if (!this.campaign) {
-      console.error('Campaign is not defined');
-      return;
+    if (form.valid) {
+      if (!this.campaign) {
+        console.error('Campaign is not defined');
+        return;
+      }
+
+      const selectedOrganizationIds = this.selectedOrganizations.map(
+        (org) => org.id
+      );
+
+      const updateRequest: UpdateCampaignRequest = {
+        title: form.value.title,
+        description: form.value.description,
+        content: form.value.content,
+        image: form.value.image,
+        startDate: form.value.startDate,
+        endDate: form.value.endDate,
+        limitation: form.value.limitation,
+        status: form.value.status,
+        organizationIds: selectedOrganizationIds,
+      };
+
+      this.campaignService
+        .updateCampaign(this.campaign.id, updateRequest)
+        .subscribe({
+          next: (response) => {
+            this.handleShowToast(1, 'Chiến dịch được cập nhật thành công!');
+            this.onCampaignUpdated.emit();
+          },
+          error: (error) => {
+            this.handleShowToast(2, error.error.error);
+          },
+        });
     }
-
-    const startDate = new Date(form.value.startDate);
-    const endDate = new Date(form.value.endDate);
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      console.error('Định dạng ngày sai!');
-      return;
-    }
-
-    const selectedOrganizationIds = this.selectedOrganizations.map(
-      (org) => org.id
-    );
-
-    const updateRequest: UpdateCampaignRequest = {
-      title: form.value.title,
-      description: form.value.description,
-      content: form.value.content,
-      image: form.value.image,
-      startDate: form.value.startDate,
-      endDate: form.value.endDate,
-      limitation: form.value.limitation,
-      status: form.value.status,
-      organizationIds: selectedOrganizationIds,
-    };
-
-    this.campaignService
-      .updateCampaign(this.campaign.id, updateRequest)
-      .subscribe({
-        next: (response) => {
-          console.log('Chiến dịch được cập nhật thành công:', response);
-          this.onCampaignUpdated.emit();
-        },
-        error: (error) => {
-          console.error('Chiến dịch cập nhật thất bại:', error);
-          if (error.status === 401) {
-            console.error('Vui lòng đăng nhập lại.');
-          }
-        },
-      });
   }
 }

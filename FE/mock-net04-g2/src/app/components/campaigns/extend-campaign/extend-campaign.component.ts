@@ -16,11 +16,12 @@ import { ExtendCampaignRequest } from '../../../models/ExtendCampaignRequest';
 import { Cooperate } from '../../../models/Cooperate';
 import { MultipleSelectComponent } from '../../shared/multiple-select/multiple-select.component';
 import { Organization } from '../../../models/Organization';
+import { ToastComponent } from '../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-extend-campaign',
   standalone: true,
-  imports: [CommonModule, FormsModule, MultipleSelectComponent],
+  imports: [CommonModule, FormsModule, MultipleSelectComponent, ToastComponent],
   templateUrl: './extend-campaign.component.html',
   styleUrl: './extend-campaign.component.scss',
 })
@@ -30,6 +31,11 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
 
   selectedOrganizations: any[] = [];
   organizations: Organization[] = [];
+
+  // 1: success, 2: fail, 3: loading
+  extendCampaignStatus: number = 0;
+  extendCampaignMessage: string = '';
+  extendCampaignShowToast: boolean = false;
 
   constructor(
     private campaignService: CampaignService,
@@ -63,35 +69,43 @@ export class ExtendCampaignComponent implements OnInit, OnChanges {
     });
   }
 
+  handleShowToast(status: number, message: string) {
+    this.extendCampaignShowToast = true;
+    this.extendCampaignStatus = status;
+    this.extendCampaignMessage = message;
+    setTimeout(() => {
+      this.extendCampaignShowToast = false;
+    }, 3000);
+  }
+
   onSubmit(form: NgForm) {
-    if (!this.campaign) {
-      console.error('Campaign is not defined');
-      return;
+    if (form.valid) {
+      if (!this.campaign) {
+        console.error('Campaign is not defined');
+        return;
+      }
+
+      const selectedOrganizationIds = this.selectedOrganizations.map(
+        (org) => org.id
+      );
+
+      const updateRequest: ExtendCampaignRequest = {
+        limitation: form.value.limitation,
+        endDate: form.value.endDate,
+        organizationIds: selectedOrganizationIds,
+      };
+
+      this.campaignService
+        .extendCampaign(this.campaign.id, updateRequest)
+        .subscribe({
+          next: (response) => {
+            this.handleShowToast(1, 'Chiến dịch được cập nhật thành công!');
+            this.onCampaignUpdated.emit();
+          },
+          error: (error) => {            
+            this.handleShowToast(2, error.error.error);
+          },
+        });
     }
-
-    const selectedOrganizationIds = this.selectedOrganizations.map(
-      (org) => org.id
-    );
-
-    const updateRequest: ExtendCampaignRequest = {
-      limitation: form.value.limitation,
-      endDate: form.value.endDate,
-      organizationIds: selectedOrganizationIds,
-    };
-
-    this.campaignService
-      .extendCampaign(this.campaign.id, updateRequest)
-      .subscribe({
-        next: (response) => {
-          console.log('Chiến dịch được cập nhật thành công:', response);
-          this.onCampaignUpdated.emit();
-        },
-        error: (error) => {
-          console.error('Chiến dịch cập nhật thất bại:', error);
-          if (error.status === 401) {
-            console.error('Vui lòng đăng nhập lại.');
-          }
-        },
-      });
   }
 }
