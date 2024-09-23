@@ -1,4 +1,4 @@
-<div id="campaign-detail-wrapper" class="container">
+<div id="campaign-detail-wrapper" class="container" *ngIf="campaign">
   <div class="mb-3">
     <h1 class="pt-3 mb-3">{{campaign.title}}</h1>
     <p class="m-0 text-secondary">
@@ -48,7 +48,7 @@
         <div class="mb-4">
           <div class="mb-2">
             <span class="fs-5 m-0 fw-bold">{{ calculateTotalAmount(campaign) | number }}đ</span>
-            <span class="text-secondary">/ {{campaign.limitation}}đ</span>
+            <span class="text-secondary">/ {{campaign.limitation| number}}đ </span>
           </div>
           <div class="progress mb-3">
             <div
@@ -84,8 +84,8 @@
     </p>
   </div>
   <div class="mb-3">
-    <p class="fs-5 fw-bold">Các nhà hảo tâm</p>
-    <div class="table-responsive">
+    <p class="fs-5 fw-bold">Các nhà hảo tâm hàng đấu</p>
+    <div class="table-responsive  border rounded">
       <table class="table">
         <thead>
           <tr>
@@ -94,14 +94,13 @@
           </tr>
         </thead>
         <tbody>
-          @for (donate of campaign.donations; track $index) {
-            <tr>
-              <td scope="row">{{donate.user.name}}</td>
-              <td class="text-end">{{donate.amount}}đ</td>
-            </tr>
-          }
+          <tr *ngFor="let donor of topDonors">
+            <td>{{ donor.name }}</td>
+            <td class="text-end">{{ donor.totalAmount }}đ</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <app-campaign-chart [donations]="campaign.donations"></app-campaign-chart>
 </div>
