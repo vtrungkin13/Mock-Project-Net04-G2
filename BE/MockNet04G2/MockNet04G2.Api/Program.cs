@@ -141,6 +141,8 @@ builder.Services.AddScoped<UpdateCampaignService>();
 builder.Services.AddScoped<GetHomePageCampaignService>();
 builder.Services.AddScoped<GetHomePageCampaignCountService>();
 builder.Services.AddScoped<EndDateService>();   
+builder.Services.AddScoped<CheckLimitationService>();
+builder.Services.AddScoped<ChangeStatusService>();
 
 builder.Services.AddScoped<OrganizationService>();
 

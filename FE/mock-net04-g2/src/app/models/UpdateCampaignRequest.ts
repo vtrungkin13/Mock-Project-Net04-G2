@@ -8,6 +8,6 @@ export interface UpdateCampaignRequest {
   startDate: Date;
   endDate: Date;
   limitation: number;
-  status: CampaignStatusEnum; //
+  status: CampaignStatusEnum;
   organizationIds: number[];
 }

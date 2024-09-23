@@ -154,4 +154,19 @@ export class CampaignService {
       params,
     });
   }
+
+  changeStatusCampaign(
+    id: number,
+    status: number
+  ): Observable<CampaignDetailResponse> {
+    const token = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    return this.http.put<CampaignDetailResponse>(
+      `${this.campaignApiUrl}/Change-Status-Campaign/${id}`,
+      { status },
+      { headers }
+    );
+  }
 }

@@ -17,7 +17,9 @@ namespace MockNet04G2.Business.Services.Campagin
     {
         private readonly ICampaignRepository _campaignRepository;
         private readonly IMapper _mapper;
-        public GetCampaignByIdService(ICampaignRepository campaignRepository)
+        private readonly EndDateService _endDateService;
+        private readonly CheckLimitationService _checkLimitationService;
+        public GetCampaignByIdService(ICampaignRepository campaignRepository, EndDateService endDateService, CheckLimitationService checkLimitationService)
         {
             _campaignRepository = campaignRepository;
 
@@ -26,6 +28,8 @@ namespace MockNet04G2.Business.Services.Campagin
                 cfg.AddProfile<CampaignDtoMappingProfile>();
             });
             _mapper = config.CreateMapper();
+            _endDateService = endDateService;
+            _checkLimitationService = checkLimitationService;
         }
 
         public async Task<ApiResponse<CampaignResponseDto, string>> ExecuteAsync(int id)
@@ -45,6 +49,9 @@ namespace MockNet04G2.Business.Services.Campagin
 
             response.Body = campaignDtos;
             response.Status = Core.Common.Enums.StatusResponseEnum.Success;
+
+            await _endDateService.ExecuteAsync(campaign);
+            await _checkLimitationService.ExecuteAsync(id);
 
             return response;
         }

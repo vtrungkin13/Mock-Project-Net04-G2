@@ -101,9 +101,6 @@ export class UsersListComponent {
   }
 
   onChangeRole(user: User, newRole: RoleEnum): void {
-    console.log('Current role:', user.role);
-    console.log('New role:', newRole);
-
     if (
       !confirm(`Bạn có chắc chắn muốn thay đổi vai trò của ${user.name} không?`)
     ) {
@@ -122,7 +119,6 @@ export class UsersListComponent {
           user.role = newRole;
         } else {
           console.error('Lỗi:', response.error || 'Thay đổi vai trò thất bại.');
-          console.log(123);
         }
       },
       error: (error: any) => {

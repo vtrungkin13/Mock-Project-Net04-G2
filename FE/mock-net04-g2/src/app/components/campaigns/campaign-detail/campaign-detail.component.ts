@@ -21,6 +21,10 @@ import { Organization } from '../../../models/Organization';
 import { Cooperate } from '../../../models/Cooperate';
 import { OrganizationService } from '../../../services/organization-service/organization.service';
 import { Router } from '@angular/router';
+import { CampaignStatusEnum } from '../../../models/enum/CampaignStatusEnum';
+import { ApiResponse } from '../../../models/ApiResponse';
+import { UpdateCampaignRequest } from '../../../models/UpdateCampaignRequest';
+import { CampaignDetailResponse } from '../../../models/CampaignDetailResponse ';
 
 @Component({
   selector: 'app-campaign-detail',
@@ -168,6 +172,29 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
       },
       error: (error) => {
         console.log(error.message);
+      },
+    });
+  }
+
+  onChangeStatusCampaign(id: number) {
+    const newStatus: CampaignStatusEnum = CampaignStatusEnum.CLOSED;
+
+    this.campaignService.changeStatusCampaign(id, newStatus).subscribe({
+      next: (response: CampaignDetailResponse) => {
+        console.log('Thành công:', response);
+        this.campaign.status = newStatus;
+        this.onCampaignUpdated.emit();
+      },
+      error: (error: any) => {
+        console.error(
+          'Đã xảy ra lỗi khi thay đổi trạng thái chiến dịch:',
+          error
+        );
+        if (error.error && error.error.errors) {
+          console.error('Chi tiết lỗi:', error.error.errors);
+        } else {
+          console.error('Chi tiết lỗi:', error.error);
+        }
       },
     });
   }

@@ -28,6 +28,7 @@ namespace MockNet04G2.Api.Controllers
         private readonly UpdateCampaignService _updateCampaignService;
         private readonly GetHomePageCampaignService _getHomePageCampaignService;
         private readonly GetHomePageCampaignCountService _getHomePageCampaignCountService;
+        private readonly ChangeStatusService _changeStatusService;
         public CampaignsController(GetAllCampaignsService getAllCampaignsService,
             GetCampaignByIdService getCampaignByIdService,
             FilterCampaignsByStatusService filterCampaignsByStatusService,
@@ -39,7 +40,8 @@ namespace MockNet04G2.Api.Controllers
             GetCampaignsCountAfterFilterService getCampaignsCountAfterFilterService,
              UpdateCampaignService updateCampaignService,
              GetHomePageCampaignService getHomePageCampaignService,
-             GetHomePageCampaignCountService getHomePageCampaignCountService)
+             GetHomePageCampaignCountService getHomePageCampaignCountService,
+             ChangeStatusService changeStatusService)
         {
             _getAllCampaignsService = getAllCampaignsService;
             _getCampaignByIdService = getCampaignByIdService;
@@ -53,6 +55,7 @@ namespace MockNet04G2.Api.Controllers
             _updateCampaignService = updateCampaignService;
             _getHomePageCampaignService = getHomePageCampaignService;
             _getHomePageCampaignCountService = getHomePageCampaignCountService;
+            _changeStatusService = changeStatusService;
         }
 
         [HttpGet]
@@ -135,6 +138,14 @@ namespace MockNet04G2.Api.Controllers
         public async Task<IActionResult> UpdateCampaignAsync(int id, CampaignDetailRequest request)
         {
             var result = await _updateCampaignService.ExecuteAsync(id, request);
+            return HandleApiResponse(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("Change-Status-Campaign/{id}")]
+        public async Task<IActionResult> ChangeStatusCampaignAsync(int id, ChangeCampaignStatusRequest request)
+        {
+            var result = await _changeStatusService.ExecuteAsync(id, request);
             return HandleApiResponse(result);
         }
 
