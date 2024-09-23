@@ -37,7 +37,7 @@ namespace MockNet04G2.Core.Repositories
 
         public async Task<List<User>> GetAllUserAsync()
         {
-            var users = await _entities.ToListAsync();
+            var users = await _entities.Where(x => x.Id != 1).ToListAsync();
             return users;
         }
 
@@ -86,7 +86,7 @@ namespace MockNet04G2.Core.Repositories
             if (page < 1) page = 1;
             if(pageSize < 1) pageSize = 9;
 
-            var query = _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower())).AsQueryable();
+            var query = _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower()) && x.Id != 1).AsQueryable();
 
             var users = await query.ToListAsync();
 
@@ -106,7 +106,7 @@ namespace MockNet04G2.Core.Repositories
                 name = HttpUtility.UrlDecode(name).Replace(" ", "").ToLower();
             }
 
-            var users = await _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower())).ToListAsync();
+            var users = await _entities.Where(x => x.Name.Trim().ToLower().Contains(name.Trim().ToLower()) && x.Id != 1).ToListAsync();
             return users.Count;
         }
     }
