@@ -6,7 +6,7 @@
       <a class="navbar-brand text-primary" routerLink="/">Ví nhân ái</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
-          @if (user?.role) {
+          @if (user?.role === 1) {
           <li class="nav-item">
             <a class="nav-link" routerLink="/users-list">Quản lý người dùng</a>
           </li>

@@ -25,6 +25,7 @@ import { CampaignStatusEnum } from '../../../models/enum/CampaignStatusEnum';
 import { ApiResponse } from '../../../models/ApiResponse';
 import { UpdateCampaignRequest } from '../../../models/UpdateCampaignRequest';
 import { CampaignDetailResponse } from '../../../models/CampaignDetailResponse ';
+import { ToastComponent } from '../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-campaign-detail',
@@ -36,6 +37,7 @@ import { CampaignDetailResponse } from '../../../models/CampaignDetailResponse '
     DonateFormComponent,
     UpdateCampaignComponent,
     RouterLink,
+    ToastComponent,
   ],
   templateUrl: './campaign-detail.component.html',
   styleUrls: ['./campaign-detail.component.scss'], // Updated key
@@ -45,6 +47,10 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
   campaign!: Campaign;
   user?: User;
   @Output() onCampaignUpdated = new EventEmitter<void>();
+
+  campaignDetailStatus: number = 0;
+  campaignDetailMessage: string = '';
+  campaignDetailShowToast: boolean = false;
 
   selectedOrganizations: number[] = [];
   organizations: Organization[] = [];
@@ -137,27 +143,16 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
       return;
     }
 
-    console.log('Deleting campaign with ID:', this.campaign.id);
-    console.log('Campaign status:', this.campaign.status);
-
     // Hiển thị xác nhận trước khi xoá
     if (confirm('Bạn có chắc chắn muốn xoá chiến dịch này?')) {
       this.campaignService.deleteCampaign(this.campaign.id).subscribe({
         next: (response) => {
-          console.log('Chiến dịch được xoá thành công:', response);
-          alert('Chiến dịch đã được xoá thành công.');
+          this.handleShowToast(1, 'Chiến dịch đã được xoá thành công!');
           this.onCampaignUpdated.emit();
           this.router.navigateByUrl('/');
         },
         error: (error) => {
-          console.error('Chiến dịch xoá thất bại:', error);
-          if (error.status === 401) {
-            console.error('Vui lòng đăng nhập lại.');
-            // Có thể chuyển hướng người dùng đến trang đăng nhập
-          } else {
-            // Xử lý các lỗi khác
-            alert('Xoá chiến dịch thất bại. Vui lòng thử lại.');
-          }
+          this.handleShowToast(2, error.message); 
         },
       });
     }
@@ -197,5 +192,14 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
         }
       },
     });
+  }
+
+  handleShowToast(status: number, message: string) {
+    this.campaignDetailShowToast = true;
+    this.campaignDetailStatus = status;
+    this.campaignDetailMessage = message;
+    setTimeout(() => {
+      this.campaignDetailShowToast = false;
+    }, 3000);
   }
 }

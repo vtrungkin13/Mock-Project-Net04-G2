@@ -1,76 +1,194 @@
 <div id="modify-campaign-wrapper">
   <!-- Modal trigger button -->
   @if (!campaign) {
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCampaignModal">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#newCampaignModal"
+  >
     Thêm chiến dịch
   </button>
 
   } @else {
-  <button class="btn btn-primary w-100 fw-bold fs-5" data-bs-toggle="modal"
-    [attr.data-bs-target]="'#updateCampaignModal' + campaign.id">
+  <button
+    class="btn btn-primary w-100 fw-bold fs-5"
+    data-bs-toggle="modal"
+    [attr.data-bs-target]="'#updateCampaignModal' + campaign.id"
+  >
     Chỉnh sửa chiến dịch
   </button>
   }
 
   <!-- Modal Body -->
   <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div class="modal fade" [attr.id]="
+  <div
+    class="modal fade"
+    [attr.id]="
       campaign ? 'updateCampaignModal' + campaign.id : 'newCampaignModal'
-    " tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    "
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+      role="document"
+    >
       <div class="modal-content">
-        <form (ngSubmit)="onSubmit(modifyCampaignForm)" #modifyCampaignForm="ngForm">
+        <form
+          (ngSubmit)="onSubmit(modifyCampaignForm)"
+          #modifyCampaignForm="ngForm"
+        >
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitleId">
               @if (!campaign) { Thêm chiến dịch mới } @else { Chỉnh sửa thông
               tin chiến dịch }
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <input type="text" name="title" id="title" class="form-control" placeholder="Tên chiến dịch" ngModel />
+              <input
+                type="text"
+                name="title"
+                id="title"
+                class="form-control"
+                placeholder="Tên chiến dịch"
+                required
+                ngModel
+                #name="ngModel"
+              />
+              @if (name.invalid && modifyCampaignForm.submitted) {
+              <span class="text-danger">Bạn chưa nhập tên!</span>
+              }
             </div>
             <div class="mb-3">
-              <input type="text" name="description" id="description" class="form-control" placeholder="Mô tả chung"
-                ngModel />
+              <input
+                type="text"
+                name="description"
+                id="description"
+                class="form-control"
+                placeholder="Mô tả chung"
+                required
+                ngModel
+                #description="ngModel"
+              />
+              @if (description.invalid && modifyCampaignForm.submitted) {
+              <span class="text-danger">Bạn chưa nhập mô tả!</span>
+              }
             </div>
             <div class="mb-3">
-              <textarea name="content" id="content" class="form-control" placeholder="Nội dung chiến dịch" rows="4"
-                ngModel></textarea>
+              <textarea
+                name="content"
+                id="content"
+                class="form-control"
+                placeholder="Nội dung chiến dịch"
+                rows="4"
+                required
+                ngModel
+                #content="ngModel"
+              ></textarea>
+              @if (content.invalid && modifyCampaignForm.submitted) {
+              <span class="text-danger">Bạn chưa nhập nội dung!</span>
+              }
             </div>
             <div class="mb-3">
-              <input type="url" name="image" id="image" class="form-control" placeholder="Nhập đường dẫn ảnh" ngModel />
+              <input
+                type="url"
+                name="image"
+                id="image"
+                class="form-control"
+                placeholder="Nhập đường dẫn ảnh"
+                required
+                ngModel
+                #image="ngModel"
+              />
+              @if (image.invalid && modifyCampaignForm.submitted) {
+              <span class="text-danger">Bạn chưa nhập đường dẫn ảnh!</span>
+              }
             </div>
             <div class="mb-3">
-              <input type="number" name="limitation" id="limitation" class="form-control"
-                placeholder="Giới hạn quyên góp" ngModel />
+              <input
+                type="number"
+                name="limitation"
+                id="limitation"
+                class="form-control"
+                placeholder="Giới hạn quyên góp"
+                required
+                ngModel
+                #limitation="ngModel"
+              />
+              @if (limitation.invalid && modifyCampaignForm.submitted) {
+              <span class="text-danger">Bạn chưa nhập giới hạn quyên góp!</span>
+              }
             </div>
             <div class="mb-3 d-flex justify-content-between">
               <div class="w-50 me-2">
                 <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Ngày bắt đầu"
-                  ngModel />
+                <input
+                  type="date"
+                  name="startDate"
+                  id="startDate"
+                  class="form-control"
+                  placeholder="Ngày bắt đầu"
+                  required
+                  ngModel
+                  #startDate="ngModel"
+                />
+                @if (startDate.invalid && modifyCampaignForm.submitted) {
+                <span class="text-danger">Bạn chưa chọn ngày bắt đầu!</span>
+                }
               </div>
               <div class="w-50 ms-2">
                 <label for="endDate" class="form-label">Ngày kết thúc</label>
-                <input type="date" name="endDate" id="endDate" class="form-control" placeholder="Ngày kết thúc"
-                  ngModel />
+                <input
+                  type="date"
+                  name="endDate"
+                  id="endDate"
+                  class="form-control"
+                  placeholder="Ngày kết thúc"
+                  required
+                  ngModel
+                  #endDate="ngModel"
+                />
+                @if (endDate.invalid && modifyCampaignForm.submitted) {
+                <span class="text-danger">Bạn chưa chọn ngày kết thúc!</span>
+                }
               </div>
             </div>
             <div>
-              <app-multiple-select [label]="'Chọn tổ chức đồng hành'" [options]="organizations" [selectedItems]="[]"
-                (selectedItemsChange)="getOrganizationIds($event)"></app-multiple-select>
+              <app-multiple-select
+                [label]="'Chọn tổ chức đồng hành'"
+                [options]="organizations"
+                [selectedItems]="[]"
+                (selectedItemsChange)="getOrganizationIds($event)"
+              ></app-multiple-select>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-              Close
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
             </button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+  <app-toast
+    [toastStatus]="modifyCampaignStatus"
+    [message]="modifyCampaignMessage"
+    [showToast]="modifyCampaignShowToast"
+  ></app-toast>
 </div>
