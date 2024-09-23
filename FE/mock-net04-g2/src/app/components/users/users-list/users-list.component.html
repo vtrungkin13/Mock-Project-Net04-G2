@@ -36,12 +36,14 @@
             <td>{{ user.dob | date: 'dd/MM/yyyy' }}</td>
             <td>
               <span class="user-role">{{ user.role === 1 ? 'Quản trị viên' : 'Người dùng' }}</span>
+              @if (thisUser.id !== user.id) {
               <i type="button" class="fa-solid fa-pen" id="changeRoleDropdown" data-bs-toggle="dropdown"
                 aria-expanded="false" data-bs-auto-close="outside"></i>
               <ul class="dropdown-menu" aria-labelledby="changeRoleDropdown">
                 <li type="button" class="dropdown-item" (click)="onChangeRole(user, RoleEnum.USER)">Người dùng</li>
                 <li type="button" class="dropdown-item" (click)="onChangeRole(user, RoleEnum.ADMIN)">Quản trị viên</li>
               </ul>
+              }
             </td>
           </tr>
           }

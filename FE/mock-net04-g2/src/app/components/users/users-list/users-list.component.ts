@@ -6,6 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiResponse } from '../../../models/ApiResponse';
 import { RoleEnum } from '../../../models/enum/RoleEnum';
+import { AuthService } from '../../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-users-list',
@@ -22,11 +23,13 @@ export class UsersListComponent {
   totalPage: number = 0;
   totalCount: number = 0;
   loading: boolean = false; // To track the loading state
+  thisUser!: User;
 
   RoleEnum = RoleEnum;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private authService: AuthService) {
     this.getAllUsers();
+    this.thisUser = this.authService.getUser();
   }
 
   // Handle form submission
