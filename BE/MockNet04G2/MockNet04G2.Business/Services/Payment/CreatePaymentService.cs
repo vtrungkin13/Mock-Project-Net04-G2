@@ -142,7 +142,7 @@ namespace MockNet04G2.Business.Services.Payment
                                 string message = messageElement.GetString();
                                 if (message == "Thành công.")
                                 {
-                                    var donate = new Donate()
+                                    var donate = new Core.Models.Donate()
                                     {
                                         UserId = userId,
                                         CampaignId = campaignId,

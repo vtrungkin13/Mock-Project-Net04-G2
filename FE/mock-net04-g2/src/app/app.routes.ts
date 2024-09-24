@@ -50,4 +50,18 @@ export const routes: Routes = [
         (module) => module.UsersListComponent
       ),
   },
+  {
+    path: 'campaign-chart/:campaignId',
+    loadComponent: () =>
+      import('./components/campaigns/campaign-chart/campaign-chart.component').then(
+        (module) => module.CampaignChartComponent
+      ),
+  },
+  {
+    path: 'donation-history',
+    loadComponent: () =>
+      import('./components/donate-list/donate-list.component').then(
+        (module) => module.DonateListComponent
+      ),
+  }
 ];

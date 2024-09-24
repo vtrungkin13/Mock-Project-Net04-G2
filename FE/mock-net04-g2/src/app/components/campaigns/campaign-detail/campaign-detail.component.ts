@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CampaignService } from '../../../services/campaign-service/campaign.service';
 import { Campaign } from '../../../models/Campaign';
+import { CampaignChartComponent } from "../campaign-chart/campaign-chart.component";
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { User } from '../../../models/User';
 import { ModifyCampaignComponent } from '../modify-campaign/modify-campaign.component';
@@ -36,7 +37,7 @@ import { ToastComponent } from '../../shared/toast/toast.component';
     ExtendCampaignComponent,
     DonateFormComponent,
     UpdateCampaignComponent,
-    RouterLink,
+    RouterLink,CampaignChartComponent,
     ToastComponent,
   ],
   templateUrl: './campaign-detail.component.html',
@@ -45,7 +46,9 @@ import { ToastComponent } from '../../shared/toast/toast.component';
 export class CampaignDetailComponent implements OnInit, OnChanges {
   campaignId!: number;
   campaign!: Campaign;
+  topDonors: any[] = []; // To store the top donors
   user?: User;
+  
   @Output() onCampaignUpdated = new EventEmitter<void>();
 
   campaignDetailStatus: number = 0;
@@ -67,10 +70,13 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
     this.campaignId = Number.parseInt(
       this.route.snapshot.paramMap.get('campaignId') as string
     );
+
+    
     if (this.campaignId && this.campaignId >= 0) {
       this.campaignService.getCampaignDetail(this.campaignId).subscribe({
         next: (response) => {
           this.campaign = response.body;
+          this.calculateTopDonors(); 
           this.extractSelectedOrganizations(this.campaign.cooperations);
         },
         error: (error) => {
@@ -120,7 +126,28 @@ export class CampaignDetailComponent implements OnInit, OnChanges {
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return daysDiff >= 0 ? daysDiff : 0;
   }
+  // Method to calculate total donations per user and get top 10 donors
+  calculateTopDonors() {
+    const donorMap: { [key: string]: number } = {};
 
+    // Group donations by user and sum the amounts
+    (this.campaign?.donations || []).forEach(donation => {
+      const userName = donation.user.name;
+      const amount = donation.amount;
+
+      if (!donorMap[userName]) {
+        donorMap[userName] = 0;
+      }
+      donorMap[userName] += amount;
+    });
+
+    // Convert the map to an array and sort it by total donation amount
+    this.topDonors = Object.entries(donorMap)
+      .map(([name, totalAmount]) => ({ name, totalAmount }))
+      .sort((a, b) => b.totalAmount - a.totalAmount)
+      .slice(0, 10); // Get top 10 donors
+  }
+  
   getOrganizations() {
     this.organizationService.getOrganizations().subscribe({
       next: (response) => {

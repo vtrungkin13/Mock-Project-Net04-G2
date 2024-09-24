@@ -1,0 +1,55 @@
+<div id="donations-history-wrapper">
+    <div class="container">
+      <h1 class="py-3 text-primary">Lịch sử quyên góp</h1>
+
+      <!-- Display Loading while waiting for data -->
+      <div *ngIf="loading" class="text-center">
+        <p>Đang tải thông tin</p>
+      </div>
+  
+      <!-- Display No record message when there are no campaigns -->
+      <div *ngIf="!loading && donations.length === 0" class="text-center">
+        <p>Không có thông tin khớp với yêu cầu!</p>
+      </div>
+      <div class="table-responsive" *ngIf="!loading && donations.length > 0">
+  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Tên chiến dịch</th>
+              <th scope="col">Số tiền quyên góp</th>
+              <th scope="col">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (donate of donations; track $index) {
+            <tr>
+              <td>{{ donate.campaign.title }}</td>
+              <td>{{ donate.amount | number}} VND</td>
+              <td>{{ donate.date | date: "dd/MM/yyyy"}}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        <!-- Pagination controls
+        <div class="d-flex justify-content-center mt-3">
+          <nav aria-label="...">
+            <ul class="pagination">
+              <li class="page-item">
+                <div class="page-link" [ngClass]="{'disabled': page === 1}" (click)="previousPage()">Previous</div>
+              </li>
+              <li *ngFor="let pageNum of [].constructor(totalPage); let i = index" class="page-item"
+                [class.active]="i + 1 === page" (click)="changePage(i + 1)">
+                <div class="page-link">{{i + 1}}</div>
+              </li>
+              <li class="page-item">
+                <div class="page-link" [ngClass]="{'disabled': page === totalPage}" (click)="nextPage()">Next</div>
+              </li>
+            </ul>
+          </nav>
+        </div> -->
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
