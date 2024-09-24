@@ -37,7 +37,7 @@ import { ToastComponent } from '../../shared/toast/toast.component';
     ExtendCampaignComponent,
     DonateFormComponent,
     UpdateCampaignComponent,
-    RouterLink,CampaignChartComponent
+    RouterLink,CampaignChartComponent,
     ToastComponent,
   ],
   templateUrl: './campaign-detail.component.html',

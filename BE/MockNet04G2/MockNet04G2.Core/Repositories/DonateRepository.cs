@@ -29,7 +29,8 @@ namespace MockNet04G2.Core.Repositories
         public async Task<List<Donate>> GetDonationHistory(int uid)
         {
             var list = await _context.Donates.Where(d => d.UserId == uid)
-                .Include(c => c.Campaign).ToListAsync();
+                .Include(c => c.Campaign)
+                .OrderByDescending(c=>c.Date).ToListAsync();
             return list;
         }
     }
