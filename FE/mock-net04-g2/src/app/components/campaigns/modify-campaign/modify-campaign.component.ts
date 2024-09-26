@@ -44,6 +44,7 @@ export class ModifyCampaignComponent implements OnInit {
       this.campaignService.addCampaign(modifyCampaignData).subscribe({
         next: (response) => {
           this.handleShowToast(1, 'Tạo chiến dịch thành công!');
+          form.resetForm();
           this.onCampaignAdded.emit();
         },
         error: (error) => {

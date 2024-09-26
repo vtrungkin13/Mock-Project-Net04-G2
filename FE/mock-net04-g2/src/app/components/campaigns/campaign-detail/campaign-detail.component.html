@@ -8,7 +8,11 @@
   </div>
   <div class="row mb-3">
     <div class="col-8">
-      <img class="img-fluid" [src]="campaign.image" alt="ảnh minh họa chiến dịch" />
+      <img
+        class="img-fluid"
+        [src]="campaign.image"
+        alt="ảnh minh họa chiến dịch"
+      />
     </div>
     <div class="col-4">
       <div class="px-3">
@@ -24,19 +28,26 @@
               <p class="m-0 small">{{ cooperate.organization.name }}</p>
               <span class="text-secondary small">{{
                 cooperate.organization.phone
-                }}</span>
+              }}</span>
             </div>
           </div>
           }
         </div>
         <div class="mb-4">
           <div class="mb-2">
-            <span class="fs-5 m-0 fw-bold">{{ calculateTotalAmount(campaign) | number }}đ</span>
-            <span class="text-secondary">/ {{campaign.limitation| number}}đ </span>
+            <span class="fs-5 m-0 fw-bold"
+              >{{ calculateTotalAmount(campaign) | number }}đ</span
+            >
+            <span class="text-secondary"
+              >/ {{ campaign.limitation | number }}đ
+            </span>
           </div>
           <div class="progress mb-3">
-            <div class="progress-bar bg-primary" role="progressbar"
-              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"></div>
+            <div
+              class="progress-bar bg-primary"
+              role="progressbar"
+              [ngStyle]="{ width: calculatePercentage(campaign) + '%' }"
+            ></div>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div>
@@ -56,23 +67,36 @@
           </div>
         </div>
         @if (user?.role === 1) { @if(campaign.status == 1){
-        <button class="btn btn-danger w-100 fw-bold fs-5 mb-2" (click)="onDeleteCampaign()">
+        <button
+          class="btn btn-danger w-100 fw-bold fs-5 mb-2"
+          (click)="onDeleteCampaign()"
+        >
           Xoá chiến dịch
         </button>
-        <app-update-campaign [campaign]="campaign"
-          (onCampaignUpdated)="onCampaignUpdatedHandler()"></app-update-campaign>
+        <app-update-campaign
+          [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"
+        ></app-update-campaign>
         }@else if(campaign.status == 3) {
-        <app-extend-campaign [campaign]="campaign"
-          (onCampaignUpdated)="onCampaignUpdatedHandler()"></app-extend-campaign>
-        <button class="btn btn-primary w-100 fw-bold fs-5 mt-2" (click)="onChangeStatusCampaign(campaignId)">
+        <app-extend-campaign
+          [campaign]="campaign"
+          (onCampaignUpdated)="onCampaignUpdatedHandler()"
+        ></app-extend-campaign>
+        <button
+          class="btn btn-primary w-100 fw-bold fs-5 mt-2"
+          (click)="onChangeStatusCampaign(campaignId)"
+        >
           Kết thúc chiến dịch
         </button>
         }@else if(campaign.status == 4){
         <p class="fw-bold text-primary fs-5">Chiến dịch đã kết thúc!</p>
-        } } @else { @if (campaign.status < 3) { <app-donate-form [campaign]="campaign"></app-donate-form>
-          } @else {
-          <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
-          } }
+        } } @else { @if (campaign.status == 2) {
+        <app-donate-form [campaign]="campaign"></app-donate-form>
+        } @else if (campaign.status > 2){
+        <p class="fw-bold text-primary fs-5">Chiến dịch đã hoàn thành!</p>
+        } @else if (campaign.status == 1){
+        <p class="fw-bold text-primary fs-5">Chiến chưa bắt đầu!</p>
+        } }
       </div>
     </div>
   </div>
@@ -84,7 +108,7 @@
   </div>
   <div class="mb-3">
     <p class="fs-5 fw-bold">Các nhà hảo tâm hàng đầu</p>
-    <div class="table-responsive  border rounded">
+    <div class="table-responsive border rounded">
       <table class="table">
         <thead>
           <tr>
@@ -96,18 +120,19 @@
           @for (donor of topDonors; track $index) {
           <tr>
             <td scope="row">
-              {{
-              donor.name === "NonUser"
-              ? "Người dùng ẩn danh"
-              : donor.name
-              }}
+              {{ donor.name === "NonUser" ? "Người dùng ẩn danh" : donor.name }}
             </td>
-            <td class="text-end">{{ donor.totalAmount }}đ</td>
-          </tr>}
+            <td class="text-end">{{ donor.totalAmount | number }}đ</td>
+          </tr>
+          }
         </tbody>
       </table>
     </div>
   </div>
- <app-campaign-chart [donations]="campaign.donations"></app-campaign-chart>
-  <app-toast [toastStatus]="campaignDetailStatus" [message]="campaignDetailMessage" [showToast]="campaignDetailShowToast"></app-toast>
+  <app-campaign-chart [donations]="campaign.donations"></app-campaign-chart>
+  <app-toast
+    [toastStatus]="campaignDetailStatus"
+    [message]="campaignDetailMessage"
+    [showToast]="campaignDetailShowToast"
+  ></app-toast>
 </div>
