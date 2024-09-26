@@ -28,13 +28,13 @@ namespace MockNet04G2.Business.Services.Campagin
                 var currentDate = DateTime.Now.Date;
                 var isUpdated = false;
 
-                if (campaign.StartDate.Date < currentDate && campaign.Status == StatusEnum.JustCreated)
+                if (campaign.StartDate.Date <= currentDate && campaign.Status == StatusEnum.JustCreated)
                 {
                     campaign.Status = StatusEnum.InProgress;
                     isUpdated = true;
                 }
 
-                if (campaign.EndDate.Date <= currentDate && campaign.Status != StatusEnum.InProgress)
+                if (campaign.EndDate.Date <= currentDate && campaign.Status != StatusEnum.Completed)
                 {
                     campaign.Status = StatusEnum.Completed;
                     isUpdated = true;

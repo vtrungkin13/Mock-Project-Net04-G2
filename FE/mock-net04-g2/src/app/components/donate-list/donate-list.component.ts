@@ -23,7 +23,6 @@ export class DonateListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.userId);
     if (this.userId && this.userId >= 1) {
       this.loading = true;
       this.donateService.GetDonationHistory(this.userId).subscribe({

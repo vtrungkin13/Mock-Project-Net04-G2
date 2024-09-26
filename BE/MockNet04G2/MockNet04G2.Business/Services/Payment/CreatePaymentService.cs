@@ -37,7 +37,7 @@ namespace MockNet04G2.Business.Services.Payment
                 var url = "https://test-payment.momo.vn/v2/gateway/api/create";
                 var orderId = Guid.NewGuid().ToString();
                 var requestId = Guid.NewGuid().ToString();
-                var notifyUrl = $"https://311a-42-112-110-134.ngrok-free.app/api/Payment/ReturnPayment" +
+                var notifyUrl = $"https://f0d8-210-245-53-48.ngrok-free.app/api/Payment/ReturnPayment" +
                     $"?orderId={orderId}&requestId={requestId}" +
                     $"&userId={paymentRequest.UserId}" +
                     $"&campaignId={paymentRequest.CampaignId}" +

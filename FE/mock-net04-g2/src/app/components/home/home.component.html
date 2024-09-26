@@ -38,7 +38,7 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Nhập mã chiến dịch (ngày tạo + Id)"
+            placeholder="Nhập mã chiến dịch"
             [(ngModel)]="codeSearch"
             (input)="onSearchChange()"
           />
@@ -133,8 +133,7 @@
     <!-- Display No record message when there are no campaigns -->
     <div *ngIf="!loading && campaigns.length === 0" class="text-center">
       <p>
-        Không có chiến dịch nào khớp với yêu cầu (hoặc không có gì trong
-        database)!
+        Không có chiến dịch nào khớp với yêu cầu!
       </p>
     </div>
 
@@ -147,9 +146,9 @@
           (click)="redirectToCampaignDeital(campaign.id)"
         >
           <img class="campaign-img" [src]="campaign.image" />
-          <p class="fs-5 fw-bold p-3 m-0">
+          <div class="campaign-title fs-5 fw-bold px-3 my-3">
             {{ campaign.title }}
-          </p>
+          </div>
           <div class="d-flex justify-content-between px-3 mb-3">
             <div>
               <p class="m-0 small text-secondary">
